@@ -162,9 +162,10 @@
             padding: 4px 10px; 
             border: 1px solid #5d4037; 
             margin-bottom: 15px; 
-            background: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.75);
             color: #3e2723;
             font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.25);
         }
 
         /* 일기 본문 */
@@ -272,17 +273,17 @@
         <div class="filter-box">
             <form action="/history" method="get" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                 <select name="emotion">
-                    <option value="All">All Emotions</option>
-                    <option value="Happiness" {% if current_emotion == 'Happiness' %}selected{% endif %}>Happiness</option>
-                    <option value="Sadness" {% if current_emotion == 'Sadness' %}selected{% endif %}>Sadness</option>
-                    <option value="Anger" {% if current_emotion == 'Anger' %}selected{% endif %}>Anger</option>
-                    <option value="Fear" {% if current_emotion == 'Fear' %}selected{% endif %}>Fear</option>
-                    <option value="Disgust" {% if current_emotion == 'Disgust' %}selected{% endif %}>Disgust</option>
-                    <option value="Surprise" {% if current_emotion == 'Surprise' %}selected{% endif %}>Surprise</option>
+                    <option value="All">🎭 All Emotions</option>
+                    <option value="Happiness" {% if current_emotion == 'Happiness' %}selected{% endif %}>😊 Happiness</option>
+                    <option value="Sadness" {% if current_emotion == 'Sadness' %}selected{% endif %}>😢 Sadness</option>
+                    <option value="Anger" {% if current_emotion == 'Anger' %}selected{% endif %}>😠 Anger</option>
+                    <option value="Fear" {% if current_emotion == 'Fear' %}selected{% endif %}>😨 Fear</option>
+                    <option value="Disgust" {% if current_emotion == 'Disgust' %}selected{% endif %}>🤢 Disgust</option>
+                    <option value="Surprise" {% if current_emotion == 'Surprise' %}selected{% endif %}>😲 Surprise</option>
                 </select>
 
                 <select name="person">
-                    <option value="All">All People</option>
+                    <option value="All">👥 All People</option>
                     {% for person_name in all_people %}
                         <option value="{{ person_name }}" {% if current_person == person_name %}selected{% endif %}>
                             {{ person_name }}
@@ -290,33 +291,33 @@
                     {% endfor %}
                 </select>
 
-                <input type="date" name="date" value="{{ current_date }}">
+                <input type="date" name="date" value="{{ current_date }}" aria-label="Choose Date">
 
-                <button type="submit" class="btn-search">Search</button>
-                <a href="/history" style="color: #d4af37; text-decoration: underline; font-family: 'Cinzel', serif;">Reset</a>
+                <button type="submit" class="btn-search">🔍 Search</button>
+                <a href="/history" style="color: #d4af37; text-decoration: underline; font-family: 'Cinzel', serif;">♻️ Reset</a>
             </form>
         </div>
 
         <div class="bookshelf">
-        {% if diaries|length == 0 %}
-            <div class="empty-msg">
-                <p>No records found...</p>
-            </div>
-        {% endif %}
+            {% if diaries|length == 0 %}
+                <div class="empty-msg">
+                    <p>📭 No records found...</p>
+                </div>
+            {% endif %}
 
-        {% for diary in diaries %}
+            {% for diary in diaries %}
         <a class="diary-link" href="{{ url_for('view_diary', entry_index=diary.entry_index) }}">
-            <div class="diary-card" style="border-left-color: {{ diary.color }};">
-                <div class="date">{{ diary.date }}</div>
+            <div class="diary-card" style="border-left-color: {{ diary.color }}; color: {{ diary.text_color }};">
+                <div class="date" style="color: {{ diary.text_color }};">📅 {{ diary.date }}</div>
                 
                 <div class="emotion-badge" style="color: {{ diary.color }}; border-color: {{ diary.color }};">
-                    {{ diary.emotion }}
+                    {{ diary.emotion_icon }} {{ diary.emotion }}
                 </div>
                 
-                <div class="text">{{ diary.text }}</div>
+                <div class="text" style="color: {{ diary.text_color }}; text-shadow: 0 2px 6px rgba(0,0,0,0.35);">{{ diary.text }}</div>
                 
                 {% if diary.people %}
-                <div class="people-tags">
+                <div class="people-tags" style="color: {{ diary.text_color }};">
                     👥 With: 
                     {% for p in diary.people %}
                         <span style="color: {{ p.color }}; margin-right: 5px;">{{ p.name }}</span>

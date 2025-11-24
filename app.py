@@ -35,21 +35,33 @@ def format_english_date(date_str):
     except ValueError:
         return date_str 
 
-def invert_hex_color(hex_color):
+def get_contrast_text(hex_color):
     if not hex_color:
-        return '#000000'
+        return '#111111', False
     value = hex_color.lstrip('#')
     if len(value) != 6:
-        return '#000000'
+        return '#111111', False
     try:
         r = int(value[0:2], 16)
         g = int(value[2:4], 16)
         b = int(value[4:6], 16)
     except ValueError:
-        return '#000000'
-    return '#{:02X}{:02X}{:02X}'.format(255 - r, 255 - g, 255 - b)
+        return '#111111', False
+    luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+    is_dark_bg = luminance < 0.45
+    text_color = '#FFFFFF' if is_dark_bg else '#111111'
+    return text_color, is_dark_bg
 
-# --- [Helper] 특정 사용자의 등장인물만 모으기 ---
+# --- [Helper] 감정 이모지 매핑 ---
+EMOTION_EMOJI = {
+    'Happiness': '😊',
+    'Sadness': '😢',
+    'Anger': '😠',
+    'Fear': '😨',
+    'Disgust': '🤢',
+    'Surprise': '😲'
+}
+
 def get_user_people(user_diaries):
     people_set = set()
     for diary in user_diaries:
@@ -213,6 +225,9 @@ def history():
             
         decorated_diary = dict(diary)
         decorated_diary['entry_index'] = original_idx
+        text_color_for_card, _ = get_contrast_text(diary.get('color', '#f5f1e6'))
+        decorated_diary['text_color'] = text_color_for_card
+        decorated_diary['emotion_icon'] = EMOTION_EMOJI.get(diary.get('emotion'), '🎭')
         filtered_diaries.append(decorated_diary)
 
     return render_template('history.html', 
@@ -237,7 +252,7 @@ def view_diary(entry_index):
 
     entry = user_diaries[entry_index]
     base_color = entry.get('color', '#3e2723')
-    text_color = invert_hex_color(base_color)
+    text_color, is_dark_bg = get_contrast_text(base_color)
 
     related_entries = []
     for idx in range(len(user_diaries) - 1, -1, -1):
@@ -255,6 +270,7 @@ def view_diary(entry_index):
     return render_template('viewer.html',
                            entry=entry,
                            text_color=text_color,
+                           is_dark_bg=is_dark_bg,
                            related_entries=related_entries,
                            entry_index=entry_index,
                            user=current_user)
