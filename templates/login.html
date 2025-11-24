@@ -9,21 +9,28 @@
             background-color: #1a120b;
             background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             display: flex; justify-content: center; align-items: center;
-            height: 100vh; margin: 0; color: #e6dec8;
+            min-height: 100vh; margin: 0; color: #e6dec8;
             font-family: 'Cinzel', serif;
+            padding: 40px 20px;
+            box-sizing: border-box;
         }
         .container {
-            display: flex; gap: 50px;
+            display: flex; gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: min(760px, 100%);
         }
         .card {
             background: rgba(62, 39, 35, 0.9);
             padding: 40px;
             border: 2px solid #d4af37;
             border-radius: 10px;
-            width: 300px;
+            width: min(320px, 100%);
             text-align: center;
             box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 25px 35px rgba(0,0,0,0.6); }
         h2 { color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 5px black; }
         input {
             width: 90%; padding: 10px; margin: 10px 0;
@@ -36,6 +43,18 @@
             font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s;
         }
         button:hover { background: #d4af37; color: #1a120b; }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 20px 15px;
+            }
+            .card {
+                width: 100%;
+            }
+            input {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>

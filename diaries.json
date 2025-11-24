@@ -17,5 +17,23 @@
             ]
         }
     ],
-    "Shion": []
+    "Shion": [],
+    "jiseung": [
+        {
+            "date": "November 24, 2025",
+            "text": "I have to spend my christmas alone",
+            "emotion": "Happiness",
+            "color": "#faf096",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f2c391",
+                    "count": 1
+                }
+            ]
+        }
+    ]
 }

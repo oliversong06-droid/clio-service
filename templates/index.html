@@ -6,18 +6,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --book-max-width: 1100px;
+            --book-max-height: 700px;
+        }
+
         /* ================= [디자인] 1. 전체 배경 ================= */
         body { 
             font-family: 'Nanum Pen Script', cursive;
             background-color: #1a120b; /* 진한 고동색 */
             background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            padding: clamp(15px, 4vw, 50px);
+            overflow-x: hidden;
+            overflow-y: auto;
             perspective: 1500px; /* 3D 입체감 */
+            box-sizing: border-box;
         }
 
         /* ================= [추가됨] 사용자 정보 & 로그아웃 패널 ================= */
@@ -33,6 +41,7 @@
             border-radius: 20px;
             border: 1px solid #5d4037;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, bottom 0.3s ease;
         }
         .user-panel span { font-weight: bold; margin-right: 10px; }
         .user-panel a { 
@@ -43,18 +52,47 @@
         }
         .user-panel a:hover { color: #ffeb3b; text-decoration: underline; }
 
+        @media (max-width: 768px) {
+            .user-panel {
+                position: fixed;
+                bottom: 15px;
+                top: auto;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 40px);
+                max-width: 360px;
+                margin: 0;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                gap: 8px;
+            }
+            .user-panel span {
+                margin-right: 0;
+            }
+        }
+
         /* ================= [디자인] 2. 책 애니메이션 틀 ================= */
         .book-wrapper {
             position: relative;
-            width: 480px; /* 닫힌 책 너비 */
-            height: 680px; /* 책 높이 */
-            transition: width 1s ease-in-out, transform 1s ease-in-out; 
+            width: min(75vw, 520px); /* 닫힌 책 너비 */
+            max-width: var(--book-max-width);
+            height: min(calc(100vh - 140px), var(--book-max-height)); /* 책 높이 */
+            max-height: var(--book-max-height);
+            transition: width 1s ease-in-out, transform 1s ease-in-out, height 0.8s ease-in-out; 
             transform-style: preserve-3d;
+            margin-top: 10px;
         }
 
         /* 책이 열렸을 때 너비 */
         .book-wrapper.is-open {
-            width: 1100px; 
+            width: min(calc(100vw - 40px), var(--book-max-width)); 
+        }
+
+        .book-wrapper.is-compact {
+            width: min(calc(100vw - 30px), var(--book-max-width));
+            height: auto;
         }
 
         /* ================= [디자인] 3. 표지 (Cover) ================= */
@@ -75,6 +113,10 @@
             transform-origin: left; /* 왼쪽을 축으로 회전 */
             transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
             cursor: pointer;
+        }
+
+        .book-wrapper.is-compact .cover {
+            display: none;
         }
 
         /* 표지 금테 장식 */
@@ -130,8 +172,16 @@
         }
 
         .book-wrapper.is-open .inner-pages { opacity: 1; pointer-events: auto; transition-delay: 0.3s; }
+        .book-wrapper.is-compact .inner-pages { 
+            opacity: 1; 
+            pointer-events: auto; 
+            position: relative; 
+            top: auto; 
+            left: auto; 
+            height: auto; 
+        }
 
-        .page { flex: 1; padding: 50px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .page { flex: 1; padding: clamp(20px, 4vw, 50px); display: flex; flex-direction: column; justify-content: center; position: relative; min-height: 280px; box-sizing: border-box; }
         
         /* 왼쪽 페이지 (날짜, 메뉴) */
         .page-left { 
@@ -146,14 +196,15 @@
         }
 
         /* 내부 텍스트 스타일 */
-        h2 { font-family: 'Cinzel', serif; font-size: 3.2rem; color: #3e2723; margin: 0 0 10px 0; text-shadow: 1px 1px 0 rgba(255,255,255,0.5); }
+        h2 { font-family: 'Cinzel', serif; font-size: clamp(2.2rem, 4vw, 3.2rem); color: #3e2723; margin: 0 0 10px 0; text-shadow: 1px 1px 0 rgba(255,255,255,0.5); }
         
         .subtitle { 
             color: #5d4037; 
             font-family: 'Caveat', cursive; 
-            font-size: 2rem; 
+            font-size: clamp(1.2rem, 3vw, 2rem); 
             margin-bottom: 50px; 
             font-weight: bold; 
+            font-style: italic;
         }
         
         label { font-family: 'Cinzel', serif; color: #5d4037; font-size: 1.6rem; margin-bottom: 15px; font-weight: bold; }
@@ -161,7 +212,7 @@
         /* 날짜 입력칸 */
         input[type="date"] { 
             padding: 10px; 
-            font-size: 32px; 
+            font-size: clamp(22px, 4vw, 32px); 
             font-family: 'Caveat', cursive; 
             font-weight: bold; 
             border: none; 
@@ -169,7 +220,7 @@
             background: transparent; 
             color: #3e2723; 
             text-align: center; 
-            width: 85%; 
+            width: min(340px, 100%); 
             outline: none; 
         }
 
@@ -181,9 +232,9 @@
             padding-right: 15px;
             padding-top: 12px; 
             font-family: 'Caveat', 'Nanum Pen Script', cursive; 
-            font-size: 30px; 
+            font-size: clamp(20px, 4vw, 30px); 
             font-weight: 700; 
-            line-height: 60px; 
+            line-height: clamp(32px, 6vw, 60px); 
             border: none; 
             resize: none; 
             outline: none; 
@@ -193,11 +244,10 @@
             color: #1a237e; 
         }
         
-        textarea::placeholder { color: #a1887f; font-size: 30px; font-weight: normal; opacity: 0.7; }
+        textarea::placeholder { color: #a1887f; font-size: clamp(18px, 3.5vw, 30px); font-weight: normal; opacity: 0.7; }
 
         /* 버튼 스타일 */
         .btn-analyze { 
-            position: absolute; bottom: 40px; right: 50px; 
             padding: 15px 40px; 
             font-family: 'Cinzel', serif; 
             font-size: 18px;
@@ -209,6 +259,10 @@
             box-shadow: 0 5px 10px rgba(0,0,0,0.3); 
             transition: 0.3s; 
             border-radius: 5px;
+            align-self: flex-end;
+            position: relative;
+            width: fit-content;
+            margin-top: 20px;
         }
         .btn-analyze:hover { transform: translateY(-3px); background-color: #4e342e; box-shadow: 0 8px 15px rgba(0,0,0,0.4); }
 
@@ -229,6 +283,57 @@
 
         /* 책갈피 */
         .bookmark { position: absolute; top: 0; left: 60px; width: 45px; height: 90px; background: #c0392b; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+
+        /* ================= [반응형 레이아웃] ================= */
+        @media (min-width: 900px) {
+            .page-right { min-height: 100%; }
+            .page-right textarea { height: calc(100% - 80px); }
+            .btn-analyze {
+                position: absolute;
+                bottom: 40px;
+                right: 50px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            body { align-items: flex-start; }
+        }
+
+        @media (max-width: 900px), (max-aspect-ratio: 3/4) {
+            .inner-pages {
+                flex-direction: column;
+                height: auto;
+                min-height: auto;
+            }
+            .page {
+                min-height: unset;
+                padding: clamp(20px, 6vw, 40px);
+            }
+            .page-left {
+                border-right: none;
+                border-bottom: 1px solid #d7ccc8;
+            }
+            .btn-history {
+                width: 100%;
+            }
+            textarea {
+                min-height: 240px;
+                line-height: 1.8;
+                background-size: 100% 40px;
+            }
+            .btn-analyze {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h2 { font-size: 2rem; }
+            label { font-size: 1.2rem; }
+            .subtitle { margin-bottom: 30px; }
+            .inner-pages { border-radius: 15px; }
+            input[type="date"] { font-size: 20px; }
+        }
 
     </style>
 </head>
@@ -275,6 +380,10 @@
     <script>
         const book = document.getElementById('book');
         const bgm = document.getElementById('bgm');
+        const compactQueries = [
+            window.matchMedia('(max-width: 900px)'),
+            window.matchMedia('(max-aspect-ratio: 3/4)')
+        ];
         
         bgm.volume = 0.5;
 
@@ -291,6 +400,23 @@
             setTimeout(() => book.style.transition = '', 100); 
             bgm.play().catch(e => console.log("자동 재생 차단됨"));
         }
+
+        function toggleCompactMode() {
+            const shouldCompact = compactQueries.some(q => q.matches);
+            book.classList.toggle('is-compact', shouldCompact);
+            if (shouldCompact && !book.classList.contains('is-open')) {
+                book.classList.add('is-open');
+            }
+        }
+
+        toggleCompactMode();
+        compactQueries.forEach(q => {
+            if (typeof q.addEventListener === 'function') {
+                q.addEventListener('change', toggleCompactMode);
+            } else if (typeof q.addListener === 'function') {
+                q.addListener(toggleCompactMode);
+            }
+        });
 
         // 날짜 자동 입력
         document.getElementById('date-picker').valueAsDate = new Date();

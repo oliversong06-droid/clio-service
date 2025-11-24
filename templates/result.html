@@ -8,25 +8,26 @@
             background-color: {{ color }};
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center; 
-            padding: 50px 20px;
+            padding: clamp(30px, 6vw, 70px) 20px;
             transition: background-color 1s ease;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0;
+            box-sizing: border-box;
         }
         .container {
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 50px;
+            padding: clamp(25px, 5vw, 50px);
             border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            max-width: 600px;
-            width: 100%;
+            max-width: 640px;
+            width: min(640px, 100%);
         }
         .color-circle {
-            width: 150px;
-            height: 150px;
+            width: clamp(120px, 18vw, 160px);
+            height: clamp(120px, 18vw, 160px);
             border-radius: 50%;
             background-color: {{ color }};
             margin: 0 auto 30px;
@@ -36,10 +37,10 @@
         h1 {
             color: #222;
             margin: 0 0 20px 0;
-            font-size: 1.5em;
+            font-size: clamp(1.2em, 2.5vw, 1.6em);
         }
         .emotion-title { 
-            font-size: 3em;
+            font-size: clamp(2em, 6vw, 3em);
             color: {{ color }};
             font-weight: bold;
             margin: 20px 0 30px 0;
@@ -101,11 +102,26 @@
             font-weight: 600;
             transition: 0.3s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: fit-content;
         }
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
             filter: brightness(1.1); /* 마우스 올리면 살짝 밝게 */
+        }
+        @media (max-width: 600px) {
+            .info-section p {
+                font-size: 1em;
+            }
+            .info-section strong {
+                width: 140px;
+            }
+            button {
+                width: 100%;
+            }
+            body {
+                align-items: flex-start;
+            }
         }
         a {
             text-decoration: none;

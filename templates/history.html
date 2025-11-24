@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 
     <style>
-        /* ================= [디자인] 1. 배경 & 헤더 ================= */
+        /* ================= [디자인] 1. 배경 & 컨테이너 ================= */
         body { 
             font-family: 'Nanum Pen Script', cursive;
             background-color: #1a120b; 
@@ -14,11 +14,22 @@
             color: #e6dec8; 
             padding: 40px 20px; 
             margin: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page-wrapper {
+            width: min(1200px, 100%);
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
         header { 
             text-align: center; 
-            margin-bottom: 40px; 
             border-bottom: 2px solid #3e2723; 
             background: rgba(0,0,0,0.4); 
             padding: 30px; 
@@ -61,8 +72,7 @@
         .filter-box { 
             background: #3e2723; 
             padding: 20px; 
-            border-radius: 5px; 
-            margin-bottom: 50px; 
+            border-radius: 10px; 
             display: flex; 
             justify-content: center; 
             gap: 15px; 
@@ -102,8 +112,8 @@
         .bookshelf { 
             display: grid; 
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 40px; 
-            padding: 20px; 
+            gap: 30px; 
+            padding: 0 10px 40px; 
         }
 
         .diary-card {
@@ -113,8 +123,8 @@
             border-radius: 5px 15px 15px 5px; 
             box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
             border-left: 18px solid #8d6e63; 
-            transition: transform 0.3s;
-            height: 420px; 
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-height: 380px; 
             display: flex; 
             flex-direction: column;
             overflow: hidden;
@@ -162,6 +172,7 @@
             padding-right: 10px;
             scrollbar-width: thin; 
             scrollbar-color: #a1887f transparent;
+            max-height: 220px;
         }
         
         .text::-webkit-scrollbar { width: 8px; }
@@ -190,6 +201,48 @@
             margin-top: 80px; 
             text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
+        /* 반응형 */
+        @media (max-width: 1024px) {
+            body { padding: 25px 15px; }
+            header { padding: 25px 20px; }
+        }
+
+        @media (max-width: 900px) {
+            header h1 { font-size: 2.8rem; }
+            .filter-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-box form {
+                width: 100%;
+                justify-content: center;
+            }
+            select, input[type="date"] {
+                width: 100%;
+                text-align: center;
+            }
+            button {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px), (max-aspect-ratio: 3/4) {
+            .page-wrapper {
+                width: 100%;
+            }
+            body {
+                padding: 20px 10px;
+            }
+            header h1 {
+                font-size: 2.2rem;
+            }
+            .diary-card {
+                min-height: unset;
+            }
+            .text {
+                max-height: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -198,45 +251,46 @@
         <source src="/static/bgm.mp3" type="audio/mpeg">
     </audio>
 
-    <header>
-        <h1>The Grand Archives</h1>
-        <p class="subtitle">"{{ user }}'s memories sleep in silence."</p>
-        
-        <div class="nav-links">
-            <a href="/write" class="btn-nav">← Return to Desk</a>
-            <a href="/logout" class="btn-nav btn-logout">Exit Library (Logout)</a>
+    <div class="page-wrapper">
+        <header>
+            <h1>The Grand Archives</h1>
+            <p class="subtitle">"{{ user }}'s memories sleep in silence."</p>
+            
+            <div class="nav-links">
+                <a href="/write" class="btn-nav">← Return to Desk</a>
+                <a href="/logout" class="btn-nav btn-logout">Exit Library (Logout)</a>
+            </div>
+        </header>
+
+        <div class="filter-box">
+            <form action="/history" method="get" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                <select name="emotion">
+                    <option value="All">All Emotions</option>
+                    <option value="Happiness" {% if current_emotion == 'Happiness' %}selected{% endif %}>Happiness</option>
+                    <option value="Sadness" {% if current_emotion == 'Sadness' %}selected{% endif %}>Sadness</option>
+                    <option value="Anger" {% if current_emotion == 'Anger' %}selected{% endif %}>Anger</option>
+                    <option value="Fear" {% if current_emotion == 'Fear' %}selected{% endif %}>Fear</option>
+                    <option value="Disgust" {% if current_emotion == 'Disgust' %}selected{% endif %}>Disgust</option>
+                    <option value="Surprise" {% if current_emotion == 'Surprise' %}selected{% endif %}>Surprise</option>
+                </select>
+
+                <select name="person">
+                    <option value="All">All People</option>
+                    {% for person_name in all_people %}
+                        <option value="{{ person_name }}" {% if current_person == person_name %}selected{% endif %}>
+                            {{ person_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <input type="date" name="date" value="{{ current_date }}">
+
+                <button type="submit" class="btn-search">Search</button>
+                <a href="/history" style="color: #d4af37; text-decoration: underline; font-family: 'Cinzel', serif;">Reset</a>
+            </form>
         </div>
-    </header>
 
-    <div class="filter-box">
-        <form action="/history" method="get" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-            <select name="emotion">
-                <option value="All">All Emotions</option>
-                <option value="Happiness" {% if current_emotion == 'Happiness' %}selected{% endif %}>Happiness</option>
-                <option value="Sadness" {% if current_emotion == 'Sadness' %}selected{% endif %}>Sadness</option>
-                <option value="Anger" {% if current_emotion == 'Anger' %}selected{% endif %}>Anger</option>
-                <option value="Fear" {% if current_emotion == 'Fear' %}selected{% endif %}>Fear</option>
-                <option value="Disgust" {% if current_emotion == 'Disgust' %}selected{% endif %}>Disgust</option>
-                <option value="Surprise" {% if current_emotion == 'Surprise' %}selected{% endif %}>Surprise</option>
-            </select>
-
-            <select name="person">
-                <option value="All">All People</option>
-                {% for person_name in all_people %}
-                    <option value="{{ person_name }}" {% if current_person == person_name %}selected{% endif %}>
-                        {{ person_name }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <input type="date" name="date" value="{{ current_date }}">
-
-            <button type="submit" class="btn-search">Search</button>
-            <a href="/history" style="color: #d4af37; text-decoration: underline; font-family: 'Cinzel', serif;">Reset</a>
-        </form>
-    </div>
-
-    <div class="bookshelf">
+        <div class="bookshelf">
         {% if diaries|length == 0 %}
             <div class="empty-msg">
                 <p>No records found...</p>
@@ -263,6 +317,7 @@
             {% endif %}
         </div>
         {% endfor %}
+        </div>
     </div>
 
     <script>
