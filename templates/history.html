@@ -116,6 +116,13 @@
             padding: 0 10px 40px; 
         }
 
+        .diary-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+
         .diary-card {
             background: #f5f1e6; 
             padding: 25px; 
@@ -298,24 +305,26 @@
         {% endif %}
 
         {% for diary in diaries %}
-        <div class="diary-card" style="border-left-color: {{ diary.color }};">
-            <div class="date">{{ diary.date }}</div>
-            
-            <div class="emotion-badge" style="color: {{ diary.color }}; border-color: {{ diary.color }};">
-                {{ diary.emotion }}
+        <a class="diary-link" href="{{ url_for('view_diary', entry_index=diary.entry_index) }}">
+            <div class="diary-card" style="border-left-color: {{ diary.color }};">
+                <div class="date">{{ diary.date }}</div>
+                
+                <div class="emotion-badge" style="color: {{ diary.color }}; border-color: {{ diary.color }};">
+                    {{ diary.emotion }}
+                </div>
+                
+                <div class="text">{{ diary.text }}</div>
+                
+                {% if diary.people %}
+                <div class="people-tags">
+                    👥 With: 
+                    {% for p in diary.people %}
+                        <span style="color: {{ p.color }}; margin-right: 5px;">{{ p.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </div>
-            
-            <div class="text">{{ diary.text }}</div>
-            
-            {% if diary.people %}
-            <div class="people-tags">
-                👥 With: 
-                {% for p in diary.people %}
-                    <span style="color: {{ p.color }}; margin-right: 5px;">{{ p.name }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-        </div>
+        </a>
         {% endfor %}
         </div>
     </div>

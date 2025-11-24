@@ -34,6 +34,40 @@
                     "count": 1
                 }
             ]
+        },
+        {
+            "date": "November 24, 2025",
+            "text": "oh oh gemini. I love you~~",
+            "emotion": "Happiness",
+            "color": "#f8e195",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f4e292",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "date": "November 24, 2025",
+            "text": "i am sad",
+            "emotion": "Sadness",
+            "color": "#2a2f34",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": []
+        },
+        {
+            "date": "November 24, 2025",
+            "text": "i have no friend",
+            "emotion": "Happiness",
+            "color": "#fdf797",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": []
         }
     ]
 }

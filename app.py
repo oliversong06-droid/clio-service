@@ -35,6 +35,20 @@ def format_english_date(date_str):
     except ValueError:
         return date_str 
 
+def invert_hex_color(hex_color):
+    if not hex_color:
+        return '#000000'
+    value = hex_color.lstrip('#')
+    if len(value) != 6:
+        return '#000000'
+    try:
+        r = int(value[0:2], 16)
+        g = int(value[2:4], 16)
+        b = int(value[4:6], 16)
+    except ValueError:
+        return '#000000'
+    return '#{:02X}{:02X}{:02X}'.format(255 - r, 255 - g, 255 - b)
+
 # --- [Helper] 특정 사용자의 등장인물만 모으기 ---
 def get_user_people(user_diaries):
     people_set = set()
@@ -165,8 +179,9 @@ def history():
     all_data = load_data(DIARY_FILE, dict)
     
     # 2. [중요] '내 일기'만 꺼내오기 (없으면 빈 리스트)
-    my_diaries = all_data.get(current_user, [])
-    my_diaries.reverse() # 최신순 정렬
+    user_diaries = all_data.get(current_user, [])
+    indexed_diaries = list(enumerate(user_diaries))
+    indexed_diaries.reverse() # 최신순 정렬
     
     # 3. 필터 조건 받기
     filter_emotion = request.args.get('emotion')
@@ -174,12 +189,12 @@ def history():
     filter_person = request.args.get('person')
 
     # 4. 내 일기에서 등장인물 목록 뽑기
-    my_people_list = get_user_people(my_diaries)
+    my_people_list = get_user_people(user_diaries)
 
     filtered_diaries = []
     
     # 5. 필터링 로직 (님 코드 로직 유지)
-    for diary in my_diaries:
+    for original_idx, diary in indexed_diaries:
         # 감정 필터
         if filter_emotion and filter_emotion != "All" and diary['emotion'] != filter_emotion:
             continue
@@ -196,7 +211,9 @@ def history():
             if filter_person not in diary_people_names:
                 continue
             
-        filtered_diaries.append(diary)
+        decorated_diary = dict(diary)
+        decorated_diary['entry_index'] = original_idx
+        filtered_diaries.append(decorated_diary)
 
     return render_template('history.html', 
                            diaries=filtered_diaries,
@@ -205,6 +222,42 @@ def history():
                            current_date=filter_date,
                            current_person=filter_person,
                            user=current_user) # 사용자 이름도 전달
+
+@app.route('/viewer/<int:entry_index>')
+def view_diary(entry_index):
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+
+    current_user = session['user']
+    all_diaries = load_data(DIARY_FILE, dict)
+    user_diaries = all_diaries.get(current_user, [])
+
+    if entry_index < 0 or entry_index >= len(user_diaries):
+        return redirect(url_for('history'))
+
+    entry = user_diaries[entry_index]
+    base_color = entry.get('color', '#3e2723')
+    text_color = invert_hex_color(base_color)
+
+    related_entries = []
+    for idx in range(len(user_diaries) - 1, -1, -1):
+        if idx == entry_index:
+            continue
+        diary = user_diaries[idx]
+        if diary.get('emotion') == entry.get('emotion'):
+            related_entries.append({
+                'date': diary.get('date'),
+                'text': diary.get('text'),
+                'color': diary.get('color'),
+                'entry_index': idx
+            })
+
+    return render_template('viewer.html',
+                           entry=entry,
+                           text_color=text_color,
+                           related_entries=related_entries,
+                           entry_index=entry_index,
+                           user=current_user)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001) # 포트 충돌 방지 5001
