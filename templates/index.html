@@ -245,7 +245,7 @@
         body.mobile-mode {
             perspective: none;
             padding-top: 20px;
-            padding-bottom: 40px;
+            padding-bottom: 60px;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
@@ -266,9 +266,15 @@
         body.mobile-mode .book-wrapper {
             width: 100%;
             max-width: 600px;
+            min-height: 80vh;
             height: auto;
             transform: none;
             order: 1;
+            display: flex;
+        }
+        body.mobile-mode .inner-pages {
+            flex: 1;
+            overflow-y: auto;
         }
         body.mobile-mode .cover {
             display: none;
