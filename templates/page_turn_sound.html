@@ -1,0 +1,71 @@
+<audio id="pageTurnSound" src="{{ url_for('static', filename='paper.mp3') }}" preload="auto"></audio>
+<script>
+(function () {
+    const player = document.getElementById('pageTurnSound');
+    if (!player) {
+        return;
+    }
+
+    const SOUND_DELAY = 500; // ms
+
+    const primePlayer = () => {
+        if (player.playbackRate !== 1.15) {
+            player.playbackRate = 1.15;
+        }
+    };
+
+    const playPageTurn = () => new Promise((resolve) => {
+        primePlayer();
+        const finish = () => setTimeout(resolve, SOUND_DELAY);
+        try {
+            player.currentTime = 0;
+        } catch (err) {}
+        const attempt = player.play();
+        if (attempt && typeof attempt.then === 'function') {
+            attempt.then(finish).catch(finish);
+        } else {
+            finish();
+        }
+    });
+
+    const isPrimaryClick = (event) => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+
+    const isNavigationAnchor = (anchor) => {
+        if (!anchor) { return false; }
+        const href = anchor.getAttribute('href');
+        return href && href.trim() !== '' && !href.startsWith('#') && !anchor.hasAttribute('download');
+    };
+
+    document.addEventListener('click', (event) => {
+        if (event.defaultPrevented || !isPrimaryClick(event)) { return; }
+        const anchor = event.target.closest('a[href]');
+        if (!isNavigationAnchor(anchor)) { return; }
+        event.preventDefault();
+        if (anchor.dataset.turnPending === 'true') { return; }
+        anchor.dataset.turnPending = 'true';
+        const url = anchor.href;
+        const target = anchor.target || '_self';
+
+        playPageTurn().finally(() => {
+            anchor.dataset.turnPending = 'false';
+            if (target && target !== '_self') {
+                window.open(url, target);
+            } else {
+                window.location.href = url;
+            }
+        });
+    }, true);
+
+    document.addEventListener('submit', (event) => {
+        if (event.defaultPrevented) { return; }
+        const form = event.target;
+        if (form.dataset.turnPending === 'true') { return; }
+        form.dataset.turnPending = 'true';
+        event.preventDefault();
+        playPageTurn().finally(() => {
+            form.dataset.turnPending = 'false';
+            form.submit();
+        });
+    }, true);
+})();
+</script>

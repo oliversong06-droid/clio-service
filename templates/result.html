@@ -167,9 +167,10 @@
             bgm.currentTime = savedTime;
         }
         bgm.play().catch(e => console.log("자동 재생 차단됨"));
-        window.addEventListener('beforeunload', () => {
-            sessionStorage.setItem('bgmTime', bgm.currentTime);
-        });
-    </script>
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('bgmTime', bgm.currentTime);
+    });
+</script>
+    {% include 'page_turn_sound.html' %}
 </body>
 </html>

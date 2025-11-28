@@ -95,7 +95,6 @@
             transform: translateX(-50%);
             background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(255,255,255,0.04));
             border-radius: 3px;
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.5);
         }
         .book {
             width: 100%;
@@ -110,7 +109,6 @@
             height: 100%;
             background: var(--page-bg);
             border-radius: 6px;
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.08), 0 20px 35px rgba(0,0,0,0.5);
             padding: 45px 55px 55px;
             display: flex;
             flex-direction: column;
@@ -125,6 +123,23 @@
             font-size: 1.3rem;
             color: rgba(0,0,0,0.55);
             letter-spacing: 1px;
+        }
+        .emotion-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            display: inline-flex;
+            align-self: flex-start;
+            padding: 6px 18px;
+            border-radius: 999px;
+            margin: 10px 0 18px;
+            border: 2px solid var(--theme-color);
+            color: var(--theme-color);
+            background: rgba(255,255,255,0.9);
+            text-shadow: -1px -1px 0 rgba(26, 16, 8, 0.65),
+                          1px -1px 0 rgba(26, 16, 8, 0.65),
+                         -1px  1px 0 rgba(26, 16, 8, 0.65),
+                          1px  1px 0 rgba(26, 16, 8, 0.65);
+            -webkit-text-stroke: 0.5px rgba(26, 16, 8, 0.6);
         }
         .meta-row {
             display: flex;
@@ -162,7 +177,6 @@
             margin-bottom: 22px;
             white-space: pre-line;
             word-break: break-word;
-            box-shadow: inset 0 0 25px rgba(0,0,0,0.05);
         }
         .tab-header {
             display: inline-flex;
@@ -205,7 +219,6 @@
             padding: 12px 16px;
             border-radius: 12px;
             border-left: 4px solid var(--theme-color);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
         }
         .info-card strong {
             display: block;
@@ -230,8 +243,12 @@
             border-radius: 12px;
             padding: 6px 12px;
             border: 1px solid rgba(0,0,0,0.1);
-            color: #3e2723;
             font-family: 'Caveat', cursive;
+            text-shadow: -0.8px -0.8px 0 rgba(15, 8, 3, 0.55),
+                          0.8px -0.8px 0 rgba(15, 8, 3, 0.55),
+                         -0.8px  0.8px 0 rgba(15, 8, 3, 0.55),
+                          0.8px  0.8px 0 rgba(15, 8, 3, 0.55);
+            -webkit-text-stroke: 0.4px rgba(15, 8, 3, 0.5);
         }
         .related-scroller {
             flex: 1;
@@ -253,19 +270,12 @@
             border-radius: 15px;
             padding: 18px 22px;
             border-left: 6px solid var(--theme-color);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
         .related-card + .related-card {
             margin-top: 10px;
-        }
-            border-left: 6px solid var(--theme-color);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
         }
         .related-card:last-child { margin-bottom: 0; }
         .related-date {
@@ -289,6 +299,11 @@
             display: inline-flex;
             align-items: center;
             align-self: flex-start;
+            text-shadow: -0.8px -0.8px 0 rgba(12, 6, 1, 0.65),
+                          0.8px -0.8px 0 rgba(12, 6, 1, 0.65),
+                         -0.8px  0.8px 0 rgba(12, 6, 1, 0.65),
+                          0.8px  0.8px 0 rgba(12, 6, 1, 0.65);
+            -webkit-text-stroke: 0.4px rgba(12, 6, 1, 0.6);
         }
         .empty-state {
             font-family: 'Caveat', cursive;
@@ -429,7 +444,7 @@
                         <div class="people-list" style="margin-top: 10px;">
                             {% if selected.people %}
                                 {% for person in selected.people %}
-                                    <span style="border-color: {{ person.color }};">{{ person.name }}</span>
+                                    <span style="border-color: {{ person.color }}; color: {{ person.color }};">{{ person.name }}</span>
                                 {% endfor %}
                             {% else %}
                                 <span style="border: none; background: transparent; color: #5d4037;">No characters mentioned.</span>
@@ -526,5 +541,6 @@
             });
         });
     </script>
+    {% include 'page_turn_sound.html' %}
 </body>
 </html>

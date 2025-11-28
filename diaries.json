@@ -176,6 +176,67 @@
                 }
             ],
             "id": "acaa1d165645d48a"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I stopped breathing for a moment when a foul scent filled the elevator.",
+            "emotion": "Sadness",
+            "color": "#2e333a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3f3c58",
+                    "count": 1
+                }
+            ],
+            "id": "bdb948dd3087ccc9"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I backed away when I noticed a layer of dust thick enough to write on.",
+            "emotion": "Anger",
+            "color": "#723a27",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#663a2a",
+                    "count": 2
+                }
+            ],
+            "id": "cfd41156201a6ceb"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I have a lot of work to do",
+            "emotion": "Happiness",
+            "color": "#f1f895",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f7f79e",
+                    "count": 1
+                }
+            ],
+            "id": "05e31d9f286b9165"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "im too sleepy",
+            "emotion": "Anger",
+            "color": "#8f422c",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "cbc113dc08ce6ca1"
         }
     ]
 }
