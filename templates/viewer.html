@@ -232,6 +232,57 @@
             color: #1a120b;
             font-size: 1.2rem;
         }
+        .flow-section {
+            margin: 15px 0 28px;
+            padding: 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .flow-title {
+            font-family: 'Cinzel', serif;
+            color: #3e2723;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .flow-bar {
+            width: 100%;
+            height: 26px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+            background-color: rgba(0,0,0,0.05);
+        }
+        .flow-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .flow-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.08);
+            font-family: 'Caveat', cursive;
+            color: #3e2723;
+            gap: 8px;
+        }
+        .chip-index {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+        }
         .people-list {
             display: flex;
             flex-wrap: wrap;
@@ -439,6 +490,20 @@
                             <span>{{ selected.color }}</span>
                         </div>
                     </div>
+                    {% if emotion_flow %}
+                    <div class="flow-section">
+                        <div class="flow-title">Emotion Flow</div>
+                        <div class="flow-bar" style="background-image: {{ emotion_gradient or 'linear-gradient(90deg, #FFD700, #4682B4)' }};"></div>
+                        <div class="flow-legend">
+                            {% for block in emotion_flow %}
+                            <div class="flow-chip">
+                                <span class="chip-index" style="background: {{ block.color }}">{{ loop.index }}</span>
+                                <span>{{ block.emotion }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="info-card" style="margin-top: 10px;">
                         <strong>People</strong>
                         <div class="people-list" style="margin-top: 10px;">

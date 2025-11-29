@@ -208,7 +208,9 @@ def analyze():
                            color=result['color_hex'],
                            color_name=result['color_name'],
                            tone=result['tone'],
-                           people=result['people'])
+                           people=result['people'],
+                           emotion_flow=result.get('emotion_flow', []),
+                           emotion_gradient=result.get('emotion_gradient'))
 
 # 7. [히스토리] 내 일기만 보기 + 필터링
 @app.route('/history')
@@ -301,6 +303,8 @@ def view_entry(entry_id):
     page_bg = blend_with_white(theme_color, factor=0.45)
     text_color = invert_hex_color(page_bg)
 
+    _, viewer_emotion_flow, viewer_gradient = improved_analyzer.analyze_emotion_with_flow(selected_entry.get('text', ''))
+
     return render_template('viewer.html',
                            user=current_user,
                            selected=selected_entry,
@@ -308,7 +312,9 @@ def view_entry(entry_id):
                            theme_color=theme_color,
                            page_bg=page_bg,
                            text_color=text_color,
-                           csrf_token=get_csrf_token())
+                           csrf_token=get_csrf_token(),
+                           emotion_flow=viewer_emotion_flow,
+                           emotion_gradient=viewer_gradient)
 
 @app.route('/entry/<entry_id>/delete', methods=['POST'])
 def delete_entry(entry_id):

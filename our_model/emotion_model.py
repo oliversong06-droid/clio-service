@@ -10,6 +10,8 @@ import sys
 import re
 import colorsys
 import random
+import time
+import math
 from collections import Counter # [추가] 빈도수 계산용
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -140,19 +142,53 @@ class ImprovedEmotionAnalyzer:
             
             df_final['label'] = df_final['label'].map(label_map)
             df_final = df_final.dropna(subset=['label'])
-            
+
+            dataset_size = len(df_final)
+            label_counts = Counter(df_final['label'])
+            if dataset_size == 0 or len(label_counts) < 2:
+                print("⚠️ Not enough labeled samples to train the text model.")
+                return
+
+            print(f"📦 Dataset ready: {dataset_size} samples")
+            for label, count in label_counts.items():
+                print(f"   • {label}: {count}")
+
             X = df_final['text']
             y = df_final['label']
-            
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-            
+
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42, stratify=y
+            )
+
             self.text_vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
             X_train_tfidf = self.text_vectorizer.fit_transform(X_train)
             X_test_tfidf = self.text_vectorizer.transform(X_test)
-            
+
             self.text_model = LogisticRegression(max_iter=1000, random_state=42, class_weight='balanced')
+            start_time = time.perf_counter()
             self.text_model.fit(X_train_tfidf, y_train)
-            print("Text model training complete.\n")
+            train_time = time.perf_counter() - start_time
+            print(f"⏱️ Text model training complete in {train_time:.2f}s")
+
+            try:
+                y_pred = self.text_model.predict(X_test_tfidf)
+                accuracy = accuracy_score(y_test, y_pred)
+                print(f"📈 Validation accuracy: {accuracy:.3f}")
+                print(classification_report(y_test, y_pred, zero_division=0))
+
+                test_df = pd.DataFrame({'text': X_test.reset_index(drop=True),
+                                        'label': y_test.reset_index(drop=True)})
+                sample_size = min(100, len(test_df))
+                if sample_size == 0:
+                    print("⚠️ No samples available for random evaluation.")
+                else:
+                    sample_df = test_df.sample(n=sample_size)
+                    sample_vectors = self.text_vectorizer.transform(sample_df['text'])
+                    sample_pred = self.text_model.predict(sample_vectors)
+                    sample_accuracy = accuracy_score(sample_df['label'], sample_pred)
+                    print(f"🎯 Random {sample_size} sample accuracy: {sample_accuracy:.3f}")
+            except Exception as eval_error:
+                print(f"⚠️ Could not compute validation metrics: {eval_error}")
             
         except Exception as e:
             print(f"❌ Failed to load text model: {e}")
@@ -186,18 +222,89 @@ class ImprovedEmotionAnalyzer:
             self.color_encoder = None
     
     def analyze_emotion(self, text):
-        """Main emotion analysis function"""
+        emotion, _, _ = self.analyze_emotion_with_flow(text)
+        return emotion
+
+    def analyze_emotion_with_flow(self, text):
+        """Returns dominant emotion, flow metadata, and gradient string"""
         if not isinstance(text, str) or not text.strip():
-            return 'Happiness'
-        
+            return 'Happiness', [], None
+
+        blocks = self._split_text_blocks(text)
+        if not blocks:
+            return 'Happiness', [], None
+
+        emotion_scores = Counter()
+        flow = []
+        total_blocks = len(blocks)
+
+        for idx, block in enumerate(blocks):
+            block_emotion = self._analyze_single_block(block)
+            weight = self._calculate_block_weight(block, idx, total_blocks)
+            flow.append({
+                'index': idx,
+                'text': block,
+                'emotion': block_emotion,
+                'weight': weight
+            })
+            emotion_scores[block_emotion] += weight
+
+        if not flow or not emotion_scores:
+            return 'Happiness', flow, None
+
+        total_weight = sum(item['weight'] for item in flow) or 1.0
+        for item in flow:
+            item['ratio'] = item['weight'] / total_weight
+            color_meta = self.emotion_colors.get(item['emotion'], self.emotion_colors['Happiness'])
+            item['color'] = color_meta['color']
+
+        dominant = emotion_scores.most_common(1)[0][0]
+        gradient = self._build_flow_gradient(flow)
+        return dominant, flow, gradient
+
+    def _split_text_blocks(self, text):
+        sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+        if not sentences:
+            sentences = [text.strip()]
+        blocks = []
+        for i in range(0, len(sentences), 2):
+            pair = ' '.join(sentences[i:i+2])
+            if pair:
+                blocks.append(pair)
+        return blocks
+
+    def _calculate_block_weight(self, block, index, total_blocks):
+        word_count = max(len(block.split()), 1)
+        length_factor = math.sqrt(word_count)
+        if total_blocks > 1:
+            recency_factor = 1.0 + (index / (total_blocks - 1)) * 0.3
+        else:
+            recency_factor = 1.0
+        return length_factor * recency_factor
+
+    def _build_flow_gradient(self, flow):
+        if not flow:
+            return None
+        stops = []
+        cumulative = 0.0
+        for idx, item in enumerate(flow):
+            color = item.get('color', self.emotion_colors['Happiness']['color'])
+            if idx == 0:
+                stops.append(f"{color} 0%")
+            cumulative += item.get('ratio', 0)
+            percent = max(0.0, min(100.0, cumulative * 100))
+            stops.append(f"{color} {percent:.2f}%")
+        return f"linear-gradient(90deg, {', '.join(stops)})"
+
+    def _analyze_single_block(self, text):
         english_result = self._analyze_english_emotion(text)
         if english_result:
             return english_result
-        
+
         ml_result = self._analyze_with_ml(text)
         if ml_result:
             return ml_result
-        
+
         return 'Happiness'
     
     def _analyze_english_emotion(self, text):
@@ -343,7 +450,7 @@ class ImprovedEmotionAnalyzer:
         else: return "Neutral Tone"
     
     def analyze_emotion_and_color(self, diary_entry, show_visualization=False):
-        emotion = self.analyze_emotion(diary_entry)
+        emotion, emotion_flow, gradient = self.analyze_emotion_with_flow(diary_entry)
         result = self.get_color_recommendation(emotion)
         
         # [중요] 인물 분석 실행
@@ -357,6 +464,8 @@ class ImprovedEmotionAnalyzer:
             'color_name': result['color_name'],
             'tone': result['tone'],
             'people': people_result, # 인물 분석 결과 추가
+            'emotion_flow': emotion_flow,
+            'emotion_gradient': gradient,
             'source': result.get('source', 'default')
         }
     

@@ -82,6 +82,72 @@
             display: inline-block;
             width: 150px;
         }
+        .flow-section {
+            margin: 0 auto 35px;
+            max-width: 560px;
+            text-align: left;
+        }
+        .flow-title {
+            font-weight: bold;
+            color: #3e2723;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .flow-bar {
+            display: flex;
+            height: 28px;
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.08);
+            background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+        }
+        .flow-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.95);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+            min-width: 40px;
+            padding: 0 8px;
+            transition: flex 0.3s ease;
+            position: relative;
+        }
+        .flow-segment span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .flow-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .flow-chip {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.92);
+            border-radius: 999px;
+            padding: 6px 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+            color: #3e2723;
+        }
+        .chip-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            color: #fff;
+            font-weight: 700;
+            margin-right: 8px;
+            font-size: 0.85rem;
+        }
         .diary-label {
             font-weight: bold;
             color: #3e2723;
@@ -151,6 +217,20 @@
             <p><strong>Tone:</strong> {{ tone }}</p>
             <p class="metadata-row"><strong>Color Code:</strong> <code>{{ color }}</code></p>
         </div>
+        {% if emotion_flow %}
+        <div class="flow-section">
+            <div class="flow-title">Emotion Flow</div>
+            <div class="flow-bar" style="background-image: {{ emotion_gradient or 'linear-gradient(90deg, #FFD700, #4682B4)' }};"></div>
+            <div class="flow-legend">
+                {% for block in emotion_flow %}
+                <div class="flow-chip">
+                    <span class="chip-index" style="background: {{ block.color }}">{{ loop.index }}</span>
+                    <span>{{ block.emotion }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
         <div class="diary-label">📝 Your Diary Entry:</div>
         <div class="diary-box">{{ text }}</div>
         <div class="button-group">
