@@ -3,7 +3,6 @@ import json
 import os
 from datetime import datetime
 import secrets
-from collections import Counter, defaultdict
 # 모델과 위험 감지 함수 불러오기
 from our_model.emotion_model import improved_analyzer, check_mind_care_needed
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -15,7 +14,6 @@ app.secret_key = 'acdt_secret_key_1234'  # 세션 암호화 키
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIARY_FILE = os.path.join(BASE_DIR, 'diaries.json')
 USER_FILE = os.path.join(BASE_DIR, 'users.json')
-USER_PROFILE_FILE = os.path.join(BASE_DIR, 'user_profiles.json')
 
 # --- [Helper] 데이터 로드/저장 함수 ---
 def load_data(filename, default_type=dict):
@@ -99,273 +97,6 @@ def find_entry_index(entries, entry_id):
     return None
 
 
-def parse_iso_date(date_str):
-    try:
-        return datetime.strptime(date_str, '%Y-%m-%d')
-    except (TypeError, ValueError):
-        return None
-
-
-def ensure_user_profile(username, diaries=None):
-    profiles = load_data(USER_PROFILE_FILE, dict)
-    profile = profiles.get(username)
-
-    if profile and profile.get('created_at'):
-        return profile
-
-    fallback_date = None
-    if diaries:
-        for entry in diaries:
-            parsed = parse_diary_datetime(entry.get('date'))
-            if parsed and (not fallback_date or parsed < fallback_date):
-                fallback_date = parsed
-
-    if not fallback_date:
-        fallback_date = datetime.utcnow()
-
-    profile = {'created_at': fallback_date.strftime('%Y-%m-%d')}
-    profiles[username] = profile
-    save_data(USER_PROFILE_FILE, profiles)
-    return profile
-
-
-def build_account_snapshot(user_profile):
-    created = parse_iso_date(user_profile.get('created_at')) if user_profile else None
-    if not created:
-        created = datetime.utcnow()
-    today = datetime.utcnow()
-    days_since_signup = max(1, (today - created).days + 1)
-    return {
-        'member_since': created.strftime('%B %d, %Y'),
-        'days_since_signup': days_since_signup
-    }
-
-
-EMOTION_SCORES = {
-    'Happiness': 2,
-    'Joy': 2,
-    'Surprise': 1,
-    'Calmness': 1,
-    'Neutral': 0,
-    'Sadness': -1,
-    'Fear': -1,
-    'Disgust': -1,
-    'Anger': -2
-}
-
-EMOTION_FEEDBACK = {
-    'Happiness': "Joy has been leading recently. Keep sharing that light—try ending each entry with a short gratitude line.",
-    'Sadness': "Sadness appears often. Create a gentle ritual for yourself or message someone you trust when you finish writing.",
-    'Anger': "Anger is repeating in your pages. A deep-breathing break or a brisk walk right after writing might help release the heat.",
-    'Fear': "Fear has been a frequent visitor. Set one tiny act of courage for tomorrow to slowly widen your safe zone.",
-    'Disgust': "Discomfort keeps echoing. Declutter your space or map out the situations that spark it to regain a sense of control.",
-    'Surprise': "Curiosity is alive here. Translate those sparks into experiments—turn a new idea into a small side project."
-}
-
-
-def parse_diary_datetime(date_str):
-    try:
-        return datetime.strptime(date_str, '%B %d, %Y')
-    except (TypeError, ValueError):
-        return None
-
-
-def _calculate_streaks(date_list):
-    if not date_list:
-        return 0, 0
-    unique_dates = sorted(set(date_list))
-    if not unique_dates:
-        return 0, 0
-
-    longest = 1
-    current = 1
-
-    for idx in range(1, len(unique_dates)):
-        delta = (unique_dates[idx] - unique_dates[idx - 1]).days
-        if delta == 1:
-            current += 1
-            longest = max(longest, current)
-        else:
-            current = 1
-
-    current_streak = 1
-    for idx in range(len(unique_dates) - 1, 0, -1):
-        delta = (unique_dates[idx] - unique_dates[idx - 1]).days
-        if delta == 1:
-            current_streak += 1
-        else:
-            break
-
-    return current_streak if unique_dates else 0, longest
-
-
-def build_statistics(user_diaries, user_profile=None):
-    account_info = build_account_snapshot(user_profile or {'created_at': datetime.utcnow().strftime('%Y-%m-%d')})
-    stats = {
-        'has_entries': bool(user_diaries),
-        'total_entries': len(user_diaries),
-        'emotion_labels': [],
-        'emotion_values': [],
-        'top_people': [],
-        'feedback_messages': [],
-        'mood_timeline': {'labels': [], 'scores': [], 'emotions': [], 'colors': []},
-        'streaks': {'current': 0, 'longest': 0},
-        'writing_days': 0,
-        'avg_words': 0,
-        'dominant_emotion': None,
-        'tone_favorites': [],
-        'monthly_activity': {'labels': [], 'values': []},
-        'recent_highlights': {},
-        'account': account_info
-    }
-
-    if not user_diaries:
-        return stats
-
-    emotion_counter = Counter()
-    tone_counter = Counter()
-    people_counter = Counter()
-    person_emotions = defaultdict(Counter)
-    person_last_seen = {}
-    person_colors = {}
-    timeline_points = []
-    total_words = 0
-    writing_dates = []
-    month_counter = Counter()
-    earliest_entry_dt = None
-    latest_entry_dt = None
-
-    for idx, diary in enumerate(user_diaries):
-        emotion = diary.get('emotion', 'Unknown')
-        tone = diary.get('tone', 'Unknown')
-        date_label = diary.get('date') or f'Entry {idx + 1}'
-        color = diary.get('color', '#d4af37')
-        text = diary.get('text', '')
-
-        emotion_counter[emotion] += 1
-        tone_counter[tone] += 1
-        total_words += len(text.split())
-
-        parsed_date = parse_diary_datetime(diary.get('date'))
-        if parsed_date:
-            writing_dates.append(parsed_date.date())
-            month_counter[parsed_date.strftime('%Y-%m')] += 1
-            if not earliest_entry_dt or parsed_date < earliest_entry_dt:
-                earliest_entry_dt = parsed_date
-            if not latest_entry_dt or parsed_date > latest_entry_dt:
-                latest_entry_dt = parsed_date
-
-        timeline_points.append({
-            'label': date_label,
-            'score': EMOTION_SCORES.get(emotion, 0),
-            'emotion': emotion,
-            'color': color,
-            'order': idx,
-            'date_obj': parsed_date
-        })
-
-        for person in diary.get('people', []):
-            name = (person.get('name') or '').strip()
-            if not name:
-                continue
-            count = person.get('count', 1) or 1
-            people_counter[name] += count
-            person_emotions[name][person.get('emotion', emotion)] += count
-            if parsed_date and (name not in person_last_seen or parsed_date > person_last_seen[name]):
-                person_last_seen[name] = parsed_date
-            if person.get('color'):
-                person_colors[name] = person.get('color')
-
-    sorted_emotions = emotion_counter.most_common()
-    stats['emotion_labels'] = [label for label, _ in sorted_emotions]
-    stats['emotion_values'] = [value for _, value in sorted_emotions]
-    stats['dominant_emotion'] = sorted_emotions[0][0] if sorted_emotions else None
-
-    stats['tone_favorites'] = [
-        {'tone': tone, 'count': count}
-        for tone, count in tone_counter.most_common(3)
-    ]
-
-    stats['writing_days'] = len(set(writing_dates))
-    stats['avg_words'] = round(total_words / len(user_diaries), 1) if user_diaries else 0
-
-    current_streak, longest_streak = _calculate_streaks(writing_dates)
-    stats['streaks'] = {'current': current_streak, 'longest': longest_streak}
-
-    timeline_points.sort(key=lambda item: (item['date_obj'] or datetime.min, item['order']))
-    recent_points = timeline_points[-10:]
-    stats['mood_timeline'] = {
-        'labels': [point['label'] for point in recent_points],
-        'scores': [point['score'] for point in recent_points],
-        'emotions': [point['emotion'] for point in recent_points],
-        'colors': [point['color'] for point in recent_points]
-    }
-
-    if month_counter:
-        ordered_months = sorted(
-            month_counter.items(),
-            key=lambda item: datetime.strptime(item[0], '%Y-%m')
-        )
-        recent_months = ordered_months[-6:]
-        stats['monthly_activity'] = {
-            'labels': [
-                datetime.strptime(month, '%Y-%m').strftime('%b %Y')
-                for month, _ in recent_months
-            ],
-            'values': [count for _, count in recent_months]
-        }
-
-    top_people = []
-    for name, count in people_counter.most_common(5):
-        dominant_person_emotion = None
-        if person_emotions[name]:
-            dominant_person_emotion = person_emotions[name].most_common(1)[0][0]
-        last_seen = person_last_seen.get(name)
-        top_people.append({
-            'name': name,
-            'count': count,
-            'dominant_emotion': dominant_person_emotion,
-            'color': person_colors.get(name),
-            'last_seen': last_seen.strftime('%b %d, %Y') if last_seen else None
-        })
-    stats['top_people'] = top_people
-
-    feedback_messages = []
-    for emotion, _ in sorted_emotions[:3]:
-        template = EMOTION_FEEDBACK.get(emotion)
-        if template:
-            feedback_messages.append(template)
-
-    if top_people:
-        focus = top_people[0]['name']
-        feedback_messages.append(f"{focus} shows up the most. Try writing them a letter—even if you never send it—to organize how you feel.")
-
-    if len(emotion_counter) >= 4:
-        feedback_messages.append("Your emotional palette is diverse. Keeping up this honest tracking makes spotting mood shifts much faster.")
-
-    stats['feedback_messages'] = feedback_messages
-
-    latest_point = recent_points[-1] if recent_points else None
-    rare_emotion = sorted_emotions[-1][0] if sorted_emotions else None
-    stats['recent_highlights'] = {
-        'latest_emotion': latest_point['emotion'] if latest_point else None,
-        'latest_date': latest_point['label'] if latest_point else None,
-        'rare_emotion': rare_emotion
-    }
-
-    if earliest_entry_dt:
-        stats['account']['first_entry'] = earliest_entry_dt.strftime('%B %d, %Y')
-        stats['account']['days_since_first_entry'] = max(1, (datetime.utcnow() - earliest_entry_dt).days + 1)
-    if latest_entry_dt:
-        stats['account']['last_entry'] = latest_entry_dt.strftime('%B %d, %Y')
-
-    stats['account']['entries_per_week'] = round(
-        (stats['total_entries'] / stats['account']['days_since_signup']) * 7, 1
-    ) if stats['account']['days_since_signup'] else stats['total_entries']
-
-    return stats
-
-
 # ================= 라우팅 (Routes) =================
 
 # 1. [로그인 페이지]
@@ -402,12 +133,6 @@ def register():
     
     users[username] = generate_password_hash(password)
     save_data(USER_FILE, users)
-    
-    profiles = load_data(USER_PROFILE_FILE, dict)
-    profiles[username] = {
-        'created_at': datetime.utcnow().strftime('%Y-%m-%d')
-    }
-    save_data(USER_PROFILE_FILE, profiles)
     
     all_diaries = load_data(DIARY_FILE, dict)
     if username not in all_diaries:
@@ -672,23 +397,6 @@ def edit_entry(entry_id):
                            iso_date=iso_date,
                            csrf_token=get_csrf_token(),
                            user=current_user)
-
-
-@app.route('/stats')
-def stats_page():
-    if 'user' not in session:
-        return redirect(url_for('login_page'))
-
-    current_user = session['user']
-    all_data = load_data(DIARY_FILE, dict)
-    user_diaries = all_data.get(current_user, [])
-    user_profile = ensure_user_profile(current_user, user_diaries)
-    stats = build_statistics(user_diaries, user_profile)
-
-    return render_template('stats.html',
-                           user=current_user,
-                           stats=stats,
-                           csrf_token=get_csrf_token())
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

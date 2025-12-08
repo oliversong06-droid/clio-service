@@ -9,7 +9,7 @@
         /* ================= [Design] 1. Background ================= */
         body { 
             font-family: 'Nanum Pen Script', cursive;
-            background-color: #1a120b;
+            background-color: #1a120b; /* Dark Brown */
             background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             margin: 0;
             min-height: 100vh;
@@ -28,21 +28,21 @@
             right: 30px;
             z-index: 100;
             font-family: 'Cinzel', serif;
-            color: #1c1c1c;
-            background: #fff8ef;
+            color: #d4af37;
+            background: rgba(0, 0, 0, 0.6);
             padding: 10px 20px;
             border-radius: 20px;
-            border: 1px solid #e3d1bc;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+            border: 1px solid #5d4037;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
         .user-panel span { font-weight: bold; margin-right: 10px; }
         .user-panel a { 
-            color: #c07a2c; 
+            color: #ff6b6b; 
             text-decoration: none; 
             font-weight: bold; 
             transition: 0.3s;
         }
-        .user-panel a:hover { color: #8c4f1a; text-decoration: underline; }
+        .user-panel a:hover { color: #ffeb3b; text-decoration: underline; }
 
         /* ================= [Design] 2. Book Wrapper ================= */
         .book-wrapper {
@@ -388,7 +388,6 @@
 
     <div class="user-panel" id="userPanel">
         <span>Keeper: {{ user }}</span>
-        <a href="/stats">[Stats]</a>
         <a href="/logout">[Logout]</a>
     </div>
 </div>

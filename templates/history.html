@@ -3,272 +3,372 @@
 <head>
     <meta charset="UTF-8">
     <title>Journal Archive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Caveat:wght@600&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            color-scheme: light;
-        }
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
+        /* ================= [디자인] 1. 배경 & 헤더 ================= */
+        body { 
             font-family: 'Nanum Pen Script', cursive;
-            background-color: #1a120b;
+            background-color: #1a120b; 
             background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-            color: #1c1c1c;
-            min-height: 100vh;
-            padding: 40px 18px 80px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 2;
-        }
-        header {
-            background: #fff8ef;
-            border: 1px solid #e3d1bc;
-            border-radius: 16px;
-            padding: 32px 30px 26px;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-        }
-        header h1 {
-            font-family: 'Cinzel', serif;
+            color: #e6dec8; 
+            padding: 40px 20px; 
             margin: 0;
-            font-size: 3rem;
-            color: #b1732c;
-            text-align: center;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        header p {
-            text-align: center;
-            margin-top: 8px;
-            color: #7b5a3d;
-            font-size: 1.2rem;
+
+        header { 
+            text-align: center; 
+            margin-bottom: 40px; 
+            border-bottom: 2px solid #3e2723; 
+            background: rgba(0,0,0,0.4); 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-        .nav-bar {
-            margin-top: 22px;
+        
+        h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; margin: 0; color: #d4af37; text-shadow: 2px 2px 5px rgba(0,0,0,0.8); }
+        
+        .subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: #bcaaa4;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            margin-top: 20px;
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-nav { 
+            color: #e6dec8; 
+            text-decoration: none; 
+            font-family: 'Cinzel', serif; 
+            font-size: 1.2rem; 
+            padding-bottom: 5px;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .btn-nav:hover { color: #d4af37; border-bottom: 1px solid #d4af37; }
+        .btn-logout { color: #ff6b6b; }
+        .btn-logout:hover { color: #ffeb3b; border-color: #ffeb3b; }
+
+        /* ================= [디자인] 2. 검색 필터 박스 ================= */
+        .filter-box { 
+            background: #3e2723; 
+            padding: 20px; 
+            border-radius: 5px; 
+            margin-bottom: 50px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
+            border: 1px solid #5d4037; 
             flex-wrap: wrap;
         }
-        .nav-link {
-            border: 1px solid #c07a2c;
-            padding: 9px 20px;
-            border-radius: 999px;
-            text-decoration: none;
-            color: #c07a2c;
-            font-family: 'Cinzel', serif;
+
+        /* 입력창 스타일 */
+        select, input[type="date"] { 
+            padding: 10px 20px; 
+            background: #e6dec8; 
+            font-family: 'Caveat', cursive; 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #3e2723; 
+            border: none; 
+            border-radius: 3px; 
+            outline: none;
+        }
+
+        button { 
+            cursor: pointer; 
+            font-family: 'Cinzel', serif; 
+            font-weight: bold; 
+            padding: 12px 25px; 
             font-size: 1rem;
-            transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+            background-color: #1a120b; 
+            color: #d4af37; 
+            border: 1px solid #d4af37; 
+            transition: 0.3s;
         }
-        .nav-link:hover {
-            background: #c07a2c;
-            color: #fff;
-            transform: translateY(-2px);
+        button:hover { background-color: #d4af37; color: #1a120b; }
+
+        /* ================= [디자인] 3. 책꽂이 & 일기 카드 ================= */
+        .bookshelf { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 55px; 
+            padding: 20px; 
         }
-        body.focus-reading header,
-        body.focus-reading .filter-card {
-            opacity: 1;
-            transition: opacity 0.25s ease;
-        }
-        .filter-card {
-            margin-top: 30px;
-            background: #fffdf9;
-            border: 1px solid #e3d1bc;
-            border-radius: 16px;
-            padding: 26px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-        }
-        form { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
-        select, input[type="date"] {
-            padding: 10px 18px;
-            border-radius: 14px;
-            border: 1px solid #d6c2aa;
-            background: #fff;
-            font-family: 'Caveat', cursive;
-            font-size: 1.1rem;
-            color: #1c1c1c;
-            min-width: 180px;
-        }
-        button, .btn-reset {
-            padding: 12px 24px;
-            border-radius: 999px;
-            border: 1px solid #c07a2c;
-            background: #c07a2c;
-            color: #fff;
-            font-family: 'Cinzel', serif;
-            font-weight: bold;
-            cursor: pointer;
+
+        .diary-card-link {
             text-decoration: none;
+            color: inherit;
         }
-        button { background: #d4af37; }
-        button:hover, .btn-reset:hover { opacity: 0.85; }
-        .btn-reset {
-            background: transparent;
-            color: #c07a2c;
-        }
-        .diary-grid {
-            margin-top: 35px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .diary-card-link { text-decoration: none; color: inherit; }
+
         .diary-card {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 22px;
-            border: 1px solid #e0c9aa;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-            min-height: 320px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: #f5f1e6; 
+            padding: 20px; 
             position: relative;
+            border-radius: 5px 15px 15px 5px; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            border-left: 18px solid #8d6e63; 
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 360px; 
+            display: flex; 
+            flex-direction: column;
+            overflow: hidden;
             z-index: 1;
         }
-        .diary-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 18px 32px rgba(0,0,0,0.15);
+
+        .diary-card:hover { 
+            transform: translateY(-6px) scale(1.05); 
+            box-shadow: 18px 30px 45px rgba(0,0,0,0.6); 
+            z-index: 10; 
         }
-        .diary-card.active-focus { }
-        .date {
-            font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
-            color: #7a5c40;
+
+        .diary-card.active-focus {
+            transform: translateY(-10px) scale(1.08);
+            box-shadow: 22px 38px 55px rgba(0,0,0,0.75);
+            z-index: 60;
         }
+
+        .focus-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 20;
+        }
+
+        body.focus-reading .focus-overlay {
+            opacity: 1;
+        }
+
+        /* 날짜 */
+        .date { 
+            font-family: 'Cinzel', serif; 
+            font-size: 1.4rem; 
+            color: #3e2723; 
+            border-bottom: 2px solid #a1887f; 
+            padding-bottom: 8px; 
+            margin-bottom: 15px; 
+            font-weight: bold;
+        }
+        
+        /* 감정 뱃지 */
         .emotion-badge {
-            align-self: flex-start;
-            font-family: 'Cinzel', serif;
-            padding: 4px 12px;
-            border-radius: 999px;
-            border: 1px solid #d6c2aa;
-            font-size: 0.9rem;
-            color: #1c1c1c;
-            background: #fffaf0;
+            align-self: flex-start; 
+            font-family: 'Cinzel', serif; 
+            font-size: 0.9rem; 
+            padding: 4px 10px; 
+            border: 1px solid #5d4037; 
+            margin-bottom: 15px; 
+            background: rgba(255,255,255,0.6);
+            color: #3e2723;
+            font-weight: bold;
+            text-shadow: -1px -1px 0 rgba(26, 16, 8, 0.6),
+                         1px -1px 0 rgba(26, 16, 8, 0.6),
+                        -1px  1px 0 rgba(26, 16, 8, 0.6),
+                         1px  1px 0 rgba(26, 16, 8, 0.6);
+            -webkit-text-stroke: 0.4px rgba(26, 16, 8, 0.5);
         }
+
+        /* 일기 본문 */
         .text {
-            font-family: 'Caveat', cursive;
-            font-size: 1.1rem;
-            color: #2b2116;
-            line-height: 1.6;
-            overflow-y: auto;
-            flex: 1;
-            max-height: 160px;
-            word-break: break-word;
-            padding-right: 4px;
+            font-family: 'Caveat', 'Nanum Pen Script', cursive; 
+            font-size: 22px; 
+            font-weight: bold; 
+            color: #1a237e; 
+            line-height: 1.6; 
+            overflow-y: auto; 
+            flex-grow: 1; 
+            padding-right: 6px;
+            scrollbar-width: thin; 
+            scrollbar-color: #a1887f transparent;
         }
+        
+        .text::-webkit-scrollbar { width: 8px; }
+        .text::-webkit-scrollbar-thumb { background-color: #a1887f; border-radius: 4px; }
+
+        /* 인물 태그 */
         .people-tags {
-            font-size: 0.95rem;
-            color: #7a5c40;
+            margin-top: 15px; 
+            padding-top: 15px; 
+            border-top: 1px dashed #bcaaa4;
+            font-size: 1.2rem; 
+            color: #5d4037; 
+            font-family: 'Caveat', cursive; 
+            font-weight: bold;
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
         }
-        .people-tags span { margin-right: 6px; }
-        .empty-msg {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-size: 1.4rem;
-            color: #d6c09a;
-            padding: 60px 20px;
+
+        .people-tags span {
+            text-shadow: -0.6px -0.6px 0 rgba(15, 8, 3, 0.6),
+                          0.6px -0.6px 0 rgba(15, 8, 3, 0.6),
+                         -0.6px  0.6px 0 rgba(15, 8, 3, 0.6),
+                          0.6px  0.6px 0 rgba(15, 8, 3, 0.6);
+            -webkit-text-stroke: 0.35px rgba(15, 8, 3, 0.5);
         }
-        @media (max-width: 720px) {
-            header h1 { font-size: 2.4rem; }
-            .filter-card { padding: 18px; }
-            select, input[type="date"] { flex: 1; min-width: 140px; }
+
+        .empty-msg { 
+            grid-column: 1 / -1; 
+            text-align: center; 
+            color: #8d6e63; 
+            font-family: 'Caveat', cursive; 
+            font-size: 3rem; 
+            margin-top: 80px; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>The Archive Room</h1>
-            <p>{{ user }}'s recorded moods</p>
-            <div class="nav-bar">
-                <a href="/write" class="nav-link">Write New Entry</a>
-                <a href="/stats" class="nav-link">Statistics</a>
-                <a href="/logout" class="nav-link">Logout</a>
-            </div>
-        </header>
-
-        <section class="filter-card">
-            <form action="/history" method="get">
-                <select name="emotion">
-                    <option value="All">All Emotions</option>
-                    <option value="Happiness" {% if current_emotion == 'Happiness' %}selected{% endif %}>Happiness</option>
-                    <option value="Sadness" {% if current_emotion == 'Sadness' %}selected{% endif %}>Sadness</option>
-                    <option value="Anger" {% if current_emotion == 'Anger' %}selected{% endif %}>Anger</option>
-                    <option value="Fear" {% if current_emotion == 'Fear' %}selected{% endif %}>Fear</option>
-                    <option value="Disgust" {% if current_emotion == 'Disgust' %}selected{% endif %}>Disgust</option>
-                    <option value="Surprise" {% if current_emotion == 'Surprise' %}selected{% endif %}>Surprise</option>
-                </select>
-                <select name="person">
-                    <option value="All">All People</option>
-                    {% for person_name in all_people %}
-                        <option value="{{ person_name }}" {% if current_person == person_name %}selected{% endif %}>{{ person_name }}</option>
-                    {% endfor %}
-                </select>
-                <input type="date" name="date" value="{{ current_date }}">
-                <button type="submit">Filter</button>
-                <a href="/history" class="btn-reset">Reset</a>
-            </form>
-        </section>
-
-        <section class="diary-grid">
-            {% if diaries|length == 0 %}
-                <div class="empty-msg">No records match the filters.</div>
-            {% endif %}
-            {% for diary in diaries %}
-                <a href="{{ url_for('view_entry', entry_id=diary.id) }}" class="diary-card-link">
-                    <article class="diary-card" style="border-top: 4px solid {{ diary.color }};">
-                        <div class="date">{{ diary.date }}</div>
-                        <div class="emotion-badge" style="border-color: {{ diary.color }}; color: {{ diary.color }};">{{ diary.emotion }}</div>
-                        <div class="text">{{ diary.text }}</div>
-                        {% if diary.people %}
-                            <div class="people-tags">
-                                With:
-                                {% for p in diary.people %}
-                                    <span style="color: {{ p.color }};">{{ p.name }}</span>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </article>
-                </a>
-            {% endfor %}
-        </section>
-    </div>
-
+    <div class="focus-overlay"></div>
+    
     <audio id="bgm" loop preload="auto">
         <source src="/static/bgm.mp3" type="audio/mpeg">
     </audio>
 
+    <header>
+        <h1>The Grand Archives</h1>
+        <p class="subtitle">"{{ user }}'s memories sleep in silence."</p>
+        
+        <div class="nav-links">
+            <a href="/write" class="btn-nav">← Return to Desk</a>
+            <a href="/logout" class="btn-nav btn-logout">Exit Library (Logout)</a>
+        </div>
+    </header>
+
+    <div class="filter-box">
+        <form action="/history" method="get" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+            <select name="emotion">
+                <option value="All">All Emotions</option>
+                <option value="Happiness" {% if current_emotion == 'Happiness' %}selected{% endif %}>Happiness</option>
+                <option value="Sadness" {% if current_emotion == 'Sadness' %}selected{% endif %}>Sadness</option>
+                <option value="Anger" {% if current_emotion == 'Anger' %}selected{% endif %}>Anger</option>
+                <option value="Fear" {% if current_emotion == 'Fear' %}selected{% endif %}>Fear</option>
+                <option value="Disgust" {% if current_emotion == 'Disgust' %}selected{% endif %}>Disgust</option>
+                <option value="Surprise" {% if current_emotion == 'Surprise' %}selected{% endif %}>Surprise</option>
+            </select>
+
+            <select name="person">
+                <option value="All">All People</option>
+                {% for person_name in all_people %}
+                    <option value="{{ person_name }}" {% if current_person == person_name %}selected{% endif %}>
+                        {{ person_name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <input type="date" name="date" value="{{ current_date }}">
+
+            <button type="submit" class="btn-search">Search</button>
+            <a href="/history" style="color: #d4af37; text-decoration: underline; font-family: 'Cinzel', serif;">Reset</a>
+        </form>
+    </div>
+
+    <div class="bookshelf">
+        {% if diaries|length == 0 %}
+            <div class="empty-msg">
+                <p>No records found...</p>
+            </div>
+        {% endif %}
+
+        {% for diary in diaries %}
+        <a href="{{ url_for('view_entry', entry_id=diary.id) }}" class="diary-card-link">
+            <div class="diary-card" style="border-left-color: {{ diary.color }};">
+                <div class="date">{{ diary.date }}</div>
+                
+                <div class="emotion-badge" style="color: {{ diary.color }}; border-color: {{ diary.color }};">
+                    {{ diary.emotion }}
+                </div>
+                
+                <div class="text">{{ diary.text }}</div>
+                
+                {% if diary.people %}
+                <div class="people-tags">
+                    👥 With: 
+                    {% for p in diary.people %}
+                        <span style="color: {{ p.color }}; margin-right: 5px;">{{ p.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
     <script>
         const bgm = document.getElementById('bgm');
         bgm.volume = 0.5;
+
         const savedTime = sessionStorage.getItem('bgmTime');
         const startPlayback = () => {
             if (savedTime) {
-                const time = Math.max(0, parseFloat(savedTime));
-                if (!isNaN(time)) {
-                    bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
+                try {
+                    const time = Math.max(0, parseFloat(savedTime));
+                    if (!isNaN(time)) {
+                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
+                    }
+                } catch (err) {
+                    console.warn('Failed to restore bgm time', err);
                 }
             }
-            bgm.play().catch(() => {});
+            bgm.play().catch(e => console.log("자동 재생 차단됨"));
         };
+
         if (bgm.readyState >= 2) {
             startPlayback();
         } else {
             bgm.addEventListener('loadedmetadata', startPlayback, { once: true });
         }
+
         const persistTime = () => {
-            try { sessionStorage.setItem('bgmTime', bgm.currentTime); } catch (err) {}
+            try {
+                sessionStorage.setItem('bgmTime', bgm.currentTime);
+            } catch (err) {}
         };
-        setInterval(persistTime, 1500);
-        window.addEventListener('visibilitychange', () => { if (document.hidden) persistTime(); });
+        const syncInterval = setInterval(persistTime, 1500);
+        window.addEventListener('visibilitychange', () => {
+            if (document.hidden) persistTime();
+        });
         window.addEventListener('pagehide', persistTime);
         window.addEventListener('beforeunload', persistTime);
 
-        // Hover dimming removed
+        const diaryCards = document.querySelectorAll('.diary-card');
+        const activateFocus = (card) => {
+            if (!card) return;
+            card.classList.add('active-focus');
+            document.body.classList.add('focus-reading');
+        };
+        const deactivateFocus = (card) => {
+            if (card) card.classList.remove('active-focus');
+            if (!document.querySelector('.diary-card.active-focus')) {
+                document.body.classList.remove('focus-reading');
+            }
+        };
+
+        diaryCards.forEach(card => {
+            card.addEventListener('mouseenter', () => activateFocus(card));
+            card.addEventListener('mouseleave', () => deactivateFocus(card));
+            card.addEventListener('touchstart', () => activateFocus(card), { passive: true });
+            card.addEventListener('touchend', () => setTimeout(() => deactivateFocus(card), 250), { passive: true });
+            card.addEventListener('touchcancel', () => deactivateFocus(card), { passive: true });
+        });
     </script>
     {% include 'page_turn_sound.html' %}
+
 </body>
 </html>

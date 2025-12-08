@@ -3,172 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Entry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Caveat:wght@600&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <style>
-        :root { color-scheme: light; }
+        :root {
+            --paper-left: #f0e6d2;
+            --paper-right: #f7f1df;
+            --ink: #1a120b;
+            --accent: #d4af37;
+        }
         * { box-sizing: border-box; }
         body {
             margin: 0;
-            font-family: 'Nanum Pen Script', cursive;
-            background-color: #1a120b;
-            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-            color: #1c1c1c;
             min-height: 100vh;
-            padding: 40px 18px 80px;
-        }
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        header {
-            background: #fff8ef;
-            border: 1px solid #e3d1bc;
-            border-radius: 16px;
-            padding: 30px 28px 24px;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            font-family: 'Nanum Pen Script', cursive;
+            background-color: #120b08;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-        header h1 {
-            font-family: 'Cinzel', serif;
-            margin: 0;
-            color: #b1732c;
-            text-align: center;
-            font-size: 3rem;
-        }
-        header p { text-align: center; margin: 0; color: #d6c09a; }
-        .nav-bar {
-            display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
+            padding: 30px 20px 50px;
+            color: #e6dec8;
         }
-        .nav-link {
-            border: 1px solid #c07a2c;
-            padding: 9px 20px;
-            border-radius: 999px;
-            text-decoration: none;
-            color: #c07a2c;
+        .viewer-nav {
+            width: min(1200px, 95%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
         }
-        .nav-link:hover { background: #c07a2c; color: #fff; transform: translateY(-2px); }
-        form { margin-top: 35px; }
-        .edit-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-            gap: 20px;
+        .viewer-nav a {
+            color: #e6dec8;
+            text-decoration: none;
+            border: 1px solid rgba(212,175,55,0.5);
+            padding: 8px 16px;
+            border-radius: 25px;
+            transition: 0.3s;
         }
-        .card {
-            background: #ffffff;
-            border: 1px solid #e3d1bc;
+        .viewer-nav a:hover { border-color: #ffeb3b; color: #ffeb3b; }
+        .editor-shell {
+            width: min(1200px, 95%);
+            background: linear-gradient(120deg, rgba(62,39,35,0.95), rgba(33,23,20,0.95));
+            border-radius: 26px;
+            box-shadow: 0 35px 70px rgba(0,0,0,0.75);
+            padding: 18px;
+            position: relative;
+        }
+        .editor-shell::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 2px solid rgba(212,175,55,0.45);
+            border-radius: 22px;
+            pointer-events: none;
+        }
+        .book-layout {
+            display: flex;
+            min-height: 620px;
+            gap: 8px;
+        }
+        .page {
+            flex: 1;
             border-radius: 18px;
-            padding: 26px;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+            padding: 45px;
+            background: var(--paper-left);
+            color: var(--ink);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.12);
+        }
+        .page-right {
+            background: var(--paper-right);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            color: var(--accent);
+            margin: 0 0 20px;
+            letter-spacing: 2px;
         }
         label {
             font-family: 'Cinzel', serif;
-            font-size: 1rem;
-            color: #7a5c40;
+            font-size: 1.1rem;
+            color: #5d4037;
+            margin-bottom: 8px;
             display: block;
-            margin-bottom: 10px;
         }
         input[type="date"] {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: 14px;
-            border: 1px solid #d6c2aa;
-            background: #fff;
+            padding: 10px;
+            font-size: 1.3rem;
             font-family: 'Caveat', cursive;
-            font-size: 1.2rem;
-            color: #1c1c1c;
+            border: none;
+            border-bottom: 3px solid #8d6e63;
+            background: transparent;
+            color: #3e2723;
         }
-        .stat-grid {
-            margin-top: 20px;
+        .stats {
+            margin-top: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
         }
         .stat-card {
-            background: #fffdf9;
-            border-radius: 16px;
-            padding: 12px 14px;
-            border: 1px solid #e3d1bc;
+            background: rgba(255,255,255,0.7);
+            border-left: 5px solid var(--accent);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
         .stat-card strong {
             display: block;
             font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #d6c09a;
+            margin-bottom: 6px;
+            color: #3e2723;
         }
         .stat-card span {
+            font-size: 1.4rem;
             font-family: 'Caveat', cursive;
-            font-size: 1.2rem;
         }
         textarea {
+            flex: 1;
             width: 100%;
-            min-height: 480px;
-            border: 1px solid #e3d1bc;
-            border-radius: 20px;
-            background: #fffdfa;
-            color: #1c1c1c;
-            font-size: 1.3rem;
-            line-height: 1.7;
-            padding: 24px;
+            border: none;
+            background: transparent;
+            font-size: 1.9rem;
             font-family: 'Nanum Pen Script', cursive;
-            resize: vertical;
+            color: #1a120b;
+            line-height: 52px;
+            outline: none;
+            resize: none;
+            background-image: linear-gradient(transparent 96%, rgba(0,0,0,0.2) 96%);
+            background-size: 100% 52px;
+            padding: 0;
+            margin-top: 15px;
         }
-        .action-row {
-            margin-top: 22px;
+        .actions {
+            margin-top: 25px;
             display: flex;
+            gap: 15px;
             flex-wrap: wrap;
-            gap: 12px;
         }
-        .action-row a,
-        .action-row button {
+        button, .btn-link {
             flex: 1;
             min-width: 160px;
-            padding: 12px 18px;
-            border-radius: 999px;
-            border: 1px solid #c07a2c;
-            background: #fff;
-            color: #c07a2c;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--accent);
+            background: rgba(62,39,35,0.9);
+            color: #e6dec8;
             font-family: 'Cinzel', serif;
             font-size: 1rem;
-            text-decoration: none;
             cursor: pointer;
+            text-decoration: none;
+            text-align: center;
         }
-        .action-row button.primary { background: #c07a2c; color: #fff; }
-        .action-row a:hover,
-        .action-row button:hover { opacity: 0.85; }
-        @media (max-width: 960px) {
-            .edit-grid { grid-template-columns: 1fr; }
-            textarea { min-height: 360px; }
+        button[type="submit"] {
+            background: var(--accent);
+            color: #1a120b;
+        }
+        button:hover, .btn-link:hover { opacity: 0.85; }
+        @media (max-width: 900px) {
+            .book-layout {
+                flex-direction: column;
+            }
+            .page {
+                padding: 30px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Edit Entry</h1>
-            <p>Fine-tune the words before sealing the page</p>
-            <div class="nav-bar">
-                <a href="/write" class="nav-link">Write</a>
-                <a href="/history" class="nav-link">Archive</a>
-                <a href="/stats" class="nav-link">Statistics</a>
-                <a href="/logout" class="nav-link">Logout</a>
-            </div>
-        </header>
-
+    <div class="viewer-nav">
+        <span>Keeper: {{ user }}</span>
+        <div style="display: flex; gap: 10px;">
+            <a href="/history">Archive</a>
+            <a href="/write">Write</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <audio id="bgm" loop preload="auto">
+        <source src="/static/bgm.mp3" type="audio/mpeg">
+    </audio>
+    <div class="editor-shell">
+        <h1>Edit Entry</h1>
         <form action="{{ url_for('edit_entry', entry_id=entry_id) }}" method="post">
             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-            <div class="edit-grid">
-                <article class="card">
+            <div class="book-layout">
+                <div class="page page-left">
                     <label for="date">Date</label>
                     <input type="date" id="date" name="date" value="{{ iso_date }}" required>
-                    <div class="stat-grid">
+                    <div class="stats">
                         <div class="stat-card">
                             <strong>Emotion</strong>
                             <span>{{ entry.emotion }}</span>
@@ -179,42 +206,37 @@
                         </div>
                         <div class="stat-card">
                             <strong>Color</strong>
-                            <span>{{ entry.color_name }} ({{ entry.color }})</span>
-                        </div>
-                        <div class="stat-card">
-                            <strong>People</strong>
-                            <span>{{ entry.people|length if entry.people else 0 }}</span>
+                            <span>{{ entry.color_name }}</span>
                         </div>
                     </div>
-                </article>
-                <article class="card">
-                    <label for="diary">Diary Text</label>
+                </div>
+                <div class="page page-right">
+                    <label for="diary">Diary</label>
                     <textarea id="diary" name="diary" required>{{ entry.text }}</textarea>
-                </article>
-            </div>
-            <div class="action-row">
-                <a href="/view/{{ entry.id }}">Cancel</a>
-                <button type="submit" class="primary">Save Changes</button>
+                    <div class="actions">
+                        <a href="{{ url_for('view_entry', entry_id=entry_id) }}" class="btn-link">Cancel</a>
+                        <button type="submit">Save Changes</button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-
-    <audio id="bgm" loop preload="auto">
-        <source src="/static/bgm.mp3" type="audio/mpeg">
-    </audio>
-
     <script>
         const bgm = document.getElementById('bgm');
         bgm.volume = 0.5;
         const savedTime = sessionStorage.getItem('bgmTime');
         const startPlayback = () => {
             if (savedTime) {
-                const time = Math.max(0, parseFloat(savedTime));
-                if (!isNaN(time)) {
-                    bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
+                try {
+                    const time = Math.max(0, parseFloat(savedTime));
+                    if (!isNaN(time)) {
+                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
+                    }
+                } catch (err) {
+                    console.warn('Failed to restore bgm time', err);
                 }
             }
-            bgm.play().catch(() => {});
+            bgm.play().catch(e => console.log("자동 재생 차단됨"));
         };
         if (bgm.readyState >= 2) {
             startPlayback();
@@ -222,10 +244,14 @@
             bgm.addEventListener('loadedmetadata', startPlayback, { once: true });
         }
         const persistTime = () => {
-            try { sessionStorage.setItem('bgmTime', bgm.currentTime); } catch (err) {}
+            try {
+                sessionStorage.setItem('bgmTime', bgm.currentTime);
+            } catch (err) {}
         };
-        setInterval(persistTime, 1500);
-        window.addEventListener('visibilitychange', () => { if (document.hidden) persistTime(); });
+        const syncInterval = setInterval(persistTime, 1500);
+        window.addEventListener('visibilitychange', () => {
+            if (document.hidden) persistTime();
+        });
         window.addEventListener('pagehide', persistTime);
         window.addEventListener('beforeunload', persistTime);
     </script>
