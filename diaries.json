@@ -1,0 +1,1314 @@
+{
+    "Baek": [
+        {
+            "date": "November 24, 2025",
+            "text": "I had a great time in today's lesson.",
+            "emotion": "Happiness",
+            "color": "#f1f895",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f6f194",
+                    "count": 1
+                }
+            ]
+        }
+    ],
+    "Shion": [],
+    "abc": [
+        {
+            "date": "November 28, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#2c2936",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#383049",
+                    "count": 1
+                }
+            ],
+            "id": "a12c212ea53fbbbe"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "The dusty smell coming from the carpet made me regret stepping on it.",
+            "emotion": "Anger",
+            "color": "#8a372d",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#7e2f48",
+                    "count": 1
+                }
+            ],
+            "id": "9d129c9848811a5c"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I instantly backed away when I saw mold covering the walls.",
+            "emotion": "Disgust",
+            "color": "#294c28",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Disgust",
+                    "color": "#465332",
+                    "count": 2
+                }
+            ],
+            "id": "b0d51c46ee4b69d3"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "The dusty smell coming from the carpet made me regret stepping on it.",
+            "emotion": "Anger",
+            "color": "#8b2e3e",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#612934",
+                    "count": 1
+                }
+            ],
+            "id": "6efdb306aa67ac3a"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "The professor gave me too many assignments",
+            "emotion": "Anger",
+            "color": "#984e46",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#822c42",
+                    "count": 1
+                }
+            ],
+            "id": "3e0cf31f321a22f7"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "",
+            "emotion": "Happiness",
+            "color": "#f7fc97",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "29946a54e416adbd"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "The professor gave me too many assignments",
+            "emotion": "Anger",
+            "color": "#693342",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#5f212e",
+                    "count": 1
+                }
+            ],
+            "id": "7bb8a930257128d1"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "It feels like the world outside has adopted the same gray filter that's been hanging over my mood all week. There's no specific tragedy to point to, just a persistent, low-level hum of melancholy that makes everything feel a little muted and insignificant. I find myself drifting through tasks without enthusiasm, and even things I usually look forward to—like reading a good book or listening to music—fail to spark any real joy. It's the kind of quiet sadness that doesn't demand attention, but simply absorbs the color out of the day. Maybe I'm just tired, or perhaps this is just one of those emotional troughs everyone cycles through. I keep reminding myself that feelings, like the weather, are temporary, yet the prospect of waiting for the sun to break through feels exhausting right now.\r\n\r\nI tried to combat the slump earlier by going for a walk, hoping the fresh air and change of scenery would help, but it just ended up confirming my internal state. The streets seemed ordinary, the people rushed and preoccupied, and I felt utterly detached, like a silent observer in my own life. I spent the evening staring at the ceiling, thinking about all the things I should be doing versus what I actually felt capable of, which was nothing much at all. It’s frustrating to have a mind full of ambitions but a spirit too heavy to execute them. I suppose all I can do is acknowledge this feeling, not try to force a change, and hope that tomorrow brings a slightly lighter step. I’ll write down one small positive thing before I sleep, even if it's just the fact that I remembered to eat dinner.",
+            "emotion": "Happiness",
+            "color": "#e8f090",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#64331f",
+                    "count": 14
+                },
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#86323a",
+                    "count": 1
+                }
+            ],
+            "id": "4329a8be17af7d84"
+        },
+        {
+            "date": "November 14, 2025",
+            "text": "It feels like the world outside has adopted the same gray filter that's been hanging over my mood all week. There's no specific tragedy to point to, just a persistent, low-level hum of melancholy that makes everything feel a little muted and insignificant. I find myself drifting through tasks without enthusiasm, and even things I usually look forward to—like reading a good book or listening to music—fail to spark any real joy. It's the kind of quiet sadness that doesn't demand attention, but simply absorbs the color out of the day. Maybe I'm just tired, or perhaps this is just one of those emotional troughs everyone cycles through. I keep reminding myself that feelings, like the weather, are temporary, yet the prospect of waiting for the sun to break through feels exhausting right now.\r\n\r\nI tried to combat the slump earlier by going for a walk, hoping the fresh air and change of scenery would help, but it just ended up confirming my internal state. The streets seemed ordinary, the people rushed and preoccupied, and I felt utterly detached, like a silent observer in my own life. I spent the evening staring at the ceiling, thinking about all the things I should be doing versus what I actually felt capable of, which was nothing much at all. It’s frustrating to have a mind full of ambitions but a spirit too heavy to execute them. I suppose all I can do is acknowledge this feeling, not try to force a change, and hope that tomorrow brings a slightly lighter step. I’ll write down one small positive thing before I sleep, even if it's just the fact that I remembered to eat dinner.",
+            "emotion": "Happiness",
+            "color": "#f3db9a",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#75412b",
+                    "count": 14
+                },
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#7e394e",
+                    "count": 1
+                }
+            ],
+            "id": "acaa1d165645d48a"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I stopped breathing for a moment when a foul scent filled the elevator.",
+            "emotion": "Sadness",
+            "color": "#2e333a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3f3c58",
+                    "count": 1
+                }
+            ],
+            "id": "bdb948dd3087ccc9"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I backed away when I noticed a layer of dust thick enough to write on.",
+            "emotion": "Anger",
+            "color": "#723a27",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#663a2a",
+                    "count": 2
+                }
+            ],
+            "id": "cfd41156201a6ceb"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I have a lot of work to do",
+            "emotion": "Happiness",
+            "color": "#f1f895",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f7f79e",
+                    "count": 1
+                }
+            ],
+            "id": "05e31d9f286b9165"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "im too sleepy",
+            "emotion": "Anger",
+            "color": "#8f422c",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "cbc113dc08ce6ca1"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "i have no friend to play video game...",
+            "emotion": "Happiness",
+            "color": "#f2df91",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "4389a58f56832c74"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "i'm too tired\r\n",
+            "emotion": "Sadness",
+            "color": "#2a2833",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "3bbc3b8e21fcf81a"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "i have no friends to play game",
+            "emotion": "Sadness",
+            "color": "#353943",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "98acb8fc637bb736"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "Today feels heavy, a kind of deep, aching sadness that settles in my bones. It’s not just one thing, but a culmination of small disappointments and the quiet realization that some things will never be the way they were. The rain outside mirrors the gray feeling in my chest; everything seems muted, colorless, and distant. I tried to shake it off, to focus on something positive, but the effort felt exhausting, and eventually, I just let the gloom take over. I wish I could fast-forward through this feeling, but I know I just have to sit with it until the light returns, however long that takes.",
+            "emotion": "Sadness",
+            "color": "#282d33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#2f2c37",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f0c996",
+                    "count": 6
+                }
+            ],
+            "id": "f04b2792e2105fe0"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The morning started under a cloud of deep disappointment. I felt incredibly lonely, and a specific memory of a recent setback kept playing in my mind, making my chest ache. I even shed a few tears, convinced that nothing good would happen today. But later, as I was walking, a thought suddenly struck me: I have the power to change this moment. I decided to call an old friend I hadn't spoken to in months. Our conversation flowed so easily—full of laughter and shared memories—and it completely lifted my spirits. It was a simple connection, yet it reminded me that joy is often found in reaching out, and that even the darkest days can hold unexpected moments of beautiful light. I feel so much lighter now, ready for tomorrow.",
+            "emotion": "Happiness",
+            "color": "#fed098",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#333b40",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#fdd49c",
+                    "count": 7
+                }
+            ],
+            "id": "de9f7622cdf84090"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "Today was a dream come true! I finally received the acceptance letter for the art residency I've wanted for years. I was literally jumping around the apartment, screaming with pure, unadulterated joy. I felt like I was floating on air, completely invincible, and spent the entire afternoon texting everyone and planning the move. Later, as I settled down and looked out the window, I noticed something strange across the street: a light flickering rapidly in the top window of the old, abandoned house. It wasn't just blinking; it seemed frantic. I dismissed it at first, attributing it to the cold, but then I saw a shadow—tall, thin, and definitely not static—pass behind the glass. My heart instantly dropped from its peak of happiness into a pit of icy dread. The silence in my apartment suddenly felt deafening, and now I can't shake the chilling feeling that someone is watching.",
+            "emotion": "Fear",
+            "color": "#253328",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#242a33",
+                    "count": 10
+                },
+                {
+                    "name": "My",
+                    "emotion": "Fear",
+                    "color": "#131233",
+                    "count": 1
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#393745",
+                    "count": 1
+                }
+            ],
+            "id": "fff2e5316776d8b2"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "“Where could it be?” Sophie asked herself. It had been more \r\nthan ten years since she had last visited the area where she had \r\ngrown up. The village had changed a lot over time. Uncertain, \r\nshe awkwardly looked around at her surroundings. She walked \r\nthe narrow streets of the village, unsure about which way to \r\ngo. Suddenly, Sophie saw a familiar sight. “Yes, this must be \r\nit,” she thought. In front of her was a wall with flowers painted \r\non it. Although the colors were now faded, the familiar shapes \r\non the wall were the same ones she had painted with her father \r\nas a child. Sophie nodded, smiled brightly, and walked toward \r\nthe gate. At last, she had finally found the house she had \r\ngrown up in.",
+            "emotion": "Happiness",
+            "color": "#f5d595",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Sophie",
+                    "emotion": "Anger",
+                    "color": "#933a52",
+                    "count": 3
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#252d33",
+                    "count": 1
+                },
+                {
+                    "name": "She",
+                    "emotion": "Anger",
+                    "color": "#6e282a",
+                    "count": 1
+                },
+                {
+                    "name": "In",
+                    "emotion": "Sadness",
+                    "color": "#2e2d39",
+                    "count": 1
+                }
+            ],
+            "id": "9ef9105eff07334d"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "It was Valentine’s Day on Friday and Peter was certain that \r\nhis wife, Amy, was going to love his surprise. Peter had spent \r\na long time searching online for an event that would be a new \r\nway to spend time with Amy. He had finally found the perfect \r\nthing for her. She often told him that she liked to go to places \r\nshe had never visited before, and he was absolutely sure that \r\nshe would love going to the new, five-star restaurant downtown.\r\nHe smiled as he called the restaurant and asked for a reservation \r\nfor Friday. Unfortunately, his smile quickly disappeared when \r\nhe was told that the restaurant was fully reserved. “That’s too\r\nbad,” he said quietly. “I thought that I had found the right \r\nplace.”",
+            "emotion": "Happiness",
+            "color": "#f8d89c",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Valentine",
+                    "emotion": "Happiness",
+                    "color": "#fcf497",
+                    "count": 1
+                },
+                {
+                    "name": "Day",
+                    "emotion": "Happiness",
+                    "color": "#fceea3",
+                    "count": 1
+                },
+                {
+                    "name": "Friday",
+                    "emotion": "Happiness",
+                    "color": "#efe395",
+                    "count": 2
+                },
+                {
+                    "name": "Peter",
+                    "emotion": "Happiness",
+                    "color": "#fbe597",
+                    "count": 2
+                },
+                {
+                    "name": "Amy",
+                    "emotion": "Happiness",
+                    "color": "#f5d794",
+                    "count": 2
+                },
+                {
+                    "name": "She",
+                    "emotion": "Happiness",
+                    "color": "#f3c392",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Surprise",
+                    "color": "#d3a6ec",
+                    "count": 2
+                }
+            ],
+            "id": "3c7679a720dee469"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "It was Valentine’s Day on Friday and Peter was certain that \r\nhis wife, Amy, was going to love his surprise. Peter had spent \r\na long time searching online for an event that would be a new \r\nway to spend time with Amy. He had finally found the perfect \r\nthing for her. She often told him that she liked to go to places \r\nshe had never visited before, and he was absolutely sure that \r\nshe would love going to the new, five-star restaurant downtown.\r\nHe smiled as he called the restaurant and asked for a reservation \r\nfor Friday. Unfortunately, his smile quickly disappeared when \r\nhe was told that the restaurant was fully reserved. “That’s too\r\nbad,” he said quietly. “I thought that I had found the right \r\nplace.”",
+            "emotion": "Happiness",
+            "color": "#fbf096",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Valentine",
+                    "emotion": "Happiness",
+                    "color": "#fed098",
+                    "count": 1
+                },
+                {
+                    "name": "Day",
+                    "emotion": "Happiness",
+                    "color": "#f3ea9b",
+                    "count": 1
+                },
+                {
+                    "name": "Friday",
+                    "emotion": "Happiness",
+                    "color": "#f3d397",
+                    "count": 2
+                },
+                {
+                    "name": "Peter",
+                    "emotion": "Happiness",
+                    "color": "#f9c895",
+                    "count": 2
+                },
+                {
+                    "name": "Amy",
+                    "emotion": "Happiness",
+                    "color": "#f2d197",
+                    "count": 2
+                },
+                {
+                    "name": "She",
+                    "emotion": "Happiness",
+                    "color": "#f6e797",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Surprise",
+                    "color": "#d2ead6",
+                    "count": 2
+                }
+            ],
+            "id": "b37f29a2da29fb1e"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The day started in a dazzling burst of golden sunshine and effortless joy. I woke up feeling light, the kind of happy where you want to hum and dance, and every tiny thing — the warm cup of coffee, the clear blue sky outside the window, a spontaneous text from an old friend — felt like a wonderful affirmation of life. That feeling of buoyancy carried me through the morning, an exhilarating, almost giddy sense that everything was perfectly fine and full of promise. But as the afternoon wore on, a subtle, chilly grayness began to creep in, quiet and insidious, not triggered by anything specific, but simply the slow, heavy return of an old, familiar weight. The energy I had felt earlier drained away, leaving behind a dull ache, and suddenly the quiet apartment and the setting sun didn't feel peaceful anymore, but overwhelmingly isolating, the vibrant memory of the morning's happiness only serving to deepen the melancholic contrast of the present moment.",
+            "emotion": "Happiness",
+            "color": "#f9e895",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#f4c892",
+                    "count": 2
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#fceea3",
+                    "count": 2
+                }
+            ],
+            "id": "9d40e51736152a26"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "i am sad",
+            "emotion": "Sadness",
+            "color": "#363d44",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "bb78336cf7fd5c6c"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The day started in a dazzling burst of golden sunshine and effortless joy. I woke up feeling light, the kind of happy where you want to hum and dance, and every tiny thing — the warm cup of coffee, the clear blue sky outside the window, a spontaneous text from an old friend — felt like a wonderful affirmation of life. That feeling of buoyancy carried me through the morning, an exhilarating, almost giddy sense that everything was perfectly fine and full of promise. But as the afternoon wore on, a subtle, chilly grayness began to creep in, quiet and insidious, not triggered by anything specific, but simply the slow, heavy return of an old, familiar weight. The energy I had felt earlier drained away, leaving behind a dull ache, and suddenly the quiet apartment and the setting sun didn't feel peaceful anymore, but overwhelmingly isolating, the vibrant memory of the morning's happiness only serving to deepen the melancholic contrast of the present moment.",
+            "emotion": "Happiness",
+            "color": "#fcef97",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#f6fe99",
+                    "count": 2
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f2c391",
+                    "count": 2
+                }
+            ],
+            "id": "80b893c861af30b8"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The morning was spectacular, a rare, golden feeling of perfect, effortless joy where every little sound and sight felt like a gift. I felt light and optimistic, convinced that the entire day held nothing but good things, and I moved through the early hours with a buoyant energy. However, by the late afternoon, that initial warmth had completely cooled off; an inexplicable heaviness began to settle deep in my chest, and the bright, hopeful thoughts were slowly choked out by a quiet, pervasive sadness. Now, as the sky darkens, the silence feels less like peace and more like crushing isolation, making the brief memory of my earlier happiness feel distant and painfully sharp.",
+            "emotion": "Happiness",
+            "color": "#f2ed99",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#fad696",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f2c391",
+                    "count": 2
+                }
+            ],
+            "id": "01b4cfab92f7175c"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "i was happy. but the end iwas sad\r\n",
+            "emotion": "Happiness",
+            "color": "#fdd49a",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "6850363254412aac"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "i am sad",
+            "emotion": "Sadness",
+            "color": "#3c344f",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "69b1fbf1b3bbf826"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The morning was spectacular, a rare, golden feeling of perfect, effortless joy where every little sound and sight felt like a gift. I felt light and optimistic, convinced that the entire day held nothing but good things, and I moved through the early hours with a buoyant energy. However, by the late afternoon, that initial warmth had completely cooled off; an inexplicable heaviness began to settle deep in my chest, and the bright, hopeful thoughts were slowly choked out by a quiet, pervasive sadness. Now, as the sky darkens, the silence feels less like peace and more like crushing isolation, making the brief memory of my earlier happiness feel distant and painfully sharp.",
+            "emotion": "Sadness",
+            "color": "#2e2b35",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#fdce98",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f0f794",
+                    "count": 2
+                }
+            ],
+            "id": "b0462027220589b6"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The day started in a dazzling burst of golden sunshine and effortless joy. I woke up feeling light, the kind of happy where you want to hum and dance, and every tiny thing — the warm cup of coffee, the clear blue sky outside the window, a spontaneous text from an old friend — felt like a wonderful affirmation of life. That feeling of buoyancy carried me through the morning, an exhilarating, almost giddy sense that everything was perfectly fine and full of promise. But as the afternoon wore on, a subtle, chilly grayness began to creep in, quiet and insidious, not triggered by anything specific, but simply the slow, heavy return of an old, familiar weight. The energy I had felt earlier drained away, leaving behind a dull ache, and suddenly the quiet apartment and the setting sun didn't feel peaceful anymore, but overwhelmingly isolating, the vibrant memory of the morning's happiness only serving to deepen the melancholic contrast of the present moment.",
+            "emotion": "Happiness",
+            "color": "#f7c694",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#f7ee94",
+                    "count": 2
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#fcef97",
+                    "count": 2
+                }
+            ],
+            "id": "a159086c3b98a7e1"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "My day started submerged in a heavy blanket of SADNESS; I felt the sting of tears behind my eyes, a profound sense of loneliness that made even breathing feel like effort, and I just wanted to hide from the world. But then, an unexpected phone call came—a piece of fantastic news about an opportunity I thought was lost—and the gloom instantly shattered, replaced by an overwhelming, surging JOY that made me laugh aloud, my whole body vibrating with sudden, intense hope. That elated state was brutally interrupted later when I realized I was being followed on the dimly lit street, a cold dread seizing my gut, turning my blood to ice; the sheer FEAR was paralyzing, forcing me to quicken my pace, heart hammering against my ribs. Finally, once I reached safety, that raw terror curdled into scorching, indignant ANGER at the violation and vulnerability, leaving me clenching my fists and burning with the unfairness of having my peace stolen so violently.",
+            "emotion": "Fear",
+            "color": "#10331c",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "My",
+                    "emotion": "Sadness",
+                    "color": "#2a2833",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#242433",
+                    "count": 6
+                }
+            ],
+            "id": "3822541b0d6a0a71"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "I started the day heavy with deep SADNESS. The world felt muted and gray, and a dull, familiar ache settled heavily in my chest.\r\n\r\nThen, a sudden, thrilling surge of JOY erupted when I got the amazing news. My entire body felt light and celebratory, making me burst into uncontrolled laughter.\r\n\r\nHowever, a paralyzing wave of FEAR swept over me on the walk home. I suddenly felt vulnerable, convinced I was being watched from the shadows.\r\n\r\nFinally, the terror dissolved into furious ANGER. My fists clenched with sheer frustration at having my safety and peace so carelessly jeopardized.",
+            "emotion": "Anger",
+            "color": "#7a353c",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#292833",
+                    "count": 4
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#262c39",
+                    "count": 1
+                },
+                {
+                    "name": "My",
+                    "emotion": "Happiness",
+                    "color": "#fcef97",
+                    "count": 2
+                }
+            ],
+            "id": "465f11f7b6c95f3e"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The morning started with brilliant JOY; a sense of boundless optimism made me feel like I could achieve anything. I felt energized and laughed freely, enjoying the effortless perfection of the moment.\r\n\r\nBut by midday, an unexpected SADNESS crept in, heavy and unwarranted. The earlier energy drained away, leaving a hollow ache and a feeling of profound loneliness.\r\n\r\nThankfully, the gloom didn't last, and a new wave of JOY broke through in the evening. A simple dinner with friends rekindled my good spirits, reminding me of all the wonderful things I have.",
+            "emotion": "Happiness",
+            "color": "#f6f194",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#f4c892",
+                    "count": 2
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#fce797",
+                    "count": 3
+                },
+                {
+                    "name": "A",
+                    "emotion": "Happiness",
+                    "color": "#f9ee9c",
+                    "count": 1
+                }
+            ],
+            "id": "5b2768da542a0a7d"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "The morning started with brilliant JOY; a sense of boundless optimism made me feel like I could achieve anything. I felt energized and laughed freely, enjoying the effortless perfection of the moment.\r\n\r\nBut by midday, an unexpected SADNESS crept in, heavy and unwarranted. The earlier energy drained away, leaving a hollow ache and a feeling of profound loneliness.\r\n\r\nThankfully, the gloom didn't last, and a new wave of JOY broke through in the evening. A simple dinner with friends rekindled my good spirits, reminding me of all the wonderful things I have.",
+            "emotion": "Happiness",
+            "color": "#f8f795",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#fdcc98",
+                    "count": 2
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#fcf497",
+                    "count": 3
+                },
+                {
+                    "name": "A",
+                    "emotion": "Happiness",
+                    "color": "#f1de90",
+                    "count": 1
+                }
+            ],
+            "id": "35f33a25341071eb"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "📝 Emotional Rollercoaster Diary\r\nThis morning started off feeling incredibly refreshing! ☀️ The sunshine pouring through the window felt like a gift of new opportunities, setting a great tone for the day. However, a sudden downpour on my commute soaked my clothes completely, and I instantly felt angry and annoyed. 😠 Thankfully, a coworker offered me a warm coffee and some comfort, which quickly made me feel touched and my heart warmed up. 🥹 Hearing the news during lunch that a major project deadline had been moved up suddenly made me feel anxious about whether I could finish it in time, 🤔 but listening to my favorite music after work, I ended up feeling satisfied that I made it through another day. 😊",
+            "emotion": "Fear",
+            "color": "#28332a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "Diary",
+                    "emotion": "Happiness",
+                    "color": "#f8fd9c",
+                    "count": 1
+                },
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#fed098",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Fear",
+                    "color": "#331014",
+                    "count": 4
+                }
+            ],
+            "id": "7835a1133eb21b72"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "\"Where could it be?\" Sophie asked herself. It had been more than ten years since she had last visited the area where she had grown up. The Village had changed a lot over time. Uncertain, she awkwardly looked around at her surroundings. She walked the narrow streets of the village, unsure about which way to go. Suddenly, Sophie saw a familiar sight. \"Yes, this must be it,\" she thought. In front of her was a wall with flowers painted on it. Although the colors were now faded, the familiar shapes on the wall were the same ones she had painted with her father as a child. Sophie nodded, smiled brightly, and walked toward the gate. At last, she had finally found the house she had grown up in.",
+            "emotion": "Happiness",
+            "color": "#fad096",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Sophie",
+                    "emotion": "Anger",
+                    "color": "#7c3440",
+                    "count": 3
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#3c384a",
+                    "count": 1
+                },
+                {
+                    "name": "She",
+                    "emotion": "Anger",
+                    "color": "#862937",
+                    "count": 1
+                },
+                {
+                    "name": "In",
+                    "emotion": "Sadness",
+                    "color": "#383548",
+                    "count": 1
+                }
+            ],
+            "id": "f8b32551baf70048"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "\"Where could it be?\" Sophie asked herself. It had been more than ten years since she had last visited the area where she had grown up. The Village had changed a lot over time. Uncertain, she awkwardly looked around at her surroundings. She walked the narrow streets of the village, unsure about which way to go. Suddenly, Sophie saw a familiar sight. \"Yes, this must be it,\" she thought. In front of her was a wall with flowers painted on it. Although the colors were now faded, the familiar shapes on the wall were the same ones she had painted with her father as a child. Sophie nodded, smiled brightly, and walked toward the gate. At last, she had finally found the house she had grown up in.",
+            "emotion": "Happiness",
+            "color": "#f5c693",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Sophie",
+                    "emotion": "Anger",
+                    "color": "#5d3c2b",
+                    "count": 3
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#414252",
+                    "count": 1
+                },
+                {
+                    "name": "She",
+                    "emotion": "Anger",
+                    "color": "#7c2835",
+                    "count": 1
+                },
+                {
+                    "name": "In",
+                    "emotion": "Sadness",
+                    "color": "#232534",
+                    "count": 1
+                }
+            ],
+            "id": "0e63c93f9671e3c1"
+        },
+        {
+            "date": "November 29, 2025",
+            "text": "\"Where could it be?\" Sophie asked herself. It had been more than ten years since she had last visited the area where she had grown up. The Village had changed a lot over time. Uncertain, she awkwardly looked around at her surroundings. She walked the narrow streets of the village, unsure about which way to go. Suddenly, Sophie saw a familiar sight. \"Yes, this must be it,\" she thought. In front of her was a wall with flowers painted on it. Although the colors were now faded, the familiar shapes on the wall were the same ones she had painted with her father as a child. Sophie nodded, smiled brightly, and walked toward the gate. At last, she had finally found the house she had grown up in.",
+            "emotion": "Happiness",
+            "color": "#f6fe98",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Sophie",
+                    "emotion": "Anger",
+                    "color": "#8f3752",
+                    "count": 3
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#2b2833",
+                    "count": 1
+                },
+                {
+                    "name": "She",
+                    "emotion": "Anger",
+                    "color": "#6b2a29",
+                    "count": 1
+                },
+                {
+                    "name": "In",
+                    "emotion": "Sadness",
+                    "color": "#282c33",
+                    "count": 1
+                }
+            ],
+            "id": "61a53069857fc0a5"
+        },
+        {
+            "date": "November 30, 2025",
+            "text": "i miss my home",
+            "emotion": "Happiness",
+            "color": "#ecf492",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "014ee45f9bdd4086"
+        },
+        {
+            "date": "December 01, 2025",
+            "text": "It was Valentine’s Day on Friday and Peter was certain that his wife, Amy, was going to love his surprise. Peter had spent a long time searching online for an event that would be a new way to spend time with Amy. He had finally found the perfect thing for her. She often told him that she liked to go to places she had never visited before, and he was absolutely sure that she would love going to the new, five-star restaurant downtown. He smiled as he called the restaurant and asked for a reservation for Friday. Unfortunately, his smile quickly disappeared when he was told that the restaurant was fully reserved. “That’s too bad,” he said quietly. “I thought that I had found the right place.",
+            "emotion": "Happiness",
+            "color": "#f9d995",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Valentine",
+                    "emotion": "Happiness",
+                    "color": "#efde9a",
+                    "count": 1
+                },
+                {
+                    "name": "Day",
+                    "emotion": "Happiness",
+                    "color": "#fdf797",
+                    "count": 1
+                },
+                {
+                    "name": "Friday",
+                    "emotion": "Happiness",
+                    "color": "#f1de90",
+                    "count": 2
+                },
+                {
+                    "name": "Peter",
+                    "emotion": "Happiness",
+                    "color": "#f1cc90",
+                    "count": 2
+                },
+                {
+                    "name": "Amy",
+                    "emotion": "Happiness",
+                    "color": "#fddaa2",
+                    "count": 2
+                },
+                {
+                    "name": "She",
+                    "emotion": "Happiness",
+                    "color": "#fddaa2",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Surprise",
+                    "color": "#d7bfd6",
+                    "count": 2
+                }
+            ],
+            "id": "060b8f47a5b9c2d9"
+        },
+        {
+            "date": "December 01, 2025",
+            "text": "Unfortunately, his smile quickly disappeared when he was told that the restaurant was fully reserved. “That’s too bad,” he said quietly. “I thought that I had found the right place.",
+            "emotion": "Happiness",
+            "color": "#f9ee9c",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Surprise",
+                    "color": "#9ccbea",
+                    "count": 2
+                }
+            ],
+            "id": "10338546122c0db9"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "Jisung confess his mind. But Shion refused it",
+            "emotion": "Anger",
+            "color": "#6a353c",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "Shion",
+                    "emotion": "Anger",
+                    "color": "#924747",
+                    "count": 1
+                }
+            ],
+            "id": "74746f9e4f66593a"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#2f2f3b",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2d2e39",
+                    "count": 1
+                }
+            ],
+            "id": "0416915dfe8c610c"
+        },
+        {
+            "date": "November 24, 2025",
+            "text": "I am sad",
+            "emotion": "Sadness",
+            "color": "#3c4450",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3f3c4c",
+                    "count": 1
+                }
+            ],
+            "id": "3cb8676916bfbb02"
+        },
+        {
+            "date": "November 25, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#292833",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#343342",
+                    "count": 1
+                }
+            ],
+            "id": "04591a344c600c76"
+        },
+        {
+            "date": "November 27, 2025",
+            "text": "I am depressed",
+            "emotion": "Sadness",
+            "color": "#252633",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#484455",
+                    "count": 1
+                }
+            ],
+            "id": "a48d9d8e8064c50b"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I don't want to live",
+            "emotion": "Sadness",
+            "color": "#3b444a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#34374f",
+                    "count": 1
+                }
+            ],
+            "id": "7eb3052f43be2f1c"
+        },
+        {
+            "date": "November 30, 2025",
+            "text": "I am sad",
+            "emotion": "Sadness",
+            "color": "#363643",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#474556",
+                    "count": 1
+                }
+            ],
+            "id": "1460c964be02a166"
+        },
+        {
+            "date": "December 01, 2025",
+            "text": "I am depressed",
+            "emotion": "Sadness",
+            "color": "#3a4149",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#212233",
+                    "count": 1
+                }
+            ],
+            "id": "dc3ae25223c8900e"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "I am ground",
+            "emotion": "Anger",
+            "color": "#96493f",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#682130",
+                    "count": 1
+                }
+            ],
+            "id": "ccc4dc5b91d7290a"
+        },
+        {
+            "date": "December 05, 2025",
+            "text": "I am depressed",
+            "emotion": "Sadness",
+            "color": "#393c47",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#282f33",
+                    "count": 1
+                }
+            ],
+            "id": "5838d8292fced297"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#403f58",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#333740",
+                    "count": 1
+                }
+            ],
+            "id": "5f5540045f9ead90"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#35384a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3b4a53",
+                    "count": 1
+                }
+            ],
+            "id": "8e8ac422b466e452"
+        },
+        {
+            "date": "December 02, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#3a3644",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3d3846",
+                    "count": 1
+                }
+            ],
+            "id": "5deafcd63e5f55a0"
+        },
+        {
+            "date": "December 02, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#2e333a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2c283a",
+                    "count": 1
+                }
+            ],
+            "id": "18aef2558fda2479"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282c33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#424852",
+                    "count": 1
+                }
+            ],
+            "id": "60d684fe87ab015f"
+        },
+        {
+            "date": "December 04, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282e33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#282333",
+                    "count": 1
+                }
+            ],
+            "id": "9ce1b2a149781249"
+        },
+        {
+            "date": "December 06, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282b33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#323a3f",
+                    "count": 1
+                }
+            ],
+            "id": "5f9c974a9cbe4579"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282b33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2b2833",
+                    "count": 1
+                }
+            ],
+            "id": "5322f008f464c44a"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#474d59",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2f303b",
+                    "count": 1
+                }
+            ],
+            "id": "ae11afacb206f490"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#292833",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#373445",
+                    "count": 1
+                }
+            ],
+            "id": "2dada5279d44d907"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282f33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2b2833",
+                    "count": 1
+                }
+            ],
+            "id": "2e0ab7d6516307f8"
+        }
+    ]
+}

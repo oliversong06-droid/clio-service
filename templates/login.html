@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In - The Grand Archives</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a120b;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0; color: #e6dec8;
+            font-family: 'Cinzel', serif;
+        }
+        .container {
+            display: flex; gap: 50px;
+        }
+        .card {
+            background: rgba(62, 39, 35, 0.9);
+            padding: 40px;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+        }
+        h2 { color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 5px black; }
+        input {
+            width: 90%; padding: 10px; margin: 10px 0;
+            background: #e6dec8; border: none; border-radius: 3px;
+            font-family: 'Caveat', cursive; font-size: 1.2rem; font-weight: bold; color: #3e2723;
+        }
+        button {
+            margin-top: 20px; padding: 10px 25px;
+            background: #1a120b; color: #d4af37; border: 1px solid #d4af37;
+            font-family: 'Cinzel', serif; cursor: pointer; transition: 0.3s;
+        }
+        button:hover { background: #d4af37; color: #1a120b; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Unlock Diary</h2>
+            <form action="/login" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="text" name="username" placeholder="Your Name" required>
+                <input type="password" name="password" placeholder="Secret Key" required>
+                <button type="submit">Open</button>
+            </form>
+        </div>
+
+        <div class="card" style="border-color: #bcaaa4;">
+            <h2 style="color: #bcaaa4;">New Keeper</h2>
+            <form action="/register" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <input type="text" name="username" placeholder="Choose Name" required>
+                <input type="password" name="password" placeholder="Create Key" required>
+                <button type="submit" style="color: #bcaaa4; border-color: #bcaaa4;">Register</button>
+            </form>
+        </div>
+    </div>
+    {% include 'page_turn_sound.html' %}
+</body>
+</html>

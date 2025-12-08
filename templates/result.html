@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Nanum Pen Script', cursive;
+            background-color: #1a120b;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            color: #e6dec8;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .backdrop {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(255,255,255,0.15), transparent 55%), rgba(0,0,0,0.35);
+            pointer-events: none;
+        }
+        .result-wrapper {
+            position: relative;
+            background-color: rgba(230, 222, 200, 0.95);
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            color: #1a120b;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .color-indicator {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background-color: {{ color }};
+            margin: 0 auto 30px;
+            border: 6px solid rgba(255,255,255,0.7);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #3e2723;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .emotion-title { 
+            font-size: 2.8rem;
+            color: {{ color }};
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+        }
+        .info-section {
+            background: rgba(255,255,255,0.9);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            text-align: left;
+            max-width: 520px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+        }
+        .info-section p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            color: #3e2723;
+            border-bottom: 1px solid rgba(62,39,35,0.2);
+            padding-bottom: 8px;
+        }
+        .info-section p:last-child {
+            border-bottom: none;
+        }
+        .info-section strong {
+            color: #5d4037;
+            font-weight: 600;
+            display: inline-block;
+            width: 150px;
+        }
+        .flow-section {
+            margin: 0 auto 35px;
+            max-width: 560px;
+            text-align: left;
+        }
+        .flow-title {
+            font-weight: bold;
+            color: #3e2723;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .flow-bar {
+            display: flex;
+            height: 28px;
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.08);
+            background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0));
+        }
+        .flow-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.95);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+            min-width: 40px;
+            padding: 0 8px;
+            transition: flex 0.3s ease;
+            position: relative;
+        }
+        .flow-segment span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .flow-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .flow-chip {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.92);
+            border-radius: 999px;
+            padding: 6px 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+            color: #3e2723;
+        }
+        .chip-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            color: #fff;
+            font-weight: 700;
+            margin-right: 8px;
+            font-size: 0.85rem;
+        }
+        .diary-label {
+            font-weight: bold;
+            color: #3e2723;
+            margin-bottom: 15px;
+            text-align: left;
+            font-size: 1.2rem;
+        }
+        .diary-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-left: 6px solid {{ color }};
+            border-radius: 10px;
+            text-align: left;
+            color: #2e1a0f;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 35px;
+            word-wrap: break-word;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        .button-group {
+            margin-top: 10px;
+        }
+        .button-group button {
+            padding: 14px 42px;
+            font-size: 1rem;
+            background-color: {{ color }};
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+        .button-group button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 9px 25px rgba(0,0,0,0.3);
+        }
+        .metadata-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        code {
+            background: #eee;
+            padding: 5px 12px;
+            border-radius: 5px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="backdrop"></div>
+    <audio id="bgm" loop>
+        <source src="/static/bgm.mp3" type="audio/mpeg">
+    </audio>
+    <div class="result-wrapper">
+        <div class="color-indicator"></div>
+        <h1>✨ AI Emotion Analysis Result</h1>
+        <div class="emotion-title">{{ emotion }}</div>
+        <div class="info-section">
+            <p><strong>📅 Date:</strong> {{ date }}</p>
+            <p><strong>Recommended Color:</strong> {{ color_name }}</p>
+            <p><strong>Tone:</strong> {{ tone }}</p>
+            <p class="metadata-row"><strong>Color Code:</strong> <code>{{ color }}</code></p>
+        </div>
+        {% if emotion_flow %}
+        <div class="flow-section">
+            <div class="flow-title">Emotion Flow</div>
+            <div class="flow-bar" style="background-image: {{ emotion_gradient or 'linear-gradient(90deg, #FFD700, #4682B4)' }};"></div>
+            <div class="flow-legend">
+                {% for block in emotion_flow %}
+                <div class="flow-chip">
+                    <span class="chip-index" style="background: {{ block.color }}">{{ loop.index }}</span>
+                    <span>{{ block.emotion }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        <div class="diary-label">📝 Your Diary Entry:</div>
+        <div class="diary-box">{{ text }}</div>
+        <div class="button-group">
+            <a href="/write">
+                <button>✏️ Return to Desk</button>
+            </a>
+        </div>
+    </div>
+    <script>
+        const bgm = document.getElementById('bgm');
+        bgm.volume = 0.5;
+        const savedTime = sessionStorage.getItem('bgmTime');
+        if (savedTime) {
+            bgm.currentTime = savedTime;
+        }
+        bgm.play().catch(e => console.log("자동 재생 차단됨"));
+    window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('bgmTime', bgm.currentTime);
+    });
+</script>
+    {% include 'page_turn_sound.html' %}
+</body>
+</html>

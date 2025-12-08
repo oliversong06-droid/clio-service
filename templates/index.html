@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Antique Diary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================= [Design] 1. Background ================= */
+        body { 
+            font-family: 'Nanum Pen Script', cursive;
+            background-color: #1a120b; /* Dark Brown */
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            perspective: 1500px; /* 3D Perspective */
+            padding: 20px;
+        }
+
+        /* ================= [User Panel] ================= */
+        .user-panel {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            z-index: 100;
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid #5d4037;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .user-panel span { font-weight: bold; margin-right: 10px; }
+        .user-panel a { 
+            color: #ff6b6b; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: 0.3s;
+        }
+        .user-panel a:hover { color: #ffeb3b; text-decoration: underline; }
+
+        /* ================= [Design] 2. Book Wrapper ================= */
+        .book-wrapper {
+            position: relative;
+            width: 480px; /* Closed width */
+            height: 680px; /* Height */
+            transition: width 1s ease-in-out, transform 1s ease-in-out; 
+            transform-style: preserve-3d;
+        }
+
+        /* Open width */
+        .book-wrapper.is-open {
+            width: 1100px; 
+        }
+
+        /* ================= [Design] 3. Cover ================= */
+        .cover {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #3e2723;
+            background-image: repeating-linear-gradient(45deg, #3e2723 0px, #3e2723 2px, #4e342e 2px, #4e342e 4px);
+            border: 2px solid #1a120b;
+            border-radius: 5px 15px 15px 5px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 15px 25px 40px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transform-origin: left;
+            transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
+            cursor: pointer;
+        }
+
+        .cover::after {
+            content: ''; position: absolute; top: 25px; bottom: 25px; left: 25px; right: 25px;
+            border: 3px double #d4af37; pointer-events: none;
+        }
+
+        .book-wrapper.is-open .cover {
+            transform: rotateY(-180deg);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .cover h1 { 
+            font-family: 'Cinzel', serif; 
+            font-size: 3.8rem; 
+            color: #d4af37; 
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.8); 
+            margin: 0; text-align: center; 
+            line-height: 1.2;
+        }
+        
+        .cover p { 
+            font-family: 'Caveat', cursive; 
+            color: #bcaaa4; 
+            font-size: 2rem; 
+            margin-top: 15px; 
+            font-weight: bold; 
+        }
+        
+        .click-hint { 
+            margin-top: 60px; 
+            color: #d4af37; 
+            font-family: 'Cinzel', serif; 
+            font-size: 1.1rem; 
+            animation: blink 2s infinite; 
+        }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        /* ================= [Design] 4. Inner Pages ================= */
+        .inner-pages {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; 
+            opacity: 0; 
+            transition: opacity 1s ease-in-out; 
+            pointer-events: none;
+            background-color: #e6dec8; /* Paper color */
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.15); 
+            border-radius: 5px; 
+            overflow: hidden;
+        }
+
+        .book-wrapper.is-open .inner-pages { opacity: 1; pointer-events: auto; transition-delay: 0.3s; }
+
+        .page { flex: 1; padding: 50px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        
+        .page-left { 
+            background: linear-gradient(to right, #e6dec8 95%, #d7ccc8 100%); 
+            border-right: 1px solid #d7ccc8; 
+            align-items: center; 
+        }
+        
+        .page-right { 
+            background: linear-gradient(to left, #e6dec8 95%, #d7ccc8 100%); 
+        }
+
+        h2 { font-family: 'Cinzel', serif; font-size: 3.2rem; color: #3e2723; margin: 0 0 10px 0; text-shadow: 1px 1px 0 rgba(255,255,255,0.5); }
+        
+        .subtitle { 
+            color: #5d4037; 
+            font-family: 'Caveat', cursive; 
+            font-size: 2rem; 
+            margin-bottom: 50px; 
+            font-weight: bold; 
+        }
+        
+        label { font-family: 'Cinzel', serif; color: #5d4037; font-size: 1.6rem; margin-bottom: 15px; font-weight: bold; }
+        
+        input[type="date"] { 
+            padding: 10px; 
+            font-size: 32px; 
+            font-family: 'Caveat', cursive; 
+            font-weight: bold; 
+            border: none; 
+            border-bottom: 3px solid #8d6e63; 
+            background: transparent; 
+            color: #3e2723; 
+            text-align: center; 
+            width: 85%; 
+            outline: none; 
+        }
+
+        textarea { 
+            width: 100%; 
+            height: 100%; 
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 12px; 
+            font-family: 'Caveat', 'Nanum Pen Script', cursive; 
+            font-size: 30px; 
+            font-weight: 700; 
+            line-height: 60px; 
+            border: none; 
+            resize: none; 
+            outline: none; 
+            background-color: transparent; 
+            background-image: linear-gradient(transparent 97%, #bcaaa4 97%); 
+            background-size: 100% 60px; 
+            color: #1a237e; 
+        }
+        
+        textarea::placeholder { color: #a1887f; font-size: 30px; font-weight: normal; opacity: 0.7; }
+
+        .btn-analyze { 
+            position: absolute; bottom: 40px; right: 50px; 
+            padding: 15px 40px; 
+            font-family: 'Cinzel', serif; 
+            font-size: 18px;
+            font-weight: bold; 
+            background-color: #3e2723; 
+            color: #d4af37; 
+            border: 1px solid #5d4037; 
+            cursor: pointer; 
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3); 
+            transition: 0.3s; 
+            border-radius: 5px;
+        }
+        .btn-analyze:hover { transform: translateY(-3px); background-color: #4e342e; box-shadow: 0 8px 15px rgba(0,0,0,0.4); }
+
+        .btn-history { 
+            margin-top: 50px; 
+            padding: 12px 35px; 
+            background: transparent; 
+            color: #5d4037; 
+            border: 2px solid #5d4037; 
+            font-family: 'Cinzel', serif; 
+            font-weight: bold; 
+            font-size: 16px;
+            cursor: pointer; 
+            transition: 0.3s; 
+            border-radius: 5px;
+        }
+        .btn-history:hover { background-color: #5d4037; color: #e6dec8; }
+
+        .bookmark { position: absolute; top: 0; left: 60px; width: 45px; height: 90px; background: #c0392b; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+
+        /* ================= [New] Mind Care UI ================= */
+        .mind-care-box {
+            background-color: #F4F8F6; /* Sage Green */
+            border-left: 5px solid #6B9080; 
+            padding: 20px;
+            border-radius: 8px;
+            width: 85%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+            text-align: left;
+        }
+
+        .mind-care-box h3 {
+            font-family: 'Cinzel', serif;
+            color: #354F52;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #6B9080;
+            padding-bottom: 5px;
+        }
+
+        .mind-care-box p {
+            font-family: 'Nanum Pen Script', cursive;
+            color: #2F3E46;
+            font-size: 1.5rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .care-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Updated: Info Box for Phone Number (Not a button) */
+        .care-info-box {
+            background-color: #fff;
+            color: #354F52;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border: 1px solid #6B9080;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        
+        .care-btn.map {
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background-color: transparent;
+            color: #6B9080;
+            border: 1px solid #6B9080;
+        }
+        .care-btn.map:hover { background-color: #EAF2EF; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1100px) {
+            body { padding: 30px 15px 60px; align-items: flex-start; }
+            .user-panel { position: static; margin-bottom: 15px; }
+        }
+
+        body.mobile-mode {
+            perspective: none; padding-top: 20px; padding-bottom: 60px;
+            flex-direction: column; align-items: center; justify-content: flex-start;
+        }
+        body.mobile-mode .user-panel {
+            position: static; transform: none; width: 100%; max-width: 600px;
+            margin-top: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); order: 2;
+        }
+        body.mobile-mode .user-panel span { margin-right: 0; font-size: 1rem; }
+        body.mobile-mode .book-wrapper {
+            width: 100%; max-width: 600px; min-height: 80vh; height: auto;
+            transform: none; order: 1; display: flex;
+        }
+        body.mobile-mode .inner-pages { flex: 1; overflow-y: auto; }
+        body.mobile-mode .cover { display: none; }
+        body.mobile-mode .inner-pages {
+            position: relative; opacity: 1; pointer-events: auto;
+            flex-direction: column; height: auto; box-shadow: 0 20px 45px rgba(0,0,0,0.4);
+        }
+        body.mobile-mode .page { padding: 30px; }
+        body.mobile-mode .page-left { border-right: none; border-bottom: 1px solid #d7ccc8; }
+        body.mobile-mode h2 { font-size: 2.4rem; }
+        body.mobile-mode .subtitle { font-size: 1.6rem; margin-bottom: 25px; }
+        body.mobile-mode label { font-size: 1.3rem; }
+        body.mobile-mode input[type="date"] { font-size: 24px; width: 100%; }
+        body.mobile-mode textarea { font-size: 22px; line-height: 40px; height: 320px; }
+        body.mobile-mode .btn-history { width: 100%; margin-top: 30px; }
+        body.mobile-mode .btn-analyze { position: static; margin-top: 25px; width: 100%; }
+        body.mobile-mode .bookmark { display: none; }
+    </style>
+</head>
+<body>
+
+    <audio id="bgm" loop preload="auto">
+        <source src="/static/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="book-wrapper" id="book">
+        <div class="cover" onclick="openBook()">
+            <h1>The Private<br>Journal</h1>
+            <p>"Tap to unlock your story"</p>
+            <div class="click-hint">Click to Open</div>
+        </div>
+
+        <form action="/analyze" method="post" class="inner-pages">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="bookmark"></div>
+            
+            <div class="page page-left">
+                {% if needs_care %}
+                    <div class="mind-care-box">
+                        <h3>🌿 Mind Care</h3>
+                        <p>
+                            We noticed some heavy emotions in your entry today.<br>
+                            Please remember that you are valuable and not alone.<br>
+                            Professional help is always available if you need it.
+                        </p>
+                        <div class="care-links">
+                            <div class="care-info-box">
+                                📞 Crisis Hotline: 1577-0199
+                            </div>
+                            <a href="https://www.google.com/search?q=Mental+health+support+near+me" target="_blank" class="care-btn map">
+                                📍 Find a Center Nearby
+                            </a>
+                        </div>
+                    </div>
+                    <a href="/" style="text-decoration: none; margin-top: 20px;">
+                        <button type="button" class="btn-history" style="padding: 8px 20px; font-size: 14px;">Back to New Entry</button>
+                    </a>
+
+                {% else %}
+                    <h2>New Entry</h2>
+                    <p class="subtitle">"A fresh page for today."</p>
+                    <div style="width: 100%; text-align: center;">
+                        <label for="date-picker">Date of Entry</label>
+                        <input type="date" id="date-picker" name="date" required>
+                    </div>
+                    <a href="/history" style="text-decoration: none;">
+                        <button type="button" class="btn-history">Open Archive</button>
+                    </a>
+                {% endif %}
+                </div>
+
+            <div class="page page-right">
+                <textarea name="diary" placeholder="Dear Diary... (Write here)"></textarea>
+                <button type="submit" class="btn-analyze">Seal & Analyze</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="user-panel" id="userPanel">
+        <span>Keeper: {{ user }}</span>
+        <a href="/logout">[Logout]</a>
+    </div>
+</div>
+
+    <script>
+        const book = document.getElementById('book');
+        const bgm = document.getElementById('bgm');
+        
+        bgm.volume = 0.5;
+
+        // BGM persistence
+        const savedTime = sessionStorage.getItem('bgmTime');
+
+        const startPlayback = () => {
+            if (savedTime) {
+                try {
+                    const time = Math.max(0, parseFloat(savedTime));
+                    if (!isNaN(time)) {
+                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
+                    }
+                } catch (err) {
+                    console.warn('Failed to restore bgm time', err);
+                }
+            }
+            bgm.play().catch(e => console.log("Auto-play blocked"));
+        };
+
+        function applyMobileLayout() {
+            const isMobile = window.innerWidth <= 920;
+            document.body.classList.toggle('mobile-mode', isMobile);
+            if (isMobile) {
+                book.classList.add('is-open');
+                return true;
+            }
+            return false;
+        }
+
+        const wasMobile = applyMobileLayout();
+
+        const beginAudio = () => {
+            // Check for 'needs_care' mode
+            const needsCareMode = "{{ 'true' if needs_care else 'false' }}";
+
+            if (needsCareMode === 'true' || (!wasMobile && sessionStorage.getItem('bookOpened') === 'true')) {
+                book.classList.add('is-open');
+                book.style.transition = 'none'; 
+                setTimeout(() => book.style.transition = '', 100); 
+                startPlayback();
+            } else if (wasMobile) {
+                startPlayback();
+            }
+        };
+
+        if (bgm.readyState >= 2) {
+            beginAudio();
+        } else {
+            bgm.addEventListener('loadedmetadata', beginAudio, { once: true });
+        }
+
+        // Auto-fill date
+        const datePicker = document.getElementById('date-picker');
+        if (datePicker) {
+            datePicker.valueAsDate = new Date();
+        }
+
+        // Open book
+        function openBook() {
+            book.classList.add('is-open');
+            sessionStorage.setItem('bookOpened', 'true');
+            bgm.play().catch(error => console.log("Audio play failed:", error));
+        }
+
+        window.addEventListener('resize', () => {
+            applyMobileLayout();
+        });
+
+        const persistTime = () => {
+            try {
+                sessionStorage.setItem('bgmTime', bgm.currentTime);
+            } catch (err) {}
+        };
+        const syncInterval = setInterval(persistTime, 1500);
+        window.addEventListener('visibilitychange', () => {
+            if (document.hidden) persistTime();
+        });
+        window.addEventListener('pagehide', persistTime);
+        window.addEventListener('beforeunload', persistTime);
+    </script>
+    {% include 'page_turn_sound.html' %}
+</body>
+</html>

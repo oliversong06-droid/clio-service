@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diary Viewer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --theme-color: {{ theme_color }};
+            --page-bg: {{ page_bg }};
+            --page-text: {{ text_color }};
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #0f0806;
+            background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
+            color: #e6dec8;
+            font-family: 'Nanum Pen Script', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .ambient-light {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 10%, rgba(255,255,255,0.25), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .viewer-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 5;
+        }
+        .viewer-header h1 {
+            font-family: 'Cinzel', serif;
+            margin: 0;
+            color: #d4af37;
+            font-size: 2.1rem;
+            letter-spacing: 2px;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.7);
+        }
+        .viewer-nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .viewer-nav span {
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            color: #d4af37;
+            margin-right: 6px;
+        }
+        .viewer-nav a {
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            padding: 8px 18px;
+            border-radius: 25px;
+            border: 1px solid rgba(212,175,55,0.5);
+            color: #e6dec8;
+            background: rgba(0,0,0,0.35);
+            transition: 0.3s ease;
+        }
+        .viewer-nav a:hover {
+            border-color: #ffeb3b;
+            color: #ffeb3b;
+        }
+        .book-viewer {
+            position: relative;
+            width: min(1380px, 92vw);
+            height: min(820px, 88vh);
+            perspective: 1500px;
+            z-index: 2;
+            margin: 0 auto;
+        }
+        .book-spine {
+            position: absolute;
+            top: 25px;
+            bottom: 25px;
+            left: 50%;
+            width: 34px;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, rgba(0,0,0,0.5), rgba(255,255,255,0.04));
+            border-radius: 3px;
+        }
+        .book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .page {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background: var(--page-bg);
+            border-radius: 6px;
+            padding: 45px 55px 55px;
+            display: flex;
+            flex-direction: column;
+            color: var(--page-text);
+            background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(0deg, rgba(0,0,0,0.02), rgba(255,255,255,0.04));
+            background-size: 100% 32px, 100% 100%;
+        }
+        .page-left { left: 0; border-right: 1px solid rgba(0,0,0,0.15); padding-right: 65px; }
+        .page-right { right: 0; padding-left: 65px; display: flex; flex-direction: column; }
+        h2, h3 { font-family: 'Cinzel', serif; margin: 0 0 12px; }
+        .date-tag {
+            font-size: 1.3rem;
+            color: rgba(0,0,0,0.55);
+            letter-spacing: 1px;
+        }
+        .emotion-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            display: inline-flex;
+            align-self: flex-start;
+            padding: 6px 18px;
+            border-radius: 999px;
+            margin: 10px 0 18px;
+            border: 2px solid var(--theme-color);
+            color: var(--theme-color);
+            background: rgba(255,255,255,0.9);
+            text-shadow: -1px -1px 0 rgba(26, 16, 8, 0.65),
+                          1px -1px 0 rgba(26, 16, 8, 0.65),
+                         -1px  1px 0 rgba(26, 16, 8, 0.65),
+                          1px  1px 0 rgba(26, 16, 8, 0.65);
+            -webkit-text-stroke: 0.5px rgba(26, 16, 8, 0.6);
+        }
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0 18px;
+        }
+        .meta-chip {
+            border: 1px solid rgba(0,0,0,0.15);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            background: rgba(255,255,255,0.45);
+            color: var(--page-text);
+        }
+        .color-chip { display: inline-flex; align-items: center; gap: 8px; }
+        .color-chip span {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.2);
+            background: var(--theme-color);
+        }
+        .entry-text {
+            flex: 1;
+            font-size: 1.9rem;
+            line-height: 1.6;
+            color: var(--page-text);
+            background: rgba(255,255,255,0.92);
+            padding: 26px;
+            border-radius: 18px;
+            border-left: 8px solid var(--theme-color);
+            overflow-y: auto;
+            margin-bottom: 22px;
+            white-space: pre-line;
+            word-break: break-word;
+        }
+        .tab-header {
+            display: inline-flex;
+            border: 1px solid rgba(0,0,0,0.15);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            align-self: center;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 10px 28px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.95rem;
+            color: #4a2c1a;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+            min-width: 110px;
+        }
+        .tab-btn.active {
+            background: var(--theme-color);
+            color: #fff;
+        }
+        .tab-panel {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .tab-panel.active {
+            display: flex;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-card {
+            background: rgba(255,255,255,0.95);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--theme-color);
+        }
+        .info-card strong {
+            display: block;
+            font-family: 'Cinzel', serif;
+            color: #3e2723;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        .info-card span {
+            font-family: 'Caveat', cursive;
+            color: #1a120b;
+            font-size: 1.2rem;
+        }
+        .flow-section {
+            margin: 15px 0 28px;
+            padding: 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(0,0,0,0.08);
+            background: rgba(255,255,255,0.9);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .flow-title {
+            font-family: 'Cinzel', serif;
+            color: #3e2723;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+        .flow-bar {
+            width: 100%;
+            height: 26px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.15);
+            background-color: rgba(0,0,0,0.05);
+        }
+        .flow-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .flow-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.08);
+            font-family: 'Caveat', cursive;
+            color: #3e2723;
+            gap: 8px;
+        }
+        .chip-index {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+        }
+        .people-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            min-height: 38px;
+        }
+        .people-list span {
+            background: rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 6px 12px;
+            border: 1px solid rgba(0,0,0,0.1);
+            font-family: 'Caveat', cursive;
+            text-shadow: -0.8px -0.8px 0 rgba(15, 8, 3, 0.55),
+                          0.8px -0.8px 0 rgba(15, 8, 3, 0.55),
+                         -0.8px  0.8px 0 rgba(15, 8, 3, 0.55),
+                          0.8px  0.8px 0 rgba(15, 8, 3, 0.55);
+            -webkit-text-stroke: 0.4px rgba(15, 8, 3, 0.5);
+        }
+        .related-scroller {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding-right: 10px;
+            gap: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+        .related-scroller a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .related-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: 15px;
+            padding: 18px 22px;
+            border-left: 6px solid var(--theme-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .related-card + .related-card {
+            margin-top: 10px;
+        }
+        .related-card:last-child { margin-bottom: 0; }
+        .related-date {
+            font-weight: bold;
+            color: #3e2723;
+            font-family: 'Cinzel', serif;
+        }
+        .related-text {
+            font-family: 'Caveat', cursive;
+            color: #1a120b;
+            line-height: 1.6;
+            white-space: pre-line;
+            word-break: break-word;
+        }
+        .related-badge {
+            font-size: 0.85rem;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: var(--theme-color);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            align-self: flex-start;
+            text-shadow: -0.8px -0.8px 0 rgba(12, 6, 1, 0.65),
+                          0.8px -0.8px 0 rgba(12, 6, 1, 0.65),
+                         -0.8px  0.8px 0 rgba(12, 6, 1, 0.65),
+                          0.8px  0.8px 0 rgba(12, 6, 1, 0.65);
+            -webkit-text-stroke: 0.4px rgba(12, 6, 1, 0.6);
+        }
+        .empty-state {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: #5d4037;
+            margin-top: 40px;
+        }
+        .viewer-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .viewer-actions form {
+            flex: 1;
+            min-width: 140px;
+        }
+        .viewer-actions a,
+        .viewer-actions button {
+            flex: 1;
+            min-width: 140px;
+            text-decoration: none;
+            text-align: center;
+            background: rgba(62,39,35,0.9);
+            color: #e6dec8;
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: 1px solid #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        .viewer-actions a.primary-link {
+            background: var(--theme-color);
+            border-color: rgba(0,0,0,0.15);
+            color: var(--page-text);
+        }
+        .viewer-actions .edit-btn {
+            background: #355c7d;
+            border-color: rgba(0,0,0,0.2);
+        }
+        .viewer-actions .delete-btn {
+            background: #8b1e3f;
+            border-color: rgba(0,0,0,0.2);
+        }
+        .viewer-actions a:hover,
+        .viewer-actions button:hover { opacity: 0.85; }
+        .mobile-section-label {
+            display: none;
+            font-family: 'Cinzel', serif;
+            color: #d4af37;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        body.mobile-layout {
+            padding: 15px 12px 80px;
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+        body.mobile-layout .book-viewer {
+            height: auto;
+        }
+        body.mobile-layout .book {
+            transform-style: flat;
+            perspective: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        body.mobile-layout .page {
+            position: relative;
+            width: 100%;
+            height: auto;
+            padding: 30px;
+            max-height: none;
+        }
+        body.mobile-layout .page-left,
+        body.mobile-layout .page-right {
+            min-height: 320px;
+        }
+        body.mobile-layout .book-spine { display: none; }
+        body.mobile-layout .viewer-actions { flex-direction: column; }
+        body.mobile-layout .mobile-section-label { display: block; }
+        @media (max-width: 1100px) {
+            body { padding: 18px 12px 80px; }
+            .viewer-header { flex-direction: column; gap: 12px; }
+            .book-viewer { height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-light"></div>
+    <audio id="bgm" loop preload="auto">
+        <source src="/static/bgm.mp3" type="audio/mpeg">
+    </audio>
+    <header class="viewer-header">
+        <h1>The Private Journal</h1>
+        <div class="viewer-nav">
+            <span>Keeper: {{ user }}</span>
+            <a href="/write">Return to Desk</a>
+            <a href="/history">Archive</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </header>
+
+    <div class="book-viewer">
+        <div class="book-spine"></div>
+        <div class="book">
+            <div class="page page-left">
+                <div class="date-tag">{{ selected.date }}</div>
+                <div class="emotion-badge">{{ selected.emotion }}</div>
+                <div class="entry-text" style="max-height: 100%; overflow-y: auto;">{{ selected.text }}</div>
+            </div>
+            <div class="page page-right">
+                <div class="tab-header">
+                    <button class="tab-btn active" data-target="tab-info">Info</button>
+                    <button class="tab-btn" data-target="tab-list">List</button>
+                </div>
+                <div class="tab-panel active" id="tab-info">
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <strong>Tone</strong>
+                            <span>{{ selected.tone }}</span>
+                        </div>
+                        <div class="info-card">
+                            <strong>Color</strong>
+                            <span>{{ selected.color_name }}</span>
+                        </div>
+                        <div class="info-card">
+                            <strong>Color Code</strong>
+                            <span>{{ selected.color }}</span>
+                        </div>
+                        <div class="info-card">
+                            <strong>Emotion Blocks</strong>
+                            <span>{{ emotion_flow|length if emotion_flow else 1 }}</span>
+                        </div>
+                        <div class="info-card">
+                            <strong>Characters</strong>
+                            <span>{{ selected.people|length if selected.people else 0 }}</span>
+                        </div>
+                    </div>
+                    {% if emotion_flow %}
+                    <div class="flow-section">
+                        <div class="flow-title">Emotion Flow</div>
+                        <div class="flow-bar" style="background-image: {{ emotion_gradient or 'linear-gradient(90deg, #FFD700, #4682B4)' }};"></div>
+                        <div class="flow-legend">
+                            {% for block in emotion_flow %}
+                            <div class="flow-chip">
+                                <span class="chip-index" style="background: {{ block.color }}">{{ loop.index }}</span>
+                                <span>{{ block.emotion }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="info-card" style="margin-top: 10px;">
+                        <strong>People</strong>
+                        <div class="people-list" style="margin-top: 10px;">
+                            {% if selected.people %}
+                                {% for person in selected.people %}
+                                    <span style="border-color: {{ person.color }}; color: {{ person.color }};">{{ person.name }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span style="border: none; background: transparent; color: #5d4037;">No characters mentioned.</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-panel" id="tab-list">
+                    <div class="mobile-section-label">Related Entries</div>
+                    <div class="related-scroller">
+                        {% if related %}
+                            {% for entry in related %}
+                                <a href="{{ url_for('view_entry', entry_id=entry.id) }}" style="text-decoration: none;">
+                                    <div class="related-card">
+                                        <div class="related-date">{{ entry.date }}</div>
+                                        <div class="related-text">{{ entry.text | truncate(160, True, '...') }}</div>
+                                        <span class="related-badge">{{ entry.emotion }}</span>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">No other memories with that tone... yet.</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="viewer-actions">
+                    <a href="/history">Back to Archive</a>
+                    <a href="/write" class="primary-link">Write New Entry</a>
+                    <a href="{{ url_for('edit_entry', entry_id=selected.id) }}" class="edit-btn">Edit Entry</a>
+                    <form action="{{ url_for('delete_entry', entry_id=selected.id) }}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="delete-btn" onclick="return confirm('Delete this entry?');">Delete Entry</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bgm = document.getElementById('bgm');
+        bgm.volume = 0.5;
+        const savedTime = sessionStorage.getItem('bgmTime');
+        const startPlayback = () => {
+            if (savedTime) {
+                try {
+                    const time = Math.max(0, parseFloat(savedTime));
+                    if (!isNaN(time)) {
+                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
+                    }
+                } catch (err) {
+                    console.warn('Failed to restore bgm time', err);
+                }
+            }
+            bgm.play().catch(e => console.log("자동 재생 차단됨"));
+        };
+        if (bgm.readyState >= 2) {
+            startPlayback();
+        } else {
+            bgm.addEventListener('loadedmetadata', startPlayback, { once: true });
+        }
+
+        function updateLayoutMode() {
+            const isTall = window.innerHeight > window.innerWidth * 1.05;
+            const isNarrow = window.innerWidth <= 900;
+            document.body.classList.toggle('mobile-layout', isTall || isNarrow);
+        }
+
+        window.addEventListener('resize', updateLayoutMode);
+        updateLayoutMode();
+
+        const persistTime = () => {
+            try {
+                sessionStorage.setItem('bgmTime', bgm.currentTime);
+            } catch (err) {}
+        };
+        const syncInterval = setInterval(persistTime, 1500);
+        window.addEventListener('visibilitychange', () => {
+            if (document.hidden) persistTime();
+        });
+        window.addEventListener('pagehide', persistTime);
+        window.addEventListener('beforeunload', persistTime);
+
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(panel => panel.classList.remove('active'));
+                btn.classList.add('active');
+                const target = document.getElementById(btn.dataset.target);
+                if (target) {
+                    target.classList.add('active');
+                }
+            });
+        });
+    </script>
+    {% include 'page_turn_sound.html' %}
+</body>
+</html>
