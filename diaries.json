@@ -872,6 +872,443 @@
                 }
             ],
             "id": "61a53069857fc0a5"
+        },
+        {
+            "date": "November 30, 2025",
+            "text": "i miss my home",
+            "emotion": "Happiness",
+            "color": "#ecf492",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "014ee45f9bdd4086"
+        },
+        {
+            "date": "December 01, 2025",
+            "text": "It was Valentine’s Day on Friday and Peter was certain that his wife, Amy, was going to love his surprise. Peter had spent a long time searching online for an event that would be a new way to spend time with Amy. He had finally found the perfect thing for her. She often told him that she liked to go to places she had never visited before, and he was absolutely sure that she would love going to the new, five-star restaurant downtown. He smiled as he called the restaurant and asked for a reservation for Friday. Unfortunately, his smile quickly disappeared when he was told that the restaurant was fully reserved. “That’s too bad,” he said quietly. “I thought that I had found the right place.",
+            "emotion": "Happiness",
+            "color": "#f9d995",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "Valentine",
+                    "emotion": "Happiness",
+                    "color": "#efde9a",
+                    "count": 1
+                },
+                {
+                    "name": "Day",
+                    "emotion": "Happiness",
+                    "color": "#fdf797",
+                    "count": 1
+                },
+                {
+                    "name": "Friday",
+                    "emotion": "Happiness",
+                    "color": "#f1de90",
+                    "count": 2
+                },
+                {
+                    "name": "Peter",
+                    "emotion": "Happiness",
+                    "color": "#f1cc90",
+                    "count": 2
+                },
+                {
+                    "name": "Amy",
+                    "emotion": "Happiness",
+                    "color": "#fddaa2",
+                    "count": 2
+                },
+                {
+                    "name": "She",
+                    "emotion": "Happiness",
+                    "color": "#fddaa2",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Surprise",
+                    "color": "#d7bfd6",
+                    "count": 2
+                }
+            ],
+            "id": "060b8f47a5b9c2d9"
+        },
+        {
+            "date": "December 01, 2025",
+            "text": "Unfortunately, his smile quickly disappeared when he was told that the restaurant was fully reserved. “That’s too bad,” he said quietly. “I thought that I had found the right place.",
+            "emotion": "Happiness",
+            "color": "#f9ee9c",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Surprise",
+                    "color": "#9ccbea",
+                    "count": 2
+                }
+            ],
+            "id": "10338546122c0db9"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "Jisung confess his mind. But Shion refused it",
+            "emotion": "Anger",
+            "color": "#6a353c",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "Shion",
+                    "emotion": "Anger",
+                    "color": "#924747",
+                    "count": 1
+                }
+            ],
+            "id": "74746f9e4f66593a"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#2f2f3b",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2d2e39",
+                    "count": 1
+                }
+            ],
+            "id": "0416915dfe8c610c"
+        },
+        {
+            "date": "November 24, 2025",
+            "text": "I am sad",
+            "emotion": "Sadness",
+            "color": "#3c4450",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3f3c4c",
+                    "count": 1
+                }
+            ],
+            "id": "3cb8676916bfbb02"
+        },
+        {
+            "date": "November 25, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#292833",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#343342",
+                    "count": 1
+                }
+            ],
+            "id": "04591a344c600c76"
+        },
+        {
+            "date": "November 27, 2025",
+            "text": "I am depressed",
+            "emotion": "Sadness",
+            "color": "#252633",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#484455",
+                    "count": 1
+                }
+            ],
+            "id": "a48d9d8e8064c50b"
+        },
+        {
+            "date": "November 28, 2025",
+            "text": "I don't want to live",
+            "emotion": "Sadness",
+            "color": "#3b444a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#34374f",
+                    "count": 1
+                }
+            ],
+            "id": "7eb3052f43be2f1c"
+        },
+        {
+            "date": "November 30, 2025",
+            "text": "I am sad",
+            "emotion": "Sadness",
+            "color": "#363643",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#474556",
+                    "count": 1
+                }
+            ],
+            "id": "1460c964be02a166"
+        },
+        {
+            "date": "December 01, 2025",
+            "text": "I am depressed",
+            "emotion": "Sadness",
+            "color": "#3a4149",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#212233",
+                    "count": 1
+                }
+            ],
+            "id": "dc3ae25223c8900e"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "I am ground",
+            "emotion": "Anger",
+            "color": "#96493f",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#682130",
+                    "count": 1
+                }
+            ],
+            "id": "ccc4dc5b91d7290a"
+        },
+        {
+            "date": "December 05, 2025",
+            "text": "I am depressed",
+            "emotion": "Sadness",
+            "color": "#393c47",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#282f33",
+                    "count": 1
+                }
+            ],
+            "id": "5838d8292fced297"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#403f58",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#333740",
+                    "count": 1
+                }
+            ],
+            "id": "5f5540045f9ead90"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#35384a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3b4a53",
+                    "count": 1
+                }
+            ],
+            "id": "8e8ac422b466e452"
+        },
+        {
+            "date": "December 02, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#3a3644",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3d3846",
+                    "count": 1
+                }
+            ],
+            "id": "5deafcd63e5f55a0"
+        },
+        {
+            "date": "December 02, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#2e333a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2c283a",
+                    "count": 1
+                }
+            ],
+            "id": "18aef2558fda2479"
+        },
+        {
+            "date": "December 03, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282c33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#424852",
+                    "count": 1
+                }
+            ],
+            "id": "60d684fe87ab015f"
+        },
+        {
+            "date": "December 04, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282e33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#282333",
+                    "count": 1
+                }
+            ],
+            "id": "9ce1b2a149781249"
+        },
+        {
+            "date": "December 06, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282b33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#323a3f",
+                    "count": 1
+                }
+            ],
+            "id": "5f9c974a9cbe4579"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282b33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2b2833",
+                    "count": 1
+                }
+            ],
+            "id": "5322f008f464c44a"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I am so sad",
+            "emotion": "Sadness",
+            "color": "#474d59",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2f303b",
+                    "count": 1
+                }
+            ],
+            "id": "ae11afacb206f490"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#292833",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#373445",
+                    "count": 1
+                }
+            ],
+            "id": "2dada5279d44d907"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I want to die",
+            "emotion": "Sadness",
+            "color": "#282f33",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#2b2833",
+                    "count": 1
+                }
+            ],
+            "id": "2e0ab7d6516307f8"
         }
     ]
 }

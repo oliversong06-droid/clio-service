@@ -6,10 +6,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     
     <style>
-        /* ================= [디자인] 1. 전체 배경 ================= */
+        /* ================= [Design] 1. Background ================= */
         body { 
             font-family: 'Nanum Pen Script', cursive;
-            background-color: #1a120b; /* 진한 고동색 */
+            background-color: #1a120b; /* Dark Brown */
             background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
             margin: 0;
             min-height: 100vh;
@@ -17,11 +17,11 @@
             justify-content: center;
             align-items: center;
             overflow-x: hidden;
-            perspective: 1500px; /* 3D 입체감 */
+            perspective: 1500px; /* 3D Perspective */
             padding: 20px;
         }
 
-        /* ================= [추가됨] 사용자 정보 & 로그아웃 패널 ================= */
+        /* ================= [User Panel] ================= */
         .user-panel {
             position: absolute;
             top: 20px;
@@ -44,26 +44,26 @@
         }
         .user-panel a:hover { color: #ffeb3b; text-decoration: underline; }
 
-        /* ================= [디자인] 2. 책 애니메이션 틀 ================= */
+        /* ================= [Design] 2. Book Wrapper ================= */
         .book-wrapper {
             position: relative;
-            width: 480px; /* 닫힌 책 너비 */
-            height: 680px; /* 책 높이 */
+            width: 480px; /* Closed width */
+            height: 680px; /* Height */
             transition: width 1s ease-in-out, transform 1s ease-in-out; 
             transform-style: preserve-3d;
         }
 
-        /* 책이 열렸을 때 너비 */
+        /* Open width */
         .book-wrapper.is-open {
             width: 1100px; 
         }
 
-        /* ================= [디자인] 3. 표지 (Cover) ================= */
+        /* ================= [Design] 3. Cover ================= */
         .cover {
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background-color: #3e2723; /* 가죽색 */
+            background-color: #3e2723;
             background-image: repeating-linear-gradient(45deg, #3e2723 0px, #3e2723 2px, #4e342e 2px, #4e342e 4px);
             border: 2px solid #1a120b;
             border-radius: 5px 15px 15px 5px;
@@ -73,18 +73,16 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
-            transform-origin: left; /* 왼쪽을 축으로 회전 */
+            transform-origin: left;
             transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
             cursor: pointer;
         }
 
-        /* 표지 금테 장식 */
         .cover::after {
             content: ''; position: absolute; top: 25px; bottom: 25px; left: 25px; right: 25px;
             border: 3px double #d4af37; pointer-events: none;
         }
 
-        /* 표지 열림 효과 (회전) */
         .book-wrapper.is-open .cover {
             transform: rotateY(-180deg);
             opacity: 0;
@@ -94,7 +92,7 @@
         .cover h1 { 
             font-family: 'Cinzel', serif; 
             font-size: 3.8rem; 
-            color: #d4af37; /* 금색 */
+            color: #d4af37; 
             text-shadow: 3px 3px 6px rgba(0,0,0,0.8); 
             margin: 0; text-align: center; 
             line-height: 1.2;
@@ -117,14 +115,14 @@
         }
         @keyframes blink { 50% { opacity: 0.5; } }
 
-        /* ================= [디자인] 4. 속지 (Inner Pages) ================= */
+        /* ================= [Design] 4. Inner Pages ================= */
         .inner-pages {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             display: flex; 
             opacity: 0; 
             transition: opacity 1s ease-in-out; 
             pointer-events: none;
-            background-color: #e6dec8; /* 종이색 */
+            background-color: #e6dec8; /* Paper color */
             box-shadow: inset 0 0 60px rgba(0,0,0,0.15); 
             border-radius: 5px; 
             overflow: hidden;
@@ -134,19 +132,16 @@
 
         .page { flex: 1; padding: 50px; display: flex; flex-direction: column; justify-content: center; position: relative; }
         
-        /* 왼쪽 페이지 (날짜, 메뉴) */
         .page-left { 
             background: linear-gradient(to right, #e6dec8 95%, #d7ccc8 100%); 
             border-right: 1px solid #d7ccc8; 
             align-items: center; 
         }
         
-        /* 오른쪽 페이지 (입력창) */
         .page-right { 
             background: linear-gradient(to left, #e6dec8 95%, #d7ccc8 100%); 
         }
 
-        /* 내부 텍스트 스타일 */
         h2 { font-family: 'Cinzel', serif; font-size: 3.2rem; color: #3e2723; margin: 0 0 10px 0; text-shadow: 1px 1px 0 rgba(255,255,255,0.5); }
         
         .subtitle { 
@@ -159,7 +154,6 @@
         
         label { font-family: 'Cinzel', serif; color: #5d4037; font-size: 1.6rem; margin-bottom: 15px; font-weight: bold; }
         
-        /* 날짜 입력칸 */
         input[type="date"] { 
             padding: 10px; 
             font-size: 32px; 
@@ -174,7 +168,6 @@
             outline: none; 
         }
 
-        /* 일기 입력창 */
         textarea { 
             width: 100%; 
             height: 100%; 
@@ -196,7 +189,6 @@
         
         textarea::placeholder { color: #a1887f; font-size: 30px; font-weight: normal; opacity: 0.7; }
 
-        /* 버튼 스타일 */
         .btn-analyze { 
             position: absolute; bottom: 40px; right: 50px; 
             padding: 15px 40px; 
@@ -228,96 +220,111 @@
         }
         .btn-history:hover { background-color: #5d4037; color: #e6dec8; }
 
-        /* 책갈피 */
         .bookmark { position: absolute; top: 0; left: 60px; width: 45px; height: 90px; background: #c0392b; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
 
+        /* ================= [New] Mind Care UI ================= */
+        .mind-care-box {
+            background-color: #F4F8F6; /* Sage Green */
+            border-left: 5px solid #6B9080; 
+            padding: 20px;
+            border-radius: 8px;
+            width: 85%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: fadeIn 0.8s ease-in-out;
+            text-align: left;
+        }
+
+        .mind-care-box h3 {
+            font-family: 'Cinzel', serif;
+            color: #354F52;
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #6B9080;
+            padding-bottom: 5px;
+        }
+
+        .mind-care-box p {
+            font-family: 'Nanum Pen Script', cursive;
+            color: #2F3E46;
+            font-size: 1.5rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .care-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Updated: Info Box for Phone Number (Not a button) */
+        .care-info-box {
+            background-color: #fff;
+            color: #354F52;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border: 1px solid #6B9080;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        
+        .care-btn.map {
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background-color: transparent;
+            color: #6B9080;
+            border: 1px solid #6B9080;
+        }
+        .care-btn.map:hover { background-color: #EAF2EF; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 1100px) {
-            body {
-                padding: 30px 15px 60px;
-                align-items: flex-start;
-            }
-            .user-panel {
-                position: static;
-                margin-bottom: 15px;
-            }
+            body { padding: 30px 15px 60px; align-items: flex-start; }
+            .user-panel { position: static; margin-bottom: 15px; }
         }
 
         body.mobile-mode {
-            perspective: none;
-            padding-top: 20px;
-            padding-bottom: 60px;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
+            perspective: none; padding-top: 20px; padding-bottom: 60px;
+            flex-direction: column; align-items: center; justify-content: flex-start;
         }
         body.mobile-mode .user-panel {
-            position: static;
-            transform: none;
-            width: 100%;
-            max-width: 600px;
-            margin-top: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            order: 2;
+            position: static; transform: none; width: 100%; max-width: 600px;
+            margin-top: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); order: 2;
         }
-        body.mobile-mode .user-panel span {
-            margin-right: 0;
-            font-size: 1rem;
-        }
+        body.mobile-mode .user-panel span { margin-right: 0; font-size: 1rem; }
         body.mobile-mode .book-wrapper {
-            width: 100%;
-            max-width: 600px;
-            min-height: 80vh;
-            height: auto;
-            transform: none;
-            order: 1;
-            display: flex;
+            width: 100%; max-width: 600px; min-height: 80vh; height: auto;
+            transform: none; order: 1; display: flex;
         }
+        body.mobile-mode .inner-pages { flex: 1; overflow-y: auto; }
+        body.mobile-mode .cover { display: none; }
         body.mobile-mode .inner-pages {
-            flex: 1;
-            overflow-y: auto;
+            position: relative; opacity: 1; pointer-events: auto;
+            flex-direction: column; height: auto; box-shadow: 0 20px 45px rgba(0,0,0,0.4);
         }
-        body.mobile-mode .cover {
-            display: none;
-        }
-        body.mobile-mode .inner-pages {
-            position: relative;
-            opacity: 1;
-            pointer-events: auto;
-            flex-direction: column;
-            height: auto;
-            box-shadow: 0 20px 45px rgba(0,0,0,0.4);
-        }
-        body.mobile-mode .page {
-            padding: 30px;
-        }
-        body.mobile-mode .page-left {
-            border-right: none;
-            border-bottom: 1px solid #d7ccc8;
-        }
+        body.mobile-mode .page { padding: 30px; }
+        body.mobile-mode .page-left { border-right: none; border-bottom: 1px solid #d7ccc8; }
         body.mobile-mode h2 { font-size: 2.4rem; }
         body.mobile-mode .subtitle { font-size: 1.6rem; margin-bottom: 25px; }
         body.mobile-mode label { font-size: 1.3rem; }
-        body.mobile-mode input[type="date"] {
-            font-size: 24px;
-            width: 100%;
-        }
-        body.mobile-mode textarea {
-            font-size: 22px;
-            line-height: 40px;
-            height: 320px;
-        }
-        body.mobile-mode .btn-history {
-            width: 100%;
-            margin-top: 30px;
-        }
-        body.mobile-mode .btn-analyze {
-            position: static;
-            margin-top: 25px;
-            width: 100%;
-        }
-        body.mobile-mode .bookmark {
-            display: none;
-        }
+        body.mobile-mode input[type="date"] { font-size: 24px; width: 100%; }
+        body.mobile-mode textarea { font-size: 22px; line-height: 40px; height: 320px; }
+        body.mobile-mode .btn-history { width: 100%; margin-top: 30px; }
+        body.mobile-mode .btn-analyze { position: static; margin-top: 25px; width: 100%; }
+        body.mobile-mode .bookmark { display: none; }
     </style>
 </head>
 <body>
@@ -338,16 +345,39 @@
             <div class="bookmark"></div>
             
             <div class="page page-left">
-                <h2>New Entry</h2>
-                <p class="subtitle">"A fresh page for today."</p>
-                <div style="width: 100%; text-align: center;">
-                    <label for="date-picker">Date of Entry</label>
-                    <input type="date" id="date-picker" name="date" required>
+                {% if needs_care %}
+                    <div class="mind-care-box">
+                        <h3>🌿 Mind Care</h3>
+                        <p>
+                            We noticed some heavy emotions in your entry today.<br>
+                            Please remember that you are valuable and not alone.<br>
+                            Professional help is always available if you need it.
+                        </p>
+                        <div class="care-links">
+                            <div class="care-info-box">
+                                📞 Crisis Hotline: 1577-0199
+                            </div>
+                            <a href="https://www.google.com/search?q=Mental+health+support+near+me" target="_blank" class="care-btn map">
+                                📍 Find a Center Nearby
+                            </a>
+                        </div>
+                    </div>
+                    <a href="/" style="text-decoration: none; margin-top: 20px;">
+                        <button type="button" class="btn-history" style="padding: 8px 20px; font-size: 14px;">Back to New Entry</button>
+                    </a>
+
+                {% else %}
+                    <h2>New Entry</h2>
+                    <p class="subtitle">"A fresh page for today."</p>
+                    <div style="width: 100%; text-align: center;">
+                        <label for="date-picker">Date of Entry</label>
+                        <input type="date" id="date-picker" name="date" required>
+                    </div>
+                    <a href="/history" style="text-decoration: none;">
+                        <button type="button" class="btn-history">Open Archive</button>
+                    </a>
+                {% endif %}
                 </div>
-                <a href="/history" style="text-decoration: none;">
-                    <button type="button" class="btn-history">Open Archive</button>
-                </a>
-            </div>
 
             <div class="page page-right">
                 <textarea name="diary" placeholder="Dear Diary... (Write here)"></textarea>
@@ -368,7 +398,7 @@
         
         bgm.volume = 0.5;
 
-        // 음악 이어듣기
+        // BGM persistence
         const savedTime = sessionStorage.getItem('bgmTime');
 
         const startPlayback = () => {
@@ -382,7 +412,7 @@
                     console.warn('Failed to restore bgm time', err);
                 }
             }
-            bgm.play().catch(e => console.log("자동 재생 차단됨"));
+            bgm.play().catch(e => console.log("Auto-play blocked"));
         };
 
         function applyMobileLayout() {
@@ -398,7 +428,10 @@
         const wasMobile = applyMobileLayout();
 
         const beginAudio = () => {
-            if (!wasMobile && sessionStorage.getItem('bookOpened') === 'true') {
+            // Check for 'needs_care' mode
+            const needsCareMode = "{{ 'true' if needs_care else 'false' }}";
+
+            if (needsCareMode === 'true' || (!wasMobile && sessionStorage.getItem('bookOpened') === 'true')) {
                 book.classList.add('is-open');
                 book.style.transition = 'none'; 
                 setTimeout(() => book.style.transition = '', 100); 
@@ -414,14 +447,17 @@
             bgm.addEventListener('loadedmetadata', beginAudio, { once: true });
         }
 
-        // 날짜 자동 입력
-        document.getElementById('date-picker').valueAsDate = new Date();
+        // Auto-fill date
+        const datePicker = document.getElementById('date-picker');
+        if (datePicker) {
+            datePicker.valueAsDate = new Date();
+        }
 
-        // 책 열기
+        // Open book
         function openBook() {
             book.classList.add('is-open');
             sessionStorage.setItem('bookOpened', 'true');
-            bgm.play().catch(error => console.log("오디오 재생 실패:", error));
+            bgm.play().catch(error => console.log("Audio play failed:", error));
         }
 
         window.addEventListener('resize', () => {
