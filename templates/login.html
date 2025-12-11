@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Sign In - The Grand Archives</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ url_for('static', filename='bgm.mp3') }}" as="audio">
     <style>
         body {
             background-color: #1a120b;
@@ -60,6 +61,5 @@
             </form>
         </div>
     </div>
-    {% include 'page_turn_sound.html' %}
 </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Diary Viewer</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ url_for('static', filename='bgm.mp3') }}" as="audio">
     <style>
         :root {
             --theme-color: {{ theme_color }};
@@ -454,7 +455,7 @@
 </head>
 <body>
     <div class="ambient-light"></div>
-    <audio id="bgm" loop preload="auto">
+    <audio id="bgm" loop preload="auto" playsinline autoplay>
         <source src="/static/bgm.mp3" type="audio/mpeg">
     </audio>
     <header class="viewer-header">
@@ -561,28 +562,13 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/bgm-controller.js') }}"></script>
     <script>
-        const bgm = document.getElementById('bgm');
-        bgm.volume = 0.5;
-        const savedTime = sessionStorage.getItem('bgmTime');
-        const startPlayback = () => {
-            if (savedTime) {
-                try {
-                    const time = Math.max(0, parseFloat(savedTime));
-                    if (!isNaN(time)) {
-                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
-                    }
-                } catch (err) {
-                    console.warn('Failed to restore bgm time', err);
-                }
-            }
-            bgm.play().catch(e => console.log("자동 재생 차단됨"));
-        };
-        if (bgm.readyState >= 2) {
-            startPlayback();
-        } else {
-            bgm.addEventListener('loadedmetadata', startPlayback, { once: true });
-        }
+        window.BgmController && window.BgmController.init('bgm', {
+            autoStart: true,
+            respectIntent: false,
+            volume: 0.5
+        });
 
         function updateLayoutMode() {
             const isTall = window.innerHeight > window.innerWidth * 1.05;
@@ -592,18 +578,6 @@
 
         window.addEventListener('resize', updateLayoutMode);
         updateLayoutMode();
-
-        const persistTime = () => {
-            try {
-                sessionStorage.setItem('bgmTime', bgm.currentTime);
-            } catch (err) {}
-        };
-        const syncInterval = setInterval(persistTime, 1500);
-        window.addEventListener('visibilitychange', () => {
-            if (document.hidden) persistTime();
-        });
-        window.addEventListener('pagehide', persistTime);
-        window.addEventListener('beforeunload', persistTime);
 
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabPanels = document.querySelectorAll('.tab-panel');
@@ -619,6 +593,5 @@
             });
         });
     </script>
-    {% include 'page_turn_sound.html' %}
 </body>
 </html>

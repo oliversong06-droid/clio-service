@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Edit Entry</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ url_for('static', filename='bgm.mp3') }}" as="audio">
     <style>
         :root {
             --paper-left: #f0e6d2;
@@ -184,7 +185,7 @@
             <a href="/logout">Logout</a>
         </div>
     </div>
-    <audio id="bgm" loop preload="auto">
+    <audio id="bgm" loop preload="auto" playsinline autoplay>
         <source src="/static/bgm.mp3" type="audio/mpeg">
     </audio>
     <div class="editor-shell">
@@ -221,40 +222,13 @@
             </div>
         </form>
     </div>
+    <script src="{{ url_for('static', filename='js/bgm-controller.js') }}"></script>
     <script>
-        const bgm = document.getElementById('bgm');
-        bgm.volume = 0.5;
-        const savedTime = sessionStorage.getItem('bgmTime');
-        const startPlayback = () => {
-            if (savedTime) {
-                try {
-                    const time = Math.max(0, parseFloat(savedTime));
-                    if (!isNaN(time)) {
-                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
-                    }
-                } catch (err) {
-                    console.warn('Failed to restore bgm time', err);
-                }
-            }
-            bgm.play().catch(e => console.log("자동 재생 차단됨"));
-        };
-        if (bgm.readyState >= 2) {
-            startPlayback();
-        } else {
-            bgm.addEventListener('loadedmetadata', startPlayback, { once: true });
-        }
-        const persistTime = () => {
-            try {
-                sessionStorage.setItem('bgmTime', bgm.currentTime);
-            } catch (err) {}
-        };
-        const syncInterval = setInterval(persistTime, 1500);
-        window.addEventListener('visibilitychange', () => {
-            if (document.hidden) persistTime();
+        window.BgmController && window.BgmController.init('bgm', {
+            autoStart: true,
+            respectIntent: false,
+            volume: 0.5
         });
-        window.addEventListener('pagehide', persistTime);
-        window.addEventListener('beforeunload', persistTime);
     </script>
-    {% include 'page_turn_sound.html' %}
 </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Analysis Result</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ url_for('static', filename='bgm.mp3') }}" as="audio">
     <style>
         body { 
             font-family: 'Nanum Pen Script', cursive;
@@ -200,11 +201,90 @@
             border-radius: 5px;
             color: #333;
         }
+        .mind-care-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+            z-index: 1000;
+        }
+        .mind-care-overlay.visible { display: flex; }
+        .mind-care-box {
+            position: relative;
+            background-color: #F4F8F6;
+            border-left: 5px solid #6B9080;
+            padding: 30px 35px 35px;
+            border-radius: 12px;
+            width: min(520px, 90%);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.25);
+            text-align: left;
+            color: #2F3E46;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .mind-care-box h3 {
+            font-family: 'Cinzel', serif;
+            color: #354F52;
+            margin-top: 0;
+        }
+        .mind-care-box p {
+            font-family: 'Nanum Pen Script', cursive;
+            font-size: 1.4rem;
+            line-height: 1.4;
+        }
+        .mind-care-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            border: none;
+            background: transparent;
+            color: #2F3E46;
+            font-size: 1.8rem;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+        }
+        .care-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .care-info-box {
+            background-color: #fff;
+            color: #354F52;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border: 1px solid #6B9080;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        .care-btn.map {
+            text-decoration: none;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            background-color: transparent;
+            color: #6B9080;
+            border: 1px solid #6B9080;
+        }
+        .care-btn.map:hover { background-color: #EAF2EF; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
     <div class="backdrop"></div>
-    <audio id="bgm" loop>
+    <audio id="bgm" loop preload="auto" playsinline autoplay>
         <source src="/static/bgm.mp3" type="audio/mpeg">
     </audio>
     <div class="result-wrapper">
@@ -239,18 +319,54 @@
             </a>
         </div>
     </div>
+    <div class="mind-care-overlay" id="mindCareModal" data-show="{{ 'true' if needs_care else 'false' }}">
+        <div class="mind-care-box">
+            <button type="button" class="mind-care-close" id="mindCareClose">&times;</button>
+            <h3>🌿 Mind Care</h3>
+            <p>
+                We noticed some heavy emotions in your entry today.<br>
+                Please remember that you are valuable and not alone.<br>
+                Professional help is always available if you need it.
+            </p>
+            <div class="care-links">
+                <div class="care-info-box">
+                    📞 Crisis Hotline: 1577-0199
+                </div>
+                <a href="https://www.google.com/search?q=Mental+health+support+near+me" target="_blank" class="care-btn map">
+                    📍 Find a Center Nearby
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/bgm-controller.js') }}"></script>
     <script>
-        const bgm = document.getElementById('bgm');
-        bgm.volume = 0.5;
-        const savedTime = sessionStorage.getItem('bgmTime');
-        if (savedTime) {
-            bgm.currentTime = savedTime;
+        window.BgmController && window.BgmController.init('bgm', {
+            autoStart: true,
+            respectIntent: false,
+            volume: 0.5
+        });
+        const mindCareModal = document.getElementById('mindCareModal');
+        const mindCareClose = document.getElementById('mindCareClose');
+        const showMindCare = mindCareModal && mindCareModal.dataset.show === 'true';
+        const hideMindCare = () => {
+            if (mindCareModal) {
+                mindCareModal.classList.remove('visible');
+                mindCareModal.dataset.show = 'false';
+            }
+        };
+        if (showMindCare) {
+            mindCareModal.classList.add('visible');
         }
-        bgm.play().catch(e => console.log("자동 재생 차단됨"));
-    window.addEventListener('beforeunload', () => {
-        sessionStorage.setItem('bgmTime', bgm.currentTime);
-    });
-</script>
-    {% include 'page_turn_sound.html' %}
+        if (mindCareClose) {
+            mindCareClose.addEventListener('click', hideMindCare);
+        }
+        if (mindCareModal) {
+            mindCareModal.addEventListener('click', (event) => {
+                if (event.target === mindCareModal) {
+                    hideMindCare();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

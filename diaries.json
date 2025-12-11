@@ -1309,6 +1309,327 @@
                 }
             ],
             "id": "2e0ab7d6516307f8"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "\"Where could it be?\" Sophie asked herself. It had been more than ten years since she had last visited the area where she had grown up. The Village had changed a lot over time. Uncertain, she awkwardly looked around at her surroundings. She walked the narrow streets of the village, unsure about which way to go. Suddenly, Sophie saw a familiar sight. \"Yes, this must be it,\" she thought. In front of her was a wall with flowers painted on it. Although the colors were now faded, the familiar shapes on the wall were the same ones she had painted with her father as a child. Sophie nodded, smiled brightly, and walked toward the gate. At last, she had finally found the house she had grown up in.\r\n",
+            "emotion": "Fear",
+            "color": "#28332a",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "Sophie",
+                    "emotion": "Happiness",
+                    "color": "#f7fe98",
+                    "count": 3
+                },
+                {
+                    "name": "The",
+                    "emotion": "Anger",
+                    "color": "#60342f",
+                    "count": 1
+                },
+                {
+                    "name": "She",
+                    "emotion": "Fear",
+                    "color": "#2d1833",
+                    "count": 1
+                },
+                {
+                    "name": "In",
+                    "emotion": "Sadness",
+                    "color": "#383e46",
+                    "count": 1
+                }
+            ],
+            "id": "7290eb6ee6883c97"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "I spent the entire afternoon basking in the most exquisite happiness; the sun was shining, my favorite song came on the radio right as I finished a major project successfully, and I felt utterly connected to the world, convinced that nothing could possibly bring me down. I made plans for the weekend, full of bright energy and excited anticipation, texting friends and feeling genuinely invincible. But then, checking my mailbox, I saw the letter—an unexpected notification about a dear old friend moving far away permanently, severing our daily connection. The news landed like a physical blow, instantly dissolving the radiant joy. Now, the room feels cold, the music sounds hollow, and the intense joy of an hour ago has been replaced by a quiet, profound ache of loneliness and the deep, sudden realization of a significant loss.",
+            "emotion": "Happiness",
+            "color": "#fada9a",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#3a3b49",
+                    "count": 5
+                },
+                {
+                    "name": "The",
+                    "emotion": "Happiness",
+                    "color": "#f1e591",
+                    "count": 1
+                }
+            ],
+            "id": "5cd9c5751ea0e4cb"
+        },
+        {
+            "date": "December 08, 2025",
+            "text": "It feels like the world outside has adopted the same gray filter that's been hanging over my mood all week. There's no specific tragedy to point to, just a persistent, low-level hum of melancholy that makes everything feel a little muted and insignificant. I find myself drifting through tasks without enthusiasm, and even things I usually look forward to—like reading a good book or listening to music—fail to spark any real joy. It's the kind of quiet sadness that doesn't demand attention, but simply absorbs the color out of the day. Maybe I'm just tired, or perhaps this is just one of those emotional troughs everyone cycles through. I keep reminding myself that feelings, like the weather, are temporary, yet the prospect of waiting for the sun to break through feels exhausting right now.  I tried to combat the slump earlier by going for a walk, hoping the fresh air and change of scenery would help, but it just ended up confirming my internal state. The streets seemed ordinary, the people rushed and preoccupied, and I felt utterly detached, like a silent observer in my own life. I spent the evening staring at the ceiling, thinking about all the things I should be doing versus what I actually felt capable of, which was nothing much at all. It’s frustrating to have a mind full of ambitions but a spirit too heavy to execute them. I suppose all I can do is acknowledge this feeling, not try to force a change, and hope that tomorrow brings a slightly lighter step. I’ll write down one small positive thing before I sleep, even if it's just the fact that I remembered to eat dinner.",
+            "emotion": "Sadness",
+            "color": "#222c34",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f1c790",
+                    "count": 14
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#42465a",
+                    "count": 1
+                }
+            ],
+            "id": "e6ebc505ccd1f947"
+        },
+        {
+            "date": "December 09, 2025",
+            "text": "r\r\n\"Where could it be?\" Sophie asked herself. It had been more than ten years since she had last visited the area where she had grown up. The Village had changed a lot over time. Uncertain, she awkwardly looked around at her surroundings. She walked the narrow streets of the village, unsure about which way to go. Suddenly, Sophie saw a familiar sight. \"Yes, this must be it,\" she thought. In front of her was a wall with flowers painted on it. Although the colors were now faded, the familiar shapes on the wall were the same ones she had painted with her father as a child. Sophie nodded, smiled brightly, and walked toward the gate. At last, she had finally found the house she had grown up in.",
+            "emotion": "Sadness",
+            "color": "#292833",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "Sophie",
+                    "emotion": "Surprise",
+                    "color": "#e2b3b0",
+                    "count": 3
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#2b2c36",
+                    "count": 1
+                },
+                {
+                    "name": "She",
+                    "emotion": "Sadness",
+                    "color": "#282c33",
+                    "count": 1
+                },
+                {
+                    "name": "In",
+                    "emotion": "Sadness",
+                    "color": "#454956",
+                    "count": 1
+                }
+            ],
+            "id": "e9fa252471ba321f"
+        },
+        {
+            "date": "December 09, 2025",
+            "text": "The day started in a pit of despair, an absolutely crushing low where the gray light filtering through the curtains felt like a tangible weight. I couldn't articulate the sorrow, but it was a deep, paralyzing ache; a few minutes later, however, the sheer absurdity of a tiny, fluffy cloud passing by my window triggered an uncontrollable burst of delirious joy. I laughed until I cried, a sudden, powerful surge of elation that made everything vibrant and possible. This manic energy lasted maybe an hour—long enough for me to draft an overly ambitious five-year plan—before crashing back down into a state of icy, detached indifference. Now, as the evening closes in, I feel neither joy nor sadness, just a blank, unsettling neutrality, waiting for the next unpredictable, intense wave to hit.",
+            "emotion": "Happiness",
+            "color": "#f0e390",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#373747",
+                    "count": 1
+                },
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f4ef92",
+                    "count": 4
+                }
+            ],
+            "id": "222baa230e36eaee"
+        },
+        {
+            "date": "December 09, 2025",
+            "text": "It feels like the world outside has adopted the same gray filter that's been hanging over my mood all week. There's no specific tragedy to point to, just a persistent, low-level hum of melancholy that makes everything feel a little muted and insignificant. I find myself drifting through tasks without enthusiasm, and even things I usually look forward to—like reading a good book or listening to music—fail to spark any real joy. It's the kind of quiet sadness that doesn't demand attention, but simply absorbs the color out of the day. Maybe I'm just tired, or perhaps this is just one of those emotional troughs everyone cycles through. I keep reminding myself that feelings, like the weather, are temporary, yet the prospect of waiting for the sun to break through feels exhausting right now. I tried to combat the slump earlier by going for a walk, hoping the fresh air and change of scenery would help, but it just ended up confirming my internal state. The streets seemed ordinary, the people rushed and preoccupied, and I felt utterly detached, like a silent observer in my own life. I spent the evening staring at the ceiling, thinking about all the things I should be doing versus what I actually felt capable of, which was nothing much at all. It’s frustrating to have a mind full of ambitions but a spirit too heavy to execute them. I suppose all I can do is acknowledge this feeling, not try to force a change, and hope that tomorrow brings a slightly lighter step. I’ll write down one small positive thing before I sleep, even if it's just the fact that I remembered to eat dinner.",
+            "emotion": "Sadness",
+            "color": "#494759",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#242433",
+                    "count": 14
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#3f454e",
+                    "count": 1
+                }
+            ],
+            "id": "980a165a2a03c3f9"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "my friend junsang finally has girl friends. Im glad to hear that",
+            "emotion": "Happiness",
+            "color": "#f8df99",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "f0c9d10bd2a6dd41"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "junsang is handsome. But junsang doesn't have girl friends. But junsang doesn't matter. because  junsang is gay. however junsang loves me. but I'm not gay. so I'm very scared. so I ran away from him.",
+            "emotion": "Sadness",
+            "color": "#2c2d37",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Sadness",
+                    "color": "#282b33",
+                    "count": 3
+                }
+            ],
+            "id": "ba13f94d45249e90"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "wonseok have girlfriend. But it was his dream. he doesn't have girlfriend. It can't be happened.",
+            "emotion": "Sadness",
+            "color": "#303a45",
+            "color_name": "Grey",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "85df1abd63915b00"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "☺️😘👍",
+            "emotion": "Happiness",
+            "color": "#fefea5",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "1a1ae5116eacc25d"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "😭😴😂🥲☹️",
+            "emotion": "Sadness",
+            "color": "#4d485a",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [],
+            "id": "243da162ad092590"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "😮😲😮😲😱",
+            "emotion": "Surprise",
+            "color": "#94f0b1",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [],
+            "id": "9a4c73b5c39e3164"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "Wow, what a day! I started off feeling amazing this morning. I woke up right before my alarm ⏰ and felt so rested. I actually smiled when I looked out the window and saw the bright sunshine 🌞. I thought, \"This is going to be a fantastic day!\" I even managed to make a really nice cup of coffee ☕ and got some reading done before work.\r\n\r\nBut then, things took a little dip. Around lunchtime, I got an email 📧 about a project deadline being moved up unexpectedly. Ugh. My heart sank 💔, and honestly, I felt so stressed and a little frustrated 😠. I spent the next hour trying to reschedule my whole afternoon. It was a huge headache! I kept thinking, \"Why does this always happen?\"\r\n\r\nAfter that initial panic wore off, I just got tired 😔. Like, really, really tired. I almost spilled my water all over my laptop because my hand was shaking from the stress. I decided to step away from my desk for five minutes and just walk around. That little break helped a tiny bit. I saw a cute dog 🐕 outside, which was a nice distraction.\r\n\r\nThe evening, thankfully, brought things back up! 🎉 My best friend called, and we had a hilarious conversation about the silliest things. We laughed so hard 😂 my stomach hurt! It reminded me that even if the workday is tough, there are always good things to look forward to. I'm so grateful for my friends. 🙏 Now I'm winding down, feeling calm and peaceful 😌. Time to watch a movie and relax before tackling tomorrow! Good night, world! 😴",
+            "emotion": "Happiness",
+            "color": "#f6ee9c",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#fade96",
+                    "count": 16
+                },
+                {
+                    "name": "My",
+                    "emotion": "Sadness",
+                    "color": "#2d2f38",
+                    "count": 2
+                },
+                {
+                    "name": "Like",
+                    "emotion": "Sadness",
+                    "color": "#282d33",
+                    "count": 1
+                },
+                {
+                    "name": "The",
+                    "emotion": "Sadness",
+                    "color": "#3b3c49",
+                    "count": 1
+                },
+                {
+                    "name": "Time",
+                    "emotion": "Happiness",
+                    "color": "#f4e692",
+                    "count": 1
+                }
+            ],
+            "id": "f16b4879dbf19137"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "I'm happy",
+            "emotion": "Happiness",
+            "color": "#f3f896",
+            "color_name": "Bright Color",
+            "tone": "Bright and Pastel",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Happiness",
+                    "color": "#f2f391",
+                    "count": 1
+                }
+            ],
+            "id": "66feb8db2b4eb0e3"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "I want to kill my self😡",
+            "emotion": "Anger",
+            "color": "#603824",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#903837",
+                    "count": 1
+                }
+            ],
+            "id": "e746d99b97e83d4f"
+        },
+        {
+            "date": "December 11, 2025",
+            "text": "I want to kill my self",
+            "emotion": "Anger",
+            "color": "#7b3d3b",
+            "color_name": "Neutral Tone",
+            "tone": "Calm and Dark",
+            "people": [
+                {
+                    "name": "I",
+                    "emotion": "Anger",
+                    "color": "#7f3948",
+                    "count": 1
+                }
+            ],
+            "id": "6d52e0fbc85d1b1d"
         }
     ]
 }

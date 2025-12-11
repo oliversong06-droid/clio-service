@@ -214,12 +214,7 @@ def analyze():
     print(f"🔍 Analyzing combined text length: {len(combined_text)} characters")
 
     # 4-4. 합쳐진 텍스트로 위험 감지 수행
-    if check_mind_care_needed(combined_text):
-        # 위험 감지 시: 저장된 데이터는 유지하되, 화면은 경고창(index.html)으로 이동
-        return render_template('index.html', 
-                               user=current_user, 
-                               csrf_token=get_csrf_token(),
-                               needs_care=True) # UI 변경 플래그
+    needs_care = check_mind_care_needed(combined_text)
 
     # 위험하지 않으면 정상적인 결과 페이지 출력
     return render_template('result.html', 
@@ -231,7 +226,8 @@ def analyze():
                            tone=result['tone'],
                            people=result['people'],
                            emotion_flow=result.get('emotion_flow', []),
-                           emotion_gradient=result.get('emotion_gradient'))
+                           emotion_gradient=result.get('emotion_gradient'),
+                           needs_care=needs_care)
 
 # 7. [히스토리]
 @app.route('/history')

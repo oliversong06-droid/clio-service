@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>The Antique Diary</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Caveat:wght@700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link rel="preload" href="{{ url_for('static', filename='bgm.mp3') }}" as="audio">
     
     <style>
         /* ================= [Design] 1. Background ================= */
@@ -222,15 +223,28 @@
 
         .bookmark { position: absolute; top: 0; left: 60px; width: 45px; height: 90px; background: #c0392b; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
 
-        /* ================= [New] Mind Care UI ================= */
+        /* ================= [New] Mind Care Popup ================= */
+        .mind-care-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+            z-index: 250;
+        }
+        .mind-care-overlay.visible { display: flex; }
+
         .mind-care-box {
+            position: relative;
             background-color: #F4F8F6; /* Sage Green */
             border-left: 5px solid #6B9080; 
-            padding: 20px;
-            border-radius: 8px;
-            width: 85%;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            animation: fadeIn 0.8s ease-in-out;
+            padding: 30px 35px 35px;
+            border-radius: 12px;
+            width: min(520px, 90%);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.25);
+            animation: fadeIn 0.6s ease-in-out;
             text-align: left;
         }
 
@@ -256,6 +270,18 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+        }
+
+        .mind-care-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            border: none;
+            background: transparent;
+            color: #2F3E46;
+            font-size: 1.8rem;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
         }
 
         /* Updated: Info Box for Phone Number (Not a button) */
@@ -329,7 +355,7 @@
 </head>
 <body>
 
-    <audio id="bgm" loop preload="auto">
+    <audio id="bgm" loop preload="auto" playsinline autoplay>
         <source src="/static/bgm.mp3" type="audio/mpeg">
     </audio>
 
@@ -345,42 +371,19 @@
             <div class="bookmark"></div>
             
             <div class="page page-left">
-                {% if needs_care %}
-                    <div class="mind-care-box">
-                        <h3>🌿 Mind Care</h3>
-                        <p>
-                            We noticed some heavy emotions in your entry today.<br>
-                            Please remember that you are valuable and not alone.<br>
-                            Professional help is always available if you need it.
-                        </p>
-                        <div class="care-links">
-                            <div class="care-info-box">
-                                📞 Crisis Hotline: 1577-0199
-                            </div>
-                            <a href="https://www.google.com/search?q=Mental+health+support+near+me" target="_blank" class="care-btn map">
-                                📍 Find a Center Nearby
-                            </a>
-                        </div>
-                    </div>
-                    <a href="/" style="text-decoration: none; margin-top: 20px;">
-                        <button type="button" class="btn-history" style="padding: 8px 20px; font-size: 14px;">Back to New Entry</button>
-                    </a>
-
-                {% else %}
-                    <h2>New Entry</h2>
-                    <p class="subtitle">"A fresh page for today."</p>
-                    <div style="width: 100%; text-align: center;">
-                        <label for="date-picker">Date of Entry</label>
-                        <input type="date" id="date-picker" name="date" required>
-                    </div>
-                    <a href="/history" style="text-decoration: none;">
-                        <button type="button" class="btn-history">Open Archive</button>
-                    </a>
-                {% endif %}
+                <h2>New Entry</h2>
+                <p class="subtitle">"A fresh page for today."</p>
+                <div style="width: 100%; text-align: center;">
+                    <label for="date-picker">Date of Entry</label>
+                    <input type="date" id="date-picker" name="date" required value="{{ prefill_date|default('', true) }}">
                 </div>
+                <a href="/history" style="text-decoration: none;">
+                    <button type="button" class="btn-history">Open Archive</button>
+                </a>
+            </div>
 
             <div class="page page-right">
-                <textarea name="diary" placeholder="Dear Diary... (Write here)"></textarea>
+                <textarea name="diary" placeholder="Dear Diary... (Write here)">{{ prefill_text|default('', true) }}</textarea>
                 <button type="submit" class="btn-analyze">Seal & Analyze</button>
             </div>
         </form>
@@ -390,29 +393,44 @@
         <span>Keeper: {{ user }}</span>
         <a href="/logout">[Logout]</a>
     </div>
+
+    <div class="mind-care-overlay" id="mindCareModal" data-show="{{ 'true' if needs_care else 'false' }}">
+        <div class="mind-care-box">
+            <button type="button" class="mind-care-close" id="mindCareClose">&times;</button>
+            <h3>🌿 Mind Care</h3>
+            <p>
+                We noticed some heavy emotions in your entry today.<br>
+                Please remember that you are valuable and not alone.<br>
+                Professional help is always available if you need it.
+            </p>
+            <div class="care-links">
+                <div class="care-info-box">
+                    📞 Crisis Hotline: 1577-0199
+                </div>
+                <a href="https://www.google.com/search?q=Mental+health+support+near+me" target="_blank" class="care-btn map">
+                    📍 Find a Center Nearby
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
+    <script src="{{ url_for('static', filename='js/bgm-controller.js') }}"></script>
     <script>
         const book = document.getElementById('book');
-        const bgm = document.getElementById('bgm');
-        
-        bgm.volume = 0.5;
-
-        // BGM persistence
-        const savedTime = sessionStorage.getItem('bgmTime');
+        const bgmController = window.BgmController ? window.BgmController.init('bgm', {
+            autoStart: true,
+            respectIntent: false,
+            volume: 0.5
+        }) : null;
+        const bgm = bgmController ? bgmController.audio : document.getElementById('bgm');
 
         const startPlayback = () => {
-            if (savedTime) {
-                try {
-                    const time = Math.max(0, parseFloat(savedTime));
-                    if (!isNaN(time)) {
-                        bgm.currentTime = Math.min(time, Math.max(0, (bgm.duration || time) - 0.5));
-                    }
-                } catch (err) {
-                    console.warn('Failed to restore bgm time', err);
-                }
+            if (bgmController) {
+                bgmController.play(false);
+            } else if (bgm) {
+                bgm.play().catch(e => console.log("Auto-play blocked", e));
             }
-            bgm.play().catch(e => console.log("Auto-play blocked"));
         };
 
         function applyMobileLayout() {
@@ -441,15 +459,17 @@
             }
         };
 
-        if (bgm.readyState >= 2) {
-            beginAudio();
-        } else {
-            bgm.addEventListener('loadedmetadata', beginAudio, { once: true });
+        if (bgm) {
+            if (bgm.readyState >= 2) {
+                beginAudio();
+            } else {
+                bgm.addEventListener('loadedmetadata', beginAudio, { once: true });
+            }
         }
 
         // Auto-fill date
         const datePicker = document.getElementById('date-picker');
-        if (datePicker) {
+        if (datePicker && !datePicker.value) {
             datePicker.valueAsDate = new Date();
         }
 
@@ -457,25 +477,40 @@
         function openBook() {
             book.classList.add('is-open');
             sessionStorage.setItem('bookOpened', 'true');
-            bgm.play().catch(error => console.log("Audio play failed:", error));
+            startPlayback();
         }
 
         window.addEventListener('resize', () => {
             applyMobileLayout();
         });
 
-        const persistTime = () => {
-            try {
-                sessionStorage.setItem('bgmTime', bgm.currentTime);
-            } catch (err) {}
+        // Mind care modal
+        const mindCareModal = document.getElementById('mindCareModal');
+        const mindCareClose = document.getElementById('mindCareClose');
+        const showMindCare = mindCareModal && mindCareModal.dataset.show === 'true';
+
+        const hideMindCare = () => {
+            if (mindCareModal) {
+                mindCareModal.classList.remove('visible');
+                mindCareModal.dataset.show = 'false';
+            }
         };
-        const syncInterval = setInterval(persistTime, 1500);
-        window.addEventListener('visibilitychange', () => {
-            if (document.hidden) persistTime();
-        });
-        window.addEventListener('pagehide', persistTime);
-        window.addEventListener('beforeunload', persistTime);
+
+        if (showMindCare) {
+            mindCareModal.classList.add('visible');
+        }
+
+        if (mindCareClose) {
+            mindCareClose.addEventListener('click', hideMindCare);
+        }
+
+        if (mindCareModal) {
+            mindCareModal.addEventListener('click', (event) => {
+                if (event.target === mindCareModal) {
+                    hideMindCare();
+                }
+            });
+        }
     </script>
-    {% include 'page_turn_sound.html' %}
 </body>
 </html>

@@ -13,6 +13,8 @@ import colorsys
 import random
 import time
 import math
+import subprocess
+import importlib.util
 from collections import Counter
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -28,9 +30,22 @@ class ImprovedEmotionAnalyzer:
         self.text_vectorizer = None
         self.color_model = None
         self.color_encoder = None
+        self.bert_tokenizer = None
+        self.bert_model = None
+        self.bert_device = 'cpu'
+        self.bert_id2label = {}
+        self._torch = None
         self.name_set = set()      # 이름 데이터 저장소
         self.risk_keywords = set() # 위험 어휘 데이터 저장소
-        
+        self._emotion_dataset_cache = None
+        self.emoji_emotion_weights = {}
+        self.source_weights = {
+            'keyword': float(os.environ.get('CLIO_WEIGHT_KEYWORD', 1.0)),
+            'bert': float(os.environ.get('CLIO_WEIGHT_BERT', 1.25)),
+            'ml': float(os.environ.get('CLIO_WEIGHT_ML', 0.85)),
+            'emoji': float(os.environ.get('CLIO_WEIGHT_EMOJI', 1.15))
+        }
+
         self.emotion_colors = {
             'Happiness': {'color': '#FFD700', 'color_name': 'Gold', 'tone': 'Bright and Pastel'},
             'Sadness': {'color': '#4682B4', 'color_name': 'Steel Blue', 'tone': 'Calm and Dark'},
@@ -49,6 +64,9 @@ class ImprovedEmotionAnalyzer:
         
         # 1. Load Text Model
         self._load_text_model()
+
+        # 1-b. Load BERT model for deep learning inference
+        self._load_bert_model()
         
         # 2. Load Color Model
         self._load_color_model()
@@ -61,8 +79,207 @@ class ImprovedEmotionAnalyzer:
 
         # 5. [수정됨] Load Risk Dataset (CSV Version)
         self._load_risk_dataset()
+
+        # 6. Emoji-aware emotion weight loader
+        self._load_emoji_emotion_model()
         
         print("✅ All models loaded successfully!")
+
+    def _print_progress(self, current, total, prefix=""):
+        total = max(total, 1)
+        ratio = max(0.0, min(1.0, current / total))
+        bar_length = 30
+        filled = int(ratio * bar_length)
+        bar = '#' * filled + '-' * (bar_length - filled)
+        message = f"\r{prefix}[{bar}] {ratio * 100:5.1f}%"
+        sys.stdout.write(message)
+        sys.stdout.flush()
+        if current >= total:
+            sys.stdout.write("\n")
+
+    def _ensure_dependency(self, module_name, install_target=None):
+        """Install Python dependency from within the script when missing."""
+        try:
+            if importlib.util.find_spec(module_name) is not None:
+                return
+        except ModuleNotFoundError:
+            pass
+
+        package = install_target or module_name
+        print(f"📦 Installing missing dependency: {package}")
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+        except Exception as exc:
+            raise RuntimeError(f"Failed to install {package}: {exc}")
+
+    def _load_bert_model(self):
+        model_name = os.environ.get('EMOTION_BERT_MODEL', 'distilbert-base-uncased')
+        cache_dir = os.environ.get(
+            'EMOTION_BERT_CACHE',
+            os.path.join(os.path.dirname(__file__), 'bert_finetuned')
+        )
+        dataset = self._get_emotion_dataset()
+        if dataset is None or dataset.empty:
+            print("⚠️ Skipping BERT: no dataset available")
+            return
+
+        label_list = sorted({str(label).lower() for label in dataset['label'].unique()})
+        if len(label_list) < 2:
+            print("⚠️ Skipping BERT: need at least two label classes")
+            return
+        label2id = {label: idx for idx, label in enumerate(label_list)}
+
+        try:
+            self._ensure_dependency('transformers')
+            self._ensure_dependency('torch')
+            from transformers import AutoTokenizer, AutoModelForSequenceClassification
+            import torch
+
+            os.makedirs(cache_dir, exist_ok=True)
+            model_loaded = False
+
+            if os.path.exists(os.path.join(cache_dir, 'config.json')):
+                try:
+                    print(f"🧠 Loading fine-tuned BERT from {cache_dir}")
+                    self.bert_tokenizer = AutoTokenizer.from_pretrained(cache_dir)
+                    self.bert_model = AutoModelForSequenceClassification.from_pretrained(cache_dir)
+                    model_loaded = True
+                except Exception as load_err:
+                    print(f"⚠️ Failed to load cached BERT model: {load_err}. Re-training...")
+
+            if model_loaded and self.bert_model is not None:
+                cached_labels = sorted(
+                    {str(label).lower() for label in self.bert_model.config.id2label.values()}
+                )
+                if cached_labels != label_list:
+                    print("♻️ Cached BERT labels differ from dataset labels. Re-training...")
+                    model_loaded = False
+                    self.bert_model = None
+
+            if not model_loaded:
+                self.bert_tokenizer = AutoTokenizer.from_pretrained(model_name)
+                base_model = AutoModelForSequenceClassification.from_pretrained(
+                    model_name,
+                    num_labels=len(label2id),
+                    id2label={idx: label for label, idx in label2id.items()},
+                    label2id=label2id
+                )
+                self._train_bert_model(base_model, self.bert_tokenizer, dataset, cache_dir, label2id, torch)
+                self.bert_model = AutoModelForSequenceClassification.from_pretrained(cache_dir)
+                self.bert_tokenizer = AutoTokenizer.from_pretrained(cache_dir)
+
+            self._torch = torch
+            self.bert_device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            self.bert_model.to(self.bert_device)
+            self.bert_model.eval()
+            self.bert_id2label = {idx: label.lower() for idx, label in self.bert_model.config.id2label.items()}
+            print("✅ BERT model ready.")
+        except Exception as e:
+            print(f"⚠️ Unable to initialize BERT model: {e}")
+            self.bert_tokenizer = None
+            self.bert_model = None
+            self.bert_id2label = {}
+            self._torch = None
+
+    def _train_bert_model(self, model, tokenizer, dataset, cache_dir, label2id, torch_module):
+        from torch.utils.data import DataLoader
+        from transformers import get_linear_schedule_with_warmup
+
+        class EmotionTextDataset(torch_module.utils.data.Dataset):
+            def __init__(self, texts, labels, tokenizer_ref, max_length=256):
+                self.texts = list(texts)
+                self.labels = list(labels)
+                self.tokenizer = tokenizer_ref
+                self.max_length = max_length
+
+            def __len__(self):
+                return len(self.texts)
+
+            def __getitem__(self, idx):
+                text = str(self.texts[idx])
+                encoding = self.tokenizer(
+                    text,
+                    truncation=True,
+                    padding='max_length',
+                    max_length=self.max_length,
+                    return_tensors='pt'
+                )
+                item = {key: val.squeeze(0) for key, val in encoding.items()}
+                item['labels'] = torch_module.tensor(self.labels[idx], dtype=torch_module.long)
+                return item
+
+        labels_numeric = dataset['label'].map(label2id)
+        texts = dataset['text'].tolist()
+        labels = labels_numeric.tolist()
+
+        if len(texts) < 4:
+            raise RuntimeError("Not enough samples to fine-tune BERT")
+
+        test_size = 0.1 if len(texts) >= 20 else 0.2
+        X_train, X_val, y_train, y_val = train_test_split(
+            texts, labels, test_size=test_size, random_state=42, stratify=labels
+        )
+
+        max_length = int(os.environ.get('EMOTION_BERT_MAXLEN', 200))
+        batch_size = int(os.environ.get('EMOTION_BERT_BATCH', 8))
+        epochs = int(os.environ.get('EMOTION_BERT_EPOCHS', 2))
+        learning_rate = float(os.environ.get('EMOTION_BERT_LR', 2e-5))
+
+        train_dataset = EmotionTextDataset(X_train, y_train, tokenizer, max_length=max_length)
+        val_dataset = EmotionTextDataset(X_val, y_val, tokenizer, max_length=max_length)
+
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+        val_loader = DataLoader(val_dataset, batch_size=batch_size)
+
+        device = 'cuda' if torch_module.cuda.is_available() else 'cpu'
+        model.to(device)
+
+        optimizer = torch_module.optim.AdamW(model.parameters(), lr=learning_rate)
+        total_steps = max(1, len(train_loader) * epochs)
+        warmup_steps = max(1, int(total_steps * 0.1))
+        scheduler = get_linear_schedule_with_warmup(
+            optimizer,
+            num_warmup_steps=warmup_steps,
+            num_training_steps=total_steps
+        )
+
+        print(f"🛠️ Fine-tuning BERT on {len(texts)} samples ({epochs} epochs)...")
+
+        for epoch in range(epochs):
+            model.train()
+            total_loss = 0.0
+            total_batches = max(1, len(train_loader))
+            for batch_idx, batch in enumerate(train_loader, start=1):
+                optimizer.zero_grad()
+                labels_batch = batch['labels'].to(device)
+                inputs = {k: v.to(device) for k, v in batch.items() if k != 'labels'}
+                outputs = model(**inputs, labels=labels_batch)
+                loss = outputs.loss
+                loss.backward()
+                torch_module.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                optimizer.step()
+                scheduler.step()
+                total_loss += loss.item()
+                self._print_progress(batch_idx, total_batches, prefix=f"      Epoch {epoch+1}/{epochs} ")
+
+            avg_loss = total_loss / max(1, len(train_loader))
+            model.eval()
+            correct = 0
+            total = 0
+            with torch_module.no_grad():
+                for batch in val_loader:
+                    labels_batch = batch['labels'].to(device)
+                    inputs = {k: v.to(device) for k, v in batch.items() if k != 'labels'}
+                    logits = model(**inputs).logits
+                    preds = torch_module.argmax(logits, dim=-1)
+                    correct += (preds == labels_batch).sum().item()
+                    total += labels_batch.size(0)
+            val_acc = correct / max(1, total)
+            print(f"   Epoch {epoch+1}/{epochs} - loss: {avg_loss:.4f}, val_acc: {val_acc:.3f}")
+
+        model.save_pretrained(cache_dir)
+        tokenizer.save_pretrained(cache_dir)
+        print(f"💾 Fine-tuned BERT saved to {cache_dir}")
 
     # --- [수정됨] 위험 어휘 데이터셋 로드 함수 (CSV 버전) ---
     def _load_risk_dataset(self):
@@ -96,6 +313,65 @@ class ImprovedEmotionAnalyzer:
         except Exception as e:
             print(f"❌ Failed to load risk dataset: {e}")
             self.risk_keywords = {"suicide", "die"}
+
+    def _load_emoji_emotion_model(self):
+        """Load emoji-emotion mapping and associated weights."""
+        csv_path = os.path.join(os.path.dirname(__file__), 'emoji_emotion_large.csv')
+        if not os.path.exists(csv_path):
+            print(f"⚠️ Emoji dataset not found: {csv_path}")
+            self.emoji_emotion_weights = {}
+            return
+
+        emoji_map = {}
+        try:
+            print("😊 Loading emoji-emotion dataset...")
+            with open(csv_path, 'r', encoding='utf-8') as csvfile:
+                reader = csv.DictReader(csvfile)
+                if reader.fieldnames is None:
+                    raise ValueError("Emoji CSV has no header row.")
+                normalized_fields = [field.lower() for field in reader.fieldnames]
+                emoji_field = None
+                emotion_field = None
+                weight_field = None
+                for idx, field in enumerate(normalized_fields):
+                    if field in ('emoji', 'icon', 'symbol', 'character') and emoji_field is None:
+                        emoji_field = reader.fieldnames[idx]
+                    elif field in ('emotion', 'label', 'sentiment') and emotion_field is None:
+                        emotion_field = reader.fieldnames[idx]
+                    elif field in ('weight', 'score', 'count') and weight_field is None:
+                        weight_field = reader.fieldnames[idx]
+
+                if emoji_field is None or emotion_field is None:
+                    raise ValueError("Emoji CSV must contain emoji and emotion columns.")
+
+                entry_count = 0
+                for row in reader:
+                    emoji_value = (row.get(emoji_field) or '').strip()
+                    raw_emotion = (row.get(emotion_field) or '').strip()
+                    if not emoji_value or not raw_emotion:
+                        continue
+                    mapped_emotion = self._map_label_to_emotion(raw_emotion)
+                    if not mapped_emotion:
+                        continue
+                    try:
+                        raw_weight = row.get(weight_field) if weight_field else None
+                        weight_value = float(raw_weight) if raw_weight not in (None, '') else 1.0
+                    except ValueError:
+                        weight_value = 1.0
+                    weight_value = max(weight_value, 0.05)
+                    if emoji_value not in emoji_map:
+                        emoji_map[emoji_value] = Counter()
+                    emoji_map[emoji_value][mapped_emotion] += weight_value
+                    entry_count += 1
+
+            self.emoji_emotion_weights = {
+                emoji: dict(weight_counter)
+                for emoji, weight_counter in emoji_map.items()
+            }
+            print(f"✅ Loaded {entry_count} emoji-emotion entries ({len(self.emoji_emotion_weights)} unique emoji).")
+        except Exception as exc:
+            print(f"❌ Failed to load emoji dataset: {exc}")
+            self.emoji_emotion_weights = {}
 
     def _load_name_dataset(self):
         try:
@@ -143,42 +419,84 @@ class ImprovedEmotionAnalyzer:
         text = re.sub(r'[^a-zA-Z\s]', '', text)
         text = re.sub(r'\s+', ' ', text).strip()
         return text
+
+    def _map_label_to_emotion(self, label):
+        if not label:
+            return 'Happiness'
+        label = label.lower()
+        mapping = {
+            'joy': 'Happiness',
+            'love': 'Happiness',
+            'happy': 'Happiness',
+            'positive': 'Happiness',
+            'sadness': 'Sadness',
+            'sad': 'Sadness',
+            'anger': 'Anger',
+            'angry': 'Anger',
+            'fear': 'Fear',
+            'scared': 'Fear',
+            'disgust': 'Disgust',
+            'hatred': 'Disgust',
+            'surprise': 'Surprise',
+            'neutral': 'Happiness'
+        }
+        return mapping.get(label, 'Happiness')
     
+    def _get_emotion_dataset(self):
+        if self._emotion_dataset_cache is not None:
+            return self._emotion_dataset_cache.copy()
+
+        csv_path = os.path.join(os.path.dirname(__file__), 'emotion_sentimen_dataset.csv')
+
+        if not os.path.exists(csv_path):
+            print(f"⚠️ Dataset not found: {csv_path}")
+            self._emotion_dataset_cache = None
+            return None
+
+        print("📊 Loading text dataset...")
+        df = pd.read_csv(csv_path, encoding='latin1')
+        df_renamed = df.rename(columns={'Emotion': 'label', 'text': 'text'})
+        df_clean = df_renamed[['text', 'label']].copy()
+
+        df_clean['text'] = df_clean['text'].apply(self._clean_text)
+        df_clean.dropna(subset=['text', 'label'], inplace=True)
+        df_final = df_clean[df_clean['text'] != ""]
+
+        label_map = {
+            'happiness': 'joy', 'happy': 'joy', 'fun': 'joy', 'enthusiasm': 'joy',
+            'relief': 'joy', 'love': 'joy', 'joy': 'joy', 'pleasure': 'joy',
+            'sadness': 'sadness', 'empty': 'sadness', 'boredom': 'sadness',
+            'grief': 'sadness', 'sorrow': 'sadness',
+            'anger': 'anger', 'annoyance': 'anger', 'rage': 'anger',
+            'fear': 'fear', 'worry': 'fear', 'anxiety': 'fear', 'panic': 'fear',
+            'disgust': 'disgust', 'hate': 'disgust', 'aversion': 'disgust',
+            'surprise': 'surprise', 'shock': 'surprise'
+        }
+
+        df_final['label'] = df_final['label'].map(label_map)
+        df_final = df_final.dropna(subset=['label'])
+
+        dataset_size = len(df_final)
+        if dataset_size == 0:
+            print("⚠️ No labeled samples found in dataset.")
+            self._emotion_dataset_cache = None
+            return None
+
+        print(f"📦 Dataset ready: {dataset_size} samples")
+        self._emotion_dataset_cache = df_final
+        return df_final.copy()
+
     def _load_text_model(self):
         try:
-            csv_path = os.path.join(os.path.dirname(__file__), 'emotion_sentimen_dataset.csv')
-            
-            if not os.path.exists(csv_path):
-                print(f"⚠️ Dataset not found: {csv_path}")
+            df_final = self._get_emotion_dataset()
+            if df_final is None or df_final.empty:
                 return
-            
-            print("📊 Loading text dataset...")
-            df = pd.read_csv(csv_path, encoding='latin1')
-            
-            df_renamed = df.rename(columns={'Emotion': 'label', 'text': 'text'})
-            df_clean = df_renamed[['text', 'label']].copy()
-            
-            df_clean['text'] = df_clean['text'].apply(self._clean_text)
-            df_clean.dropna(subset=['text', 'label'], inplace=True)
-            df_final = df_clean[df_clean['text'] != ""]
-            
-            label_map = {
-                'happiness': 'joy', 'fun': 'joy', 'enthusiasm': 'joy', 'relief': 'joy', 'love': 'joy',
-                'sadness': 'sadness', 'empty': 'sadness', 'boredom': 'sadness',
-                'anger': 'anger', 'worry': 'fear', 'hate': 'disgust', 'surprise': 'surprise'
-            }
-            
-            df_final['label'] = df_final['label'].map(label_map)
-            df_final = df_final.dropna(subset=['label'])
 
-            dataset_size = len(df_final)
             label_counts = Counter(df_final['label'])
-            if dataset_size == 0 or len(label_counts) < 2:
-                print("⚠️ Not enough labeled samples to train the text model.")
+            if len(label_counts) < 2:
+                print("⚠️ Not enough label diversity for the text model.")
                 return
 
-            print(f"📦 Dataset ready: {dataset_size} samples")
-            
             X = df_final['text']
             y = df_final['label']
 
@@ -198,9 +516,6 @@ class ImprovedEmotionAnalyzer:
             accuracy = accuracy_score(y_test, y_pred)
             print(f"📈 Validation accuracy: {accuracy:.3f}")
 
-            #confunsion matrix 저장
-            #test model에 대해서만 저장
-            
         except Exception as e:
             print(f"❌ Failed to load text model: {e}")
             self.text_model = None
@@ -270,12 +585,7 @@ class ImprovedEmotionAnalyzer:
         sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
         if not sentences:
             sentences = [text.strip()]
-        blocks = []
-        for i in range(0, len(sentences), 2):
-            pair = ' '.join(sentences[i:i+2])
-            if pair:
-                blocks.append(pair)
-        return blocks
+        return sentences
 
     def _calculate_block_weight(self, block, index, total_blocks):
         word_count = max(len(block.split()), 1)
@@ -301,12 +611,28 @@ class ImprovedEmotionAnalyzer:
         return f"linear-gradient(90deg, {', '.join(stops)})"
 
     def _analyze_single_block(self, text):
-        english_result = self._analyze_english_emotion(text)
-        if english_result:
-            return english_result
-        ml_result = self._analyze_with_ml(text)
-        if ml_result:
-            return ml_result
+        scores = Counter()
+
+        def add_vote(emotion_label, source_tag):
+            if not emotion_label:
+                return
+            weight = self.source_weights.get(source_tag, 1.0)
+            if weight <= 0:
+                return
+            scores[emotion_label] += weight
+
+        add_vote(self._analyze_english_emotion(text), 'keyword')
+        add_vote(self._analyze_with_bert(text), 'bert')
+        add_vote(self._analyze_with_ml(text), 'ml')
+
+        emoji_scores = self._analyze_with_emoji(text)
+        if emoji_scores:
+            emoji_weight = self.source_weights.get('emoji', 1.0)
+            for emotion_label, value in emoji_scores.items():
+                scores[emotion_label] += value * emoji_weight
+
+        if scores:
+            return scores.most_common(1)[0][0]
         return 'Happiness'
     
     def _analyze_english_emotion(self, text):
@@ -326,6 +652,33 @@ class ImprovedEmotionAnalyzer:
         if emotion_scores and max(emotion_scores.values()) > 0:
             return max(emotion_scores, key=emotion_scores.get)
         return None
+
+    def _analyze_with_bert(self, text):
+        if not self.bert_model or not self.bert_tokenizer or not text:
+            return None
+        cleaned_text = text.strip()
+        if not cleaned_text:
+            return None
+        try:
+            tokenizer_kwargs = {
+                'padding': True,
+                'truncation': True,
+                'max_length': 256,
+                'return_tensors': 'pt'
+            }
+            encoded = self.bert_tokenizer(cleaned_text, **tokenizer_kwargs)
+            if self._torch is None:
+                return None
+            encoded = {k: v.to(self.bert_device) for k, v in encoded.items()}
+            with self._torch.no_grad():
+                outputs = self.bert_model(**encoded)
+                probs = self._torch.nn.functional.softmax(outputs.logits, dim=-1)
+                pred_idx = probs.argmax(dim=-1).item()
+            raw_label = self.bert_id2label.get(pred_idx)
+            return self._map_label_to_emotion(raw_label)
+        except Exception as e:
+            print(f"BERT analysis failed: {e}", file=sys.stderr)
+            return None
     
     def _analyze_with_ml(self, text):
         if self.text_model is not None and self.text_vectorizer is not None:
@@ -336,14 +689,22 @@ class ImprovedEmotionAnalyzer:
                 if len(cleaned_text.split()) >= 3:
                     text_vector = self.text_vectorizer.transform([cleaned_text])
                     prediction = self.text_model.predict(text_vector)[0]
-                    emotion_map = {
-                        'joy': 'Happiness', 'sadness': 'Sadness', 'anger': 'Anger',
-                        'fear': 'Fear', 'disgust': 'Disgust', 'surprise': 'Surprise'
-                    }
-                    return emotion_map.get(prediction, 'Happiness')
+                    return self._map_label_to_emotion(prediction)
             except Exception as e:
                 print(f"ML analysis failed: {e}", file=sys.stderr)
         return None
+
+    def _analyze_with_emoji(self, text):
+        if not text or not self.emoji_emotion_weights:
+            return {}
+        emoji_scores = Counter()
+        for emoji_symbol, emotion_weights in self.emoji_emotion_weights.items():
+            occurrences = text.count(emoji_symbol)
+            if occurrences <= 0:
+                continue
+            for emotion_label, base_weight in emotion_weights.items():
+                emoji_scores[emotion_label] += base_weight * occurrences
+        return dict(emoji_scores)
 
     # --- 위험 감지 함수 ---
     def check_mind_care_needed(self, text):
@@ -496,3 +857,6 @@ if __name__ == "__main__":
         print(f"People: {result['people']}")
         print(f"Needs Care: {result['needs_care']}")
         print("-" * 30)
+
+    server_url = os.environ.get('CLIO_SERVER_URL', 'http://127.0.0.1:5000')
+    print(f"🌐 Connect via: {server_url}")
